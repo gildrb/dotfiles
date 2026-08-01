@@ -5,6 +5,8 @@ tmp/
 bin/
 tools/
 skills/
+!vendor/
+!vendor/**
 .env
 auth.json
 oauth.json
