@@ -1,9 +1,15 @@
 # Pi configuration
 
 This directory contains the portable Pi configuration consumed by Home
-Manager. It keeps the settings, extensions, and theme that are part of the
-workstation setup; runtime state and installed package caches remain outside
-the repository.
+<<<<<<< HEAD
+Manager. It keeps the settings, extensions, prompts, theme, and bundled agent
+skills that are part of the workstation setup; runtime state and installed
+package caches remain outside the repository.
+
+The settings intentionally omit a fixed model and model allowlist. Pi keeps
+its selected provider/model in the writable runtime settings file, so new
+sessions reuse the last selection while all authenticated models—including
+`openai-codex/gpt-5.6-luna`—remain available.
 
 ## Message steering
 
