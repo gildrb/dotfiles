@@ -1,0 +1,192 @@
+{
+  "agent": {
+    "default_model": {
+      "effort": "low",
+      "enable_thinking": true,
+      "model": "gpt-5.5",
+      "provider": "zed.dev"
+    },
+    "default_profile": "allow-all",
+    "dock": "right",
+    "favorite_models": [],
+    "flexible": true,
+    "model_parameters": [],
+    "profiles": {
+      "allow-all": {
+        "context_servers": {},
+        "enable_all_context_servers": false,
+        "name": "Allow all",
+        "tools": {
+          "edit_file": true
+        }
+      }
+    },
+    "sidebar_side": "right",
+    "tool_permissions": {
+      "tools": {
+        "terminal": {
+          "default": "ask"
+        }
+      }
+    }
+  },
+  "agent_servers": {},
+  "auto_install_extensions": {
+    "assembly": true,
+    "css-variables": true,
+    "git-firefly": true,
+    "html": true,
+    "html-snippets": true,
+    "java": true,
+    "material-icon-theme": true,
+    "python-snippets": true,
+    "rust-snippets": true,
+    "swift": true,
+    "toml": true,
+    "typescript-snippets": true
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  },
+  "autoscroll_on_clicks": true,
+  "base_keymap": "JetBrains",
+  "buffer_font_family": "Ioskeley Mono",
+  "buffer_font_size": 20.0,
+  "buffer_line_height": "comfortable",
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "confirm_quit": false,
+  "context_servers": {
+    "posthog": {
+      "enabled": false,
+      "settings": {}
+    }
+  },
+  "disable_ai": false,
+  "edit_predictions": {
+    "open_ai_compatible_api": {
+      "api_url": "https://api.z.ai/api/coding/paas/v4",
+      "model": "glm-5.1"
+    },
+    "provider": "open_ai_compatible_api"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "icon_theme": {
+    "dark": "Material Icon Theme",
+    "light": "Zed (Default)",
+    "mode": "dark"
+  },
+  "language_models": {
+    "openai": {
+      "api_url": "https://api.z.ai/api/coding/paas/v4",
+      "available_models": [
+        {
+          "max_tokens": 128000,
+          "name": "glm-5.1"
+        }
+      ]
+    }
+  },
+  "languages": {
+    "Assembly": {
+      "language_servers": [
+        "!asm-lsp",
+        "..."
+      ]
+    },
+    "C": {
+      "enable_language_server": true,
+      "language_servers": [
+        "!clangd",
+        "..."
+      ]
+    },
+    "C++": {
+      "enable_language_server": true,
+      "language_servers": [
+        "!clangd",
+        "..."
+      ]
+    },
+    "Go": {
+      "enable_language_server": false,
+      "language_servers": [
+        "!gopls"
+      ]
+    },
+    "YAML": {
+      "language_servers": [
+        "!yaml-language-server",
+        "..."
+      ]
+    }
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "project_panel": {
+    "default_width": 240,
+    "dock": "left",
+    "starts_open": true
+  },
+  "proxy": "",
+  "restore_on_startup": "last_workspace",
+  "ssh_connections": [
+    {
+      "host": "hephaistos",
+      "nickname": "hephaistos",
+      "projects": [
+        {
+          "paths": [
+            "/srv/agents/code",
+            "/srv/agents/repos",
+            "/srv/agents/worktrees"
+          ]
+        }
+      ],
+      "upload_binary_over_ssh": true,
+      "username": "gilrodrigues"
+    },
+    {
+      "host": "cedalion",
+      "nickname": "Cedalion NAS",
+      "upload_binary_over_ssh": false,
+      "username": "gildrb"
+    }
+  ],
+  "tab_bar": {
+    "show": true
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "terminal": {
+    "default_width": 640,
+    "dock": "right",
+    "font_family": "Ioskeley Mono",
+    "option_as_meta": true,
+    "shell": "system"
+  },
+  "theme": {
+    "dark": "Workstation Dark",
+    "light": "Workstation Light",
+    "mode": "dark"
+  },
+  "title_bar": {
+    "show_menus": true
+  },
+  "toolbar": {
+    "breadcrumbs": true
+  },
+  "ui_font_size": 16,
+  "vim_mode": false
+}

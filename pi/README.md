@@ -1,12 +1,6 @@
 # Pi configuration
 
-This directory contains the portable Pi configuration consumed by Home Manager and tested independently from the private Nix host configuration.
-
-Run the checks from this directory:
-
-```sh
-npm install
-npm run check
-npm test
-npm run format:check
-```
+This directory contains the portable Pi configuration consumed by Home
+Manager. It keeps the settings, extensions, prompts, theme, and bundled agent
+skills that are part of the workstation setup; runtime state and installed
+package caches remain outside the repository.
