@@ -5,7 +5,7 @@ Public, portable configuration for Pi, Neovim, Zed, Ghostty, tmux, and related d
 ## Layout
 
 - `AGENTS.md` — shared agent behavior, including the default ADHD-friendly output format and OptMem workflow.
-- `pi/` — Pi settings, extensions, prompts, themes, and bundled agent skills.
+- `pi/` — Pi settings, extensions, and theme.
 - `nvim/` — Neovim configuration, pinned plugin versions, and validation script.
 - `zed/` — Zed editor settings, JetBrains keymap selection, extensions, fonts, and Workstation theme.
 - `ghostty/` — Ghostty terminal settings and Workstation theme.
