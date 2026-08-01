@@ -1,0 +1,31 @@
+{
+  "name": "pi-configuration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "extensions"
+    ],
+    "prompts": [
+      "prompts"
+    ],
+    "themes": [
+      "themes"
+    ]
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "0.82.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "prettier": "^3.9.0",
+    "typescript": "^7.0.0"
+  },
+  "scripts": {
+    "check": "tsc --noEmit",
+    "format": "prettier --write \"extensions/**/*.ts\" \"test/**/*.ts\" \"*.json\" \"themes/*.json\"",
+    "format:check": "prettier --check \"extensions/**/*.ts\" \"test/**/*.ts\" \"*.json\" \"themes/*.json\"",
+    "test": "node --test --experimental-strip-types test/**/*.test.ts"
+  }
+}

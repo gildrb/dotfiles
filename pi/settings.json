@@ -1,0 +1,37 @@
+{
+  "lastChangelogVersion": "0.82.1",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "xhigh",
+  "theme": "death-note",
+  "images": {
+    "blockImages": false
+  },
+  "showHardwareCursor": false,
+  "steeringMode": "all",
+  "followUpMode": "all",
+  "collapseChangelog": true,
+  "enableInstallTelemetry": false,
+  "enableSkillCommands": true,
+  "enabledModels": [
+    "openai-codex/gpt-5.6-sol",
+    "openai-codex/gpt-5.6-terra",
+    "openai-codex/gpt-5.6-luna",
+    "openai-codex/gpt-5.5",
+    "openai-codex/gpt-5.4",
+    "openai-codex/gpt-5.4-mini",
+    "openai-codex/gpt-5.3-codex-spark"
+  ],
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 40000,
+    "keepRecentTokens": 25000
+  },
+  "skills": ["~/.codex/skills"],
+  "packages": [
+    "git:github.com/Michaelliv/pi-goal@3f100be5434454d3388755a119d01caca9127c16",
+    "git:github.com/Michaelliv/pi-ask-user-question@eaa38c32a3641be80667e79d9c91d3d25668343f",
+    "npm:@ff-labs/pi-fff@0.6.0",
+    "npm:pi-lens"
+  ]
+}

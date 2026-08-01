@@ -1,0 +1,15 @@
+node_modules/
+git/
+npm/
+tmp/
+bin/
+tools/
+skills/
+.env
+auth.json
+oauth.json
+models.json
+models-store.json
+trust.json
+sessions/
+*.log
