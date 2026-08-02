@@ -82,14 +82,16 @@
     "mode": "dark"
   },
   "language_models": {
-    "openai": {
-      "api_url": "https://api.z.ai/api/coding/paas/v4",
-      "available_models": [
-        {
-          "max_tokens": 128000,
-          "name": "glm-5.1"
-        }
-      ]
+    "openai_compatible": {
+      "z-ai": {
+        "api_url": "https://api.z.ai/api/coding/paas/v4",
+        "available_models": [
+          {
+            "max_tokens": 128000,
+            "name": "glm-5.1"
+          }
+        ]
+      }
     }
   },
   "languages": {
