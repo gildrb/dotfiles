@@ -1,6 +1,6 @@
 # dotfiles
 
-Public, portable configuration for Pi, Neovim, Zed, Ghostty, tmux, and related developer tools. The private [`gildrb/nix`](https://github.com/gildrb/nix) repository consumes this repository as a pinned source for Home Manager deployment.
+Public, portable configuration for Pi, Neovim, Zed, Ghostty, tmux, and related tools. My private Nix repository consumes this repository as a pinned source for Home Manager deployment.
 
 ## Layout
 
