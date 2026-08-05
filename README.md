@@ -1,10 +1,11 @@
 # dotfiles
 
-Public, portable configuration for Pi, Neovim, Zed, Ghostty, tmux, and related tools. My private Nix repository consumes this repository as a pinned source for Home Manager deployment.
+Public, portable configuration for Pi, Hermes, Neovim, Zed, Ghostty, tmux, and related tools. My private Nix repository consumes this repository as a pinned source for Home Manager and NixOS deployment.
 
 ## Layout
 
-- `AGENTS.md` — shared agent behavior, including the default ADHD-friendly output format and OptMem workflow.
+- `AGENTS.md` — shared Pi/Codex behavior, including the ADHD-friendly output format and OptMem workflow.
+- `hermes/AGENTS.md` — separate conversational and durable-memory instructions for Hermes.
 - `pi/` — Pi settings, extensions, and theme.
 - `nvim/` — Neovim configuration, pinned plugin versions, and validation script.
 - `zed/` — Zed editor settings, JetBrains keymap selection, extensions, fonts, and Workstation theme.
