@@ -12,6 +12,7 @@ Public, portable configuration for Pi, Hermes, Neovim, Zed, Ghostty, tmux, and r
 - `ghostty/` — Ghostty terminal settings and Workstation theme.
 - `tmux/` — terminal multiplexer settings.
 - `btop/` — btop display settings.
+- `prime/` — Prime settings, extensions, and theme.
 
 Host-specific instructions, machine policy, credentials, and generated runtime state do not belong here.
 
