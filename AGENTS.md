@@ -12,14 +12,6 @@
 
 Apply `~/.codex/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
 
-## Durable memory
-
-Use OptMem for durable Pi memory.
-
-- Run `memo wake` before other tool calls.
-- Record durable decisions and lessons with `memo note "..."`.
-- Run `memo nap` when `memo note` requests compression.
-- Never edit files under OptMem's memory directory manually.
 
 ## Memory
 
