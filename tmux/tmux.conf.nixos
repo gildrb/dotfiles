@@ -107,7 +107,7 @@ set -g status-position bottom
 set -g status-interval 5
 set -g status-style "bg=#0a0a0a,fg=#a1a1a1"
 set -g status-left-length 48
-set -g status-left "#[bg=#5277c3,fg=#ffffff,bold] NixOS Computer #[bg=#0a0a0a,fg=#a1a1a1] #S "
+set -g status-left "#[bg=#5277c3,fg=#ffffff,bold] NixOS PC #[bg=#0a0a0a,fg=#a1a1a1] #S "
 set -g status-right "#[fg=#676767]%Y-%m-%d #[fg=#ededed]%H:%M "
 setw -g window-status-style "fg=#a1a1a1,bg=#0a0a0a"
 setw -g window-status-current-style "bg=#5277c3,fg=#ffffff,bold"
