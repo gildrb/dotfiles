@@ -1,5 +1,5 @@
 theme = Workstation
-macos-option-as-alt = right
+macos-option-as-alt = false
 keybind = cmd+t=unbind
 keybind = cmd+n=unbind
 keybind = shift+cmd+t=unbind
