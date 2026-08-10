@@ -7,7 +7,7 @@ Public, portable configuration for Pi, Hermes, Neovim, Zed, Ghostty, tmux, and r
 - `AGENTS.md` — shared Pi/Codex behavior, including the ADHD-friendly output format and OptMem workflow.
 - `hermes/SOUL.md` — Hermes primary identity (SOUL.md): conversation role, response policy, OptMem.
 - `pi/` — Pi settings, extensions, and theme.
-- `nvim/` — Neovim configuration, pinned plugin versions, and validation script.
+- `nvim/` — Neovim configuration and pinned plugin versions.
 - `zed/` — Zed editor settings, JetBrains keymap selection, extensions, fonts, and Workstation theme.
 - `ghostty/` — Ghostty terminal settings and Workstation theme.
 - `tmux/` — terminal multiplexer settings.
@@ -16,12 +16,6 @@ Public, portable configuration for Pi, Hermes, Neovim, Zed, Ghostty, tmux, and r
 
 Host-specific instructions, machine policy, credentials, and generated runtime state do not belong here.
 
-## Neovim checks
-
-```sh
-cd nvim
-./scripts/check.sh
-```
 
 The configuration files are copied from the active workstation so themes,
 fonts, keybindings, extensions, and editor behavior remain reviewable in one

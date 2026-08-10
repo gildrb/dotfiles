@@ -1,5 +1,10 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-local lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json"
+local source_lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json"
+local lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json"
+if not vim.uv.fs_stat(lockfile) and vim.uv.fs_stat(source_lockfile) then
+  vim.fn.mkdir(vim.fn.stdpath("state"), "p")
+  vim.fn.writefile(vim.fn.readfile(source_lockfile), lockfile)
+end
 
 if not vim.uv.fs_stat(lazypath) then
   local result = vim.fn.system({
@@ -27,6 +32,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  lockfile = lockfile,
   spec = { { import = "plugins" } },
   defaults = { lazy = true, version = false },
   install = { colorscheme = { "death-note" } },

@@ -102,6 +102,10 @@ return {
       local capabilities = require("blink.cmp").get_lsp_capabilities()
       local mason_servers = vim.tbl_keys(languages.servers)
 
+      mason_servers = vim.tbl_filter(function(server)
+        return server ~= "clangd"
+      end, mason_servers)
+
       if vim.fn.executable("nil") == 1 then
         mason_servers = vim.tbl_filter(function(server)
           return server ~= "nil_ls"
@@ -115,8 +119,10 @@ return {
 
       require("mason-lspconfig").setup({
         ensure_installed = mason_servers,
-        automatic_enable = true,
+        automatic_enable = { exclude = { "clangd" } },
       })
+
+      vim.lsp.enable("clangd")
     end,
   },
   {

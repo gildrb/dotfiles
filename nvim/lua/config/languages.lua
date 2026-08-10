@@ -1,5 +1,27 @@
 local M = {}
 
+local clangd_command = vim.env.NIX_CLANGD
+if not clangd_command or clangd_command == "" then
+  clangd_command = "clangd"
+end
+
+local clangd_query_driver = table.concat({
+  "/nix/store/*/bin/cc",
+  "/nix/store/*/bin/c++",
+  "/nix/store/*/bin/clang*",
+  "/nix/store/*/bin/gcc*",
+  "/nix/store/*/bin/g++*",
+  "/run/current-system/sw/bin/cc",
+  "/run/current-system/sw/bin/c++",
+  "/run/current-system/sw/bin/clang*",
+  "/run/current-system/sw/bin/gcc*",
+  "/run/current-system/sw/bin/g++*",
+  "/etc/profiles/per-user/*/bin/cc",
+  "/etc/profiles/per-user/*/bin/c++",
+  "/etc/profiles/per-user/*/bin/clang*",
+  "/etc/profiles/per-user/*/bin/gcc*",
+  "/etc/profiles/per-user/*/bin/g++*",
+}, ",")
 M.parsers = {
   "bash",
   "c",
@@ -34,7 +56,12 @@ M.parsers = {
 
 M.servers = {
   bashls = {},
-  clangd = {},
+  clangd = {
+    cmd = {
+      clangd_command,
+      "--query-driver=" .. clangd_query_driver,
+    },
+  },
   cssls = {},
   html = {},
   jsonls = {},
