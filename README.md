@@ -1,32 +1,87 @@
 # dotfiles
 
-Public, portable configuration for Pi, Hermes, Neovim, Zed, Ghostty, tmux, and related tools. My private Nix repository consumes this repository as a pinned source for Home Manager and NixOS deployment.
+Portable configuration for tmux, Neovim, Pi, Hermes, Zed, Ghostty, and related tools.
 
-## Layout
+## tmux
 
-- `AGENTS.md` — shared Pi/Codex behavior, including the ADHD-friendly output format and OptMem workflow.
-- `hermes/SOUL.md` — Hermes primary identity (SOUL.md): conversation role, response policy, OptMem.
-- `pi/` — Pi settings, extensions, and theme.
-- `nvim/` — Neovim configuration and pinned plugin versions.
-- `zed/` — Zed editor settings, JetBrains keymap selection, extensions, fonts, and Workstation theme.
-- `ghostty/` — Ghostty terminal settings and Workstation theme.
-- `tmux/` — terminal multiplexer settings.
-- `btop/` — btop display settings.
-- `prime/` — Prime settings, extensions, and theme.
+Prefix: `Ctrl+B`. Press the prefix, release it, then press the action key. Raw Ctrl keys otherwise pass through to Neovim and the shell.
 
-Host-specific instructions, machine policy, credentials, and generated runtime state do not belong here.
+| Key | Action |
+| --- | --- |
+| `Ctrl+B c` | New tab/window in the current directory |
+| `Ctrl+B &` | Close tab/window |
+| `Ctrl+B 1–9` | Jump to tab/window |
+| `Ctrl+B n` / `p` | Next / previous tab/window |
+| `Ctrl+B r` | Rename tab/window |
+| `Ctrl+B H` or `\|` | Split side by side |
+| `Ctrl+B V` or `-` | Split top and bottom |
+| `Ctrl+B h/j/k/l` | Focus left/down/up/right pane |
+| `Ctrl+B o` | Cycle panes |
+| `Ctrl+B x` | Close pane |
+| `Ctrl+B N` | New session in the current directory |
+| `Ctrl+B Q` | Close current session |
+| `Ctrl+B s` | Choose session/window/pane |
+| `Ctrl+B d` | Detach and leave the session running |
+| `Ctrl+B Ctrl+B` | Send a literal `Ctrl+B` to the application |
 
+## Neovim
 
-## Terminal editing
+Leader: `Space`. The current line is absolute; surrounding line numbers are relative.
 
-Neovim uses hybrid line numbers: the current line is absolute and surrounding
-lines are relative for count-based jumps. tmux leaves raw Ctrl keys to Neovim
-and the shell; press `Ctrl+B` first for tmux actions. Use `Ctrl+B`, then `H`
-(or `|`) for a side-by-side split, `V` (or `-`) for a stacked split,
-`h/j/k/l` to move between panes, and `1` through `9` to select windows.
-Press `Ctrl+B` twice to send a literal `Ctrl+B` to the application.
+### Movement and editing
 
-The configuration files are copied from the active workstation so themes,
-fonts, keybindings, extensions, and editor behavior remain reviewable in one
-source tree. Runtime caches, credentials, and downloaded plugin data stay out
-of the repository.
+| Key | Action |
+| --- | --- |
+| `{count}j` / `k` | Jump down / up by a displayed relative line count |
+| `Ctrl+F` / `Ctrl+B` | Page down / up; inside tmux use `Ctrl+B Ctrl+B` for page up |
+| `Ctrl+h/j/k/l` | Focus left/down/up/right editor window |
+| `Alt+j/k` | Move the current line or visual selection down/up |
+| `<` / `>` in visual mode | Indent and keep the selection |
+| `Esc` | Clear search highlighting |
+| `Space w` | Save |
+| `Space q` / `Q` | Close window / quit Neovim |
+| `Space bd` | Delete buffer |
+| `Esc Esc` in terminal mode | Return to normal mode |
+
+### Files and search
+
+| Key | Action |
+| --- | --- |
+| `Ctrl+n` / `Space e` | Toggle file tree / reveal current file |
+| `Space ff` / `fg` | Find files / live grep |
+| `Space fb` / `fr` | Buffers / recent files |
+| `Space fh` / `fk` / `fc` | Help / keymaps / commands |
+| `Space /` | Search current buffer |
+| `Space gc` / `gs` | Git commits / status |
+
+### Code and diagnostics
+
+| Key | Action |
+| --- | --- |
+| `gd` / `gr` / `gI` | Definition / references / implementations |
+| `K` | Hover documentation |
+| `Space ca` / `cr` / `cf` | Code action / rename / format |
+| `Space cd` | Diagnostics for the current line |
+| `[d` / `]d` | Previous / next diagnostic |
+| `Space xx` / `xX` | All / current-buffer diagnostics |
+| `Space cs` / `cl` | Symbols / LSP references |
+| `[h` / `]h` | Previous / next Git hunk |
+| `Space hp` / `hs` / `hr` / `hb` | Preview / stage / reset / blame Git hunk |
+
+Empty start screen: `f` files, `n` new file, `g` grep, `r` recent, `l` plugins, `q` quit.
+
+## Files
+
+```text
+dotfiles/
+  AGENTS.md       shared Pi/Codex behavior and OptMem workflow
+  btop/           terminal system monitor
+  ghostty/        terminal settings and Workstation theme
+  hermes/         Hermes identity
+  nvim/           editor configuration and pinned plugins
+  optmem/         persistent agent-memory command
+  pi/             Pi settings, extensions, prompts, and theme
+  prime/          Prime settings, extensions, and theme
+  tmux/           macOS and NixOS multiplexer settings
+  zed/            editor settings, extensions, and themes
+```
