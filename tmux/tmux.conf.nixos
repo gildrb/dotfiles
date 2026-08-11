@@ -28,44 +28,55 @@ unbind -q C-a
 set -g prefix C-b
 bind C-b send-prefix
 
-# Keep Ctrl+S available to tmux instead of terminal flow control.
+# Keep Ctrl+S available to terminal applications instead of flow control.
 set-hook -g client-attached 'run-shell "stty -ixon < #{client_tty}"'
 
-# Ctrl+J/K to move focus left/right.
-bind -n C-j select-pane -L
-bind -n C-k select-pane -R
-
-# Ctrl+1..9 to switch windows/tabs.
-bind -n C-1 select-window -t :=1
-bind -n C-2 select-window -t :=2
-bind -n C-3 select-window -t :=3
-bind -n C-4 select-window -t :=4
-bind -n C-5 select-window -t :=5
-bind -n C-6 select-window -t :=6
-bind -n C-7 select-window -t :=7
-bind -n C-8 select-window -t :=8
-bind -n C-9 select-window -t :=9
-
-# Ctrl shortcuts for window/session/pane actions.
-bind -n C-n new-session -c "#{pane_current_path}"
-bind -n C-q confirm-before -p "kill-session #S? (y/n)" "kill-session -t \"#{session_name}\""
-bind -n C-t new-window -c "#{pane_current_path}"
-bind -n C-w kill-window
-bind -n C-r command-prompt -I "#W" "rename-window '%%'"
+# Remove legacy prefix-free shortcuts when an existing tmux server reloads this file.
+unbind -q -n C-j
+unbind -q -n C-k
+unbind -q -n C-1
+unbind -q -n C-2
+unbind -q -n C-3
+unbind -q -n C-4
+unbind -q -n C-5
+unbind -q -n C-6
+unbind -q -n C-7
+unbind -q -n C-8
+unbind -q -n C-9
+unbind -q -n C-n
+unbind -q -n C-q
+unbind -q -n C-t
+unbind -q -n C-w
+unbind -q -n C-r
 unbind -q -n C-d
 unbind -q -n C-p
 unbind -q -n C-Tab
-bind -n C-s choose-tree -Zs
-bind -n C-o split-window -v -c "#{pane_current_path}"
-bind -n C-f split-window -h -c "#{pane_current_path}"
-bind -n C-x confirm-before -p "kill-pane #P? (y/n)" kill-pane
-bind -n C-y select-pane -t :.+
+unbind -q -n C-s
+unbind -q -n C-o
+unbind -q -n C-f
+unbind -q -n C-x
+unbind -q -n C-y
+
+# Keep tmux actions behind Ctrl+B so Neovim and shells receive raw Ctrl keys.
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+bind N new-session -c "#{pane_current_path}"
+bind Q confirm-before -p "kill-session #S? (y/n)" "kill-session -t \"#{session_name}\""
+bind c new-window -c "#{pane_current_path}"
+bind r command-prompt -I "#W" "rename-window '%%'"
+bind s choose-tree -Zs
+bind H split-window -h -c "#{pane_current_path}"
+bind V split-window -v -c "#{pane_current_path}"
+bind x confirm-before -p "kill-pane #P? (y/n)" kill-pane
+bind o select-pane -t :.+
 
 # Unbind Alt+Arrow so word-wise movement passes through to shell.
 unbind -n M-Left
 unbind -n M-Right
 
-# Better split keys.
+# Visual split aliases: Ctrl+B then | for side-by-side, or - for stacked.
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 unbind '"'

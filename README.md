@@ -17,6 +17,15 @@ Public, portable configuration for Pi, Hermes, Neovim, Zed, Ghostty, tmux, and r
 Host-specific instructions, machine policy, credentials, and generated runtime state do not belong here.
 
 
+## Terminal editing
+
+Neovim uses hybrid line numbers: the current line is absolute and surrounding
+lines are relative for count-based jumps. tmux leaves raw Ctrl keys to Neovim
+and the shell; press `Ctrl+B` first for tmux actions. Use `Ctrl+B`, then `H`
+(or `|`) for a side-by-side split, `V` (or `-`) for a stacked split,
+`h/j/k/l` to move between panes, and `1` through `9` to select windows.
+Press `Ctrl+B` twice to send a literal `Ctrl+B` to the application.
+
 The configuration files are copied from the active workstation so themes,
 fonts, keybindings, extensions, and editor behavior remain reviewable in one
 source tree. Runtime caches, credentials, and downloaded plugin data stay out

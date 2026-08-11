@@ -20,6 +20,19 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+  group = group,
+  desc = "Keep hybrid line numbers in normal buffers",
+  callback = function()
+    if vim.bo.buftype ~= "" then
+      return
+    end
+
+    vim.wo.number = true
+    vim.wo.relativenumber = true
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   group = group,
   pattern = { "help", "man", "qf", "checkhealth" },
