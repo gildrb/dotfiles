@@ -5,9 +5,12 @@
   "images": {
     "blockImages": false
   },
+  "tuiMode": "fullscreen",
+  "fullscreenExitOutput": "transcript",
+  "fullscreenScrollbar": "auto",
   "showHardwareCursor": false,
   "steeringMode": "all",
-  "followUpMode": "all",
+  "followUpMode": "none",
   "collapseChangelog": true,
   "enableInstallTelemetry": false,
   "enableSkillCommands": true,
@@ -16,7 +19,9 @@
     "reserveTokens": 40000,
     "keepRecentTokens": 25000
   },
-  "skills": ["~/.codex/skills"],
+  "skills": [
+    "~/.codex/skills"
+  ],
   "packages": [
     "git:github.com/Michaelliv/pi-goal@3f100be5434454d3388755a119d01caca9127c16",
     "git:github.com/Michaelliv/pi-ask-user-question@eaa38c32a3641be80667e79d9c91d3d25668343f",
