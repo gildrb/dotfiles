@@ -83,36 +83,36 @@ function M.load()
   set("TabLineSel", { fg = p.red_bright, bg = background, bold = true })
   set("WildMenu", { fg = p.red_bright, bg = background, bold = true })
 
-  set("Comment", { fg = p.dim, italic = true })
-  set("Constant", { fg = p.cyan })
-  set("String", { fg = p.green })
+  set("Comment", { fg = p.comment, italic = true })
+  set("Constant", { fg = p.paper })
+  set("String", { fg = p.string })
   link("Character", "String")
-  set("Number", { fg = p.cyan })
-  set("Boolean", { fg = p.cyan, bold = true })
+  set("Number", { fg = p.paper })
+  set("Boolean", { fg = p.paper })
   link("Float", "Number")
-  set("Identifier", { fg = p.orange })
+  set("Identifier", { fg = p.paper })
   set("Function", { fg = p.blue })
-  set("Statement", { fg = p.red_bright })
+  set("Statement", { fg = p.keyword })
   link("Conditional", "Statement")
   link("Repeat", "Statement")
-  set("Label", { fg = p.red })
-  set("Operator", { fg = p.red })
-  set("Keyword", { fg = p.red_bright })
+  set("Label", { fg = p.keyword })
+  set("Operator", { fg = p.operator })
+  set("Keyword", { fg = p.keyword })
   link("Exception", "Statement")
-  set("PreProc", { fg = p.purple })
-  link("Include", "PreProc")
-  link("Define", "PreProc")
-  link("Macro", "PreProc")
-  link("PreCondit", "PreProc")
+  set("PreProc", { fg = p.keyword })
+  link("Include", "Keyword")
+  link("Define", "Keyword")
+  link("Macro", "Keyword")
+  link("PreCondit", "Keyword")
   set("Type", { fg = p.paper })
   link("StorageClass", "Type")
   link("Structure", "Type")
   link("Typedef", "Type")
-  set("Special", { fg = p.cyan })
-  link("SpecialChar", "Special")
-  set("Tag", { fg = p.red_bright })
-  set("Delimiter", { fg = p.bone })
-  set("SpecialComment", { fg = p.steel, italic = true })
+  set("Special", { fg = p.paper })
+  set("SpecialChar", { fg = p.string })
+  set("Tag", { fg = p.string })
+  set("Delimiter", { fg = p.punctuation })
+  set("SpecialComment", { fg = p.comment, italic = true })
   set("Debug", { fg = p.red_bright })
   set("Underlined", { fg = p.blue, underline = true })
   set("Todo", { fg = p.gold, bold = true })
@@ -139,9 +139,18 @@ function M.load()
   M.semantic_tokens()
 
   set("DiffAdd", { fg = p.green })
-  set("DiffChange", { fg = p.steel })
+  set("DiffChange", { fg = p.gold })
   set("DiffDelete", { fg = p.red_bright })
-  set("DiffText", { fg = p.paper, bold = true, underline = true, sp = p.crimson })
+  set("DiffText", { fg = p.paper, bold = true, underline = true, sp = p.gold })
+  set("diffAdded", { fg = p.green })
+  set("diffRemoved", { fg = p.red_bright })
+  set("diffChanged", { fg = p.gold })
+  set("diffLine", { fg = p.steel })
+  set("diffSubname", { fg = p.dim })
+  set("diffFile", { fg = p.red_bright, bold = true })
+  set("diffIndexLine", { fg = p.purple })
+  set("diffOldFile", { fg = p.red_bright })
+  set("diffNewFile", { fg = p.green })
   link("Added", "DiffAdd")
   link("Changed", "DiffChange")
   link("Removed", "DiffDelete")
@@ -185,15 +194,36 @@ function M.treesitter()
     ["@character"] = "Character",
     ["@comment"] = "Comment",
     ["@comment.documentation"] = "SpecialComment",
+    ["@comment.error"] = "Error",
+    ["@comment.todo"] = "Todo",
+    ["@comment.warning"] = "WarningMsg",
+    ["@comment.note"] = "DiagnosticHint",
     ["@constant"] = "Constant",
-    ["@constant.builtin"] = "Special",
+    ["@constant.builtin"] = "Constant",
+    ["@constant.macro"] = "Macro",
     ["@constructor"] = "Function",
     ["@function"] = "Function",
-    ["@function.builtin"] = "Special",
+    ["@function.builtin"] = "Function",
     ["@function.call"] = "Function",
     ["@function.macro"] = "Macro",
+    ["@function.method"] = "Function",
+    ["@function.method.call"] = "Function",
+    ["@method"] = "Function",
+    ["@method.call"] = "Function",
     ["@keyword"] = "Keyword",
+    ["@keyword.conditional"] = "Keyword",
+    ["@keyword.conditional.ternary"] = "Operator",
+    ["@keyword.coroutine"] = "Keyword",
+    ["@keyword.debug"] = "Debug",
+    ["@keyword.directive"] = "Keyword",
+    ["@keyword.directive.define"] = "Keyword",
+    ["@keyword.exception"] = "Keyword",
+    ["@keyword.function"] = "Keyword",
+    ["@keyword.import"] = "Keyword",
     ["@keyword.operator"] = "Operator",
+    ["@keyword.repeat"] = "Keyword",
+    ["@keyword.return"] = "Keyword",
+    ["@keyword.storage"] = "Keyword",
     ["@label"] = "Label",
     ["@markup.heading"] = "Title",
     ["@markup.link"] = "Underlined",
@@ -204,36 +234,58 @@ function M.treesitter()
     ["@markup.raw"] = "Special",
     ["@markup.raw.block"] = "Normal",
     ["@markup.strikethrough"] = "DiagnosticDeprecated",
-    ["@method"] = "Function",
     ["@module"] = "Type",
+    ["@module.builtin"] = "Type",
     ["@number"] = "Number",
     ["@number.float"] = "Float",
     ["@operator"] = "Operator",
     ["@property"] = "Identifier",
     ["@punctuation"] = "Delimiter",
+    ["@punctuation.bracket"] = "Delimiter",
+    ["@punctuation.delimiter"] = "Delimiter",
+    ["@punctuation.special"] = "Special",
     ["@string"] = "String",
+    ["@string.documentation"] = "SpecialComment",
     ["@string.escape"] = "SpecialChar",
     ["@string.regexp"] = "Special",
-    ["@tag"] = "Tag",
+    ["@string.special"] = "Special",
+    ["@string.special.path"] = "Directory",
+    ["@string.special.symbol"] = "Constant",
+    ["@string.special.url"] = "Underlined",
+    ["@tag"] = "String",
     ["@tag.attribute"] = "Identifier",
+    ["@tag.builtin"] = "String",
     ["@tag.delimiter"] = "Delimiter",
     ["@type"] = "Type",
     ["@type.builtin"] = "Type",
+    ["@type.definition"] = "Type",
     ["@variable"] = "Identifier",
     ["@variable.builtin"] = "Special",
     ["@variable.member"] = "Identifier",
     ["@variable.parameter"] = "Identifier",
+    ["@variable.parameter.builtin"] = "Special",
   }
 
   for group, target in pairs(links) do
     link(group, target)
   end
 
+  set("@variable", { fg = p.paper })
+  set("@variable.builtin", { fg = p.paper })
+  set("@variable.parameter", { fg = p.paper })
+  set("@variable.member", { fg = p.paper })
+  set("@property", { fg = p.paper })
+  set("@function.builtin", { fg = p.blue })
+  set("@type.builtin", { fg = p.paper })
+  set("@keyword.return", { fg = p.keyword })
   set("@markup.heading", { fg = p.red_bright, bold = true })
   set("@markup.link.url", { fg = p.steel, underline = true })
   set("@markup.quote", { fg = p.bone, italic = true })
   set("@markup.strong", { fg = p.paper, bold = true })
   set("@markup.italic", { fg = p.bone, italic = true })
+  set("@diff.plus", { fg = p.green })
+  set("@diff.minus", { fg = p.red_bright })
+  set("@diff.delta", { fg = p.gold })
 end
 
 function M.semantic_tokens()
@@ -253,19 +305,24 @@ function M.semantic_tokens()
     ["@lsp.type.namespace"] = "Type",
     ["@lsp.type.number"] = "Number",
     ["@lsp.type.operator"] = "Operator",
-    ["@lsp.type.parameter"] = "Identifier",
-    ["@lsp.type.property"] = "Identifier",
+    ["@lsp.type.parameter"] = "@variable.parameter",
+    ["@lsp.type.property"] = "@property",
     ["@lsp.type.regexp"] = "Special",
     ["@lsp.type.string"] = "String",
     ["@lsp.type.struct"] = "Type",
     ["@lsp.type.type"] = "Type",
     ["@lsp.type.typeParameter"] = "Type",
-    ["@lsp.type.variable"] = "Identifier",
+    ["@lsp.type.variable"] = "@variable",
   }
 
   for group, target in pairs(links) do
     link(group, target)
   end
+
+  set("@lsp.typemod.variable.readonly", { fg = p.paper })
+  set("@lsp.typemod.variable.defaultLibrary", { fg = p.paper })
+  set("@lsp.typemod.function.defaultLibrary", { fg = p.blue })
+  set("@lsp.mod.deprecated", { strikethrough = true, sp = p.dim })
 end
 
 function M.plugins(background)
@@ -317,7 +374,7 @@ function M.plugins(background)
   set("WhichKeyNormal", { fg = p.paper, bg = background })
 
   set("GitSignsAdd", { fg = p.green })
-  set("GitSignsChange", { fg = p.steel })
+  set("GitSignsChange", { fg = p.gold })
   set("GitSignsDelete", { fg = p.red_bright })
   link("GitSignsAddNr", "GitSignsAdd")
   link("GitSignsChangeNr", "GitSignsChange")
@@ -328,7 +385,7 @@ function M.plugins(background)
       if group:find("Delete") or group:find("Topdelete") then
         color = p.red_bright
       elseif group:find("Change") then
-        color = p.steel
+        color = p.gold
       end
       set(group, { fg = color })
     end
@@ -438,7 +495,7 @@ function M.terminal()
   local colors = {
     p.ink,
     p.red,
-    p.green,
+    p.string,
     p.gold,
     p.blue,
     p.purple,

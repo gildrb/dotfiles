@@ -116,18 +116,18 @@ set -ga terminal-overrides ",*256col*:Tc"
 set -g status on
 set -g status-position bottom
 set -g status-interval 5
-set -g status-style "bg=#0a0a0a,fg=#a1a1a1"
+set -g status-style "bg=default,fg=#8a8a8a"
 set -g status-left-length 48
-set -g status-left "#[bg=#5277c3,fg=#ffffff,bold] NixOS PC #[bg=#0a0a0a,fg=#a1a1a1] #S "
-set -g status-right "#[fg=#676767]%Y-%m-%d #[fg=#ededed]%H:%M "
-setw -g window-status-style "fg=#a1a1a1,bg=#0a0a0a"
-setw -g window-status-current-style "bg=#5277c3,fg=#ffffff,bold"
+set -g status-left "#[bg=#8a1028,fg=#e8e8e8,bold] NixOS PC #[bg=default,fg=#8a8a8a] #S "
+set -g status-right "#[fg=#6e6e6e]%Y-%m-%d #[fg=#e8e8e8]%H:%M "
+setw -g window-status-style "fg=#8a8a8a,bg=default"
+setw -g window-status-current-style "bg=#8a1028,fg=#e8e8e8,bold"
 setw -g window-status-format " #I:#W "
 setw -g window-status-current-format " #I:#W "
-set -g pane-border-style "fg=#3a3a3a"
-set -g pane-active-border-style "fg=#5277c3"
-set -g message-style "bg=#5277c3,fg=#ffffff,bold"
-set -g mode-style "bg=#3a3a3a,fg=#ededed"
+set -g pane-border-style "fg=#6e6e6e"
+set -g pane-active-border-style "fg=#ff3d6e"
+set -g message-style "bg=#8a1028,fg=#e8e8e8,bold"
+set -g mode-style "bg=#8a1028,fg=#e8e8e8"
 
 set -g extended-keys on
 set -g extended-keys-format csi-u
