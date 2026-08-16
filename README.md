@@ -95,8 +95,8 @@ Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B [` / `]`
 | `Ctrl+B H` or `\|` | Split side by side |
 | `Ctrl+B V` or `-` | Split top and bottom |
 | `Ctrl+B h/j/k/l` | Focus left/down/up/right pane |
-| `Ctrl+B o` | Cycle panes |
-| `Ctrl+B x` | Close pane |
+| `Ctrl+B o` / `y` | Cycle panes |
+| `Ctrl+B x` | Close pane. If it is the last pane in the last tab, Herdr also closes that window. |
 | `Ctrl+B d` | Detach and leave the session running |
 | `Ctrl+B ?` | Show every active binding |
 
