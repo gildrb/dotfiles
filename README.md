@@ -72,15 +72,21 @@ Empty start screen: `f` files, `n` new file, `g` grep, `r` recent, `l` plugins, 
 
 ## Herdr
 
-Prefix: `Ctrl+B`. Same prefix-only model as tmux. Host sessions are `macOS` on the MacBook and `NixOS` on the PC.
+Prefix: `Ctrl+B`. Press it, release it, then press the action key. Host sessions are `macOS` on the MacBook and `NixOS` on the PC.
 
-A **workspace** is the thing you create and switch inside Herdr. A named **session** is a whole Herdr server; start one with `herdr --session notes`.
+Close the current workspace: `Ctrl+B q`. Confirm with `y`.
+
+A **workspace** is a project inside Herdr. A named **session** is a whole Herdr server; start one with `herdr --session notes`.
+
+Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B [` / `]` jumps previous / next agent.
 
 | Key | Action |
 | --- | --- |
 | `Ctrl+B a` | New workspace |
 | `Ctrl+B u` / `i` | Previous / next workspace |
-| `Ctrl+B s` | Choose workspace |
+| `Ctrl+B s` | Workspace / agent picker |
+| `Ctrl+B [` / `]` | Previous / next agent |
+| `Ctrl+B Alt+1–9` | Jump to agent 1–9 |
 | `Ctrl+B q` | Close current workspace |
 | `Ctrl+B c` | New tab |
 | `Ctrl+B r` | Rename tab |
@@ -92,6 +98,7 @@ A **workspace** is the thing you create and switch inside Herdr. A named **sessi
 | `Ctrl+B o` | Cycle panes |
 | `Ctrl+B x` | Close pane |
 | `Ctrl+B d` | Detach and leave the session running |
+| `Ctrl+B ?` | Show every active binding |
 
 ## Files
 
