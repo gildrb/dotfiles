@@ -1,6 +1,6 @@
 # dotfiles
 
-Portable configuration for tmux, Neovim, Pi, Hermes, Zed, Ghostty, and related tools.
+Portable configuration for tmux, Herdr, Neovim, Pi, Hermes, Zed, Ghostty, and related tools.
 
 ## tmux
 
@@ -70,6 +70,26 @@ Leader: `Space`. The current line is absolute; surrounding line numbers are rela
 
 Empty start screen: `f` files, `n` new file, `g` grep, `r` recent, `l` plugins, `q` quit.
 
+## Herdr
+
+Prefix: `Ctrl+B`. Same prefix-only model as tmux. Sessions are `macOS` on the MacBook and `NixOS` on the PC.
+
+| Key | Action |
+| --- | --- |
+| `Ctrl+B c` | New tab |
+| `Ctrl+B r` | Rename tab |
+| `Ctrl+B 1–9` | Jump to tab |
+| `Ctrl+B n` / `p` | Next / previous tab |
+| `Ctrl+B H` or `\|` | Split side by side |
+| `Ctrl+B V` or `-` | Split top and bottom |
+| `Ctrl+B h/j/k/l` | Focus left/down/up/right pane |
+| `Ctrl+B o` | Cycle panes |
+| `Ctrl+B x` | Close pane |
+| `Ctrl+B N` | New workspace |
+| `Ctrl+B Q` | Close current workspace |
+| `Ctrl+B s` | Choose workspace |
+| `Ctrl+B d` | Detach and leave the session running |
+
 ## Files
 
 ```text
@@ -78,6 +98,7 @@ dotfiles/
   btop/           terminal system monitor
   ghostty/        terminal settings and Workstation theme
   hermes/         Hermes identity
+  herdr/          agent multiplexer settings
   nvim/           editor configuration and pinned plugins
   optmem/         persistent agent-memory command
   pi/             Pi settings, extensions, prompts, and theme

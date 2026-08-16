@@ -1,0 +1,69 @@
+onboarding = false
+
+[theme]
+name = "terminal"
+
+[theme.custom]
+panel_bg = "reset"
+accent = "#ff3d6e"
+text = "#e8e8e8"
+subtext0 = "#8a8a8a"
+overlay0 = "#6e6e6e"
+red = "#ff3d6e"
+green = "#3dba6e"
+yellow = "#e8a020"
+blue = "#8196e0"
+mauve = "#8a1028"
+
+[terminal]
+new_cwd = "follow"
+shell_mode = "auto"
+
+[update]
+version_check = false
+manifest_check = false
+
+[keys]
+prefix = "ctrl+b"
+new_tab = "prefix+c"
+rename_tab = "prefix+r"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
+new_workspace = "prefix+shift+n"
+close_workspace = "prefix+shift+q"
+workspace_picker = "prefix+s"
+goto = "prefix+g"
+settings = "prefix+shift+s"
+reload_config = "prefix+shift+c"
+detach = "prefix+d"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+cycle_pane_next = "prefix+o"
+split_vertical = ["prefix+shift+h", "prefix+|"]
+swap_pane_left = ""
+split_horizontal = ["prefix+shift+v", "prefix+minus"]
+close_pane = "prefix+x"
+resize_mode = "prefix+shift+r"
+
+[ui]
+mouse_capture = true
+copy_on_select = true
+confirm_close = true
+prompt_new_tab_name = false
+prompt_new_workspace_name = false
+pane_borders = true
+pane_gaps = false
+hide_tab_bar_when_single_tab = false
+accent = "#ff3d6e"
+
+[ui.toast]
+delivery = "off"
+
+[session]
+resume_agents_on_restore = true
+
+[advanced]
+scrollback_limit_bytes = 10000000
