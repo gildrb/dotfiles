@@ -4,16 +4,22 @@ onboarding = false
 name = "terminal"
 
 [theme.custom]
-panel_bg = "reset"
-accent = "#ff3d6e"
+panel_bg = "#09090b"
+surface0 = "#141416"
+surface1 = "#1c1c1f"
+surface_dim = "#0d0d0f"
+overlay0 = "#8a8a8a"
+overlay1 = "#b0b0b0"
 text = "#e8e8e8"
 subtext0 = "#8a8a8a"
-overlay0 = "#6e6e6e"
-red = "#ff3d6e"
+accent = "#8196e0"
+mauve = "#8196e0"
 green = "#3dba6e"
 yellow = "#e8a020"
+red = "#ff3d6e"
 blue = "#8196e0"
-mauve = "#8a1028"
+teal = "#8196e0"
+peach = "#e8a020"
 
 [terminal]
 new_cwd = "follow"
@@ -30,9 +36,11 @@ rename_tab = "prefix+r"
 previous_tab = "prefix+p"
 next_tab = "prefix+n"
 switch_tab = "prefix+1..9"
-new_workspace = "prefix+shift+n"
-close_workspace = "prefix+shift+q"
+new_workspace = "prefix+a"
+close_workspace = "prefix+q"
 workspace_picker = "prefix+s"
+previous_workspace = "prefix+u"
+next_workspace = "prefix+i"
 goto = "prefix+g"
 settings = "prefix+shift+s"
 reload_config = "prefix+shift+c"
@@ -41,6 +49,12 @@ focus_pane_left = "prefix+h"
 focus_pane_down = "prefix+j"
 focus_pane_up = "prefix+k"
 focus_pane_right = "prefix+l"
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_left = "h"
+navigate_pane_down = "n"
+navigate_pane_up = "p"
+navigate_pane_right = "l"
 cycle_pane_next = "prefix+o"
 split_vertical = ["prefix+shift+h", "prefix+|"]
 swap_pane_left = ""
@@ -57,7 +71,7 @@ prompt_new_workspace_name = false
 pane_borders = true
 pane_gaps = false
 hide_tab_bar_when_single_tab = false
-accent = "#ff3d6e"
+accent = "#8196e0"
 
 [ui.toast]
 delivery = "off"

@@ -72,10 +72,16 @@ Empty start screen: `f` files, `n` new file, `g` grep, `r` recent, `l` plugins, 
 
 ## Herdr
 
-Prefix: `Ctrl+B`. Same prefix-only model as tmux. Sessions are `macOS` on the MacBook and `NixOS` on the PC.
+Prefix: `Ctrl+B`. Same prefix-only model as tmux. Host sessions are `macOS` on the MacBook and `NixOS` on the PC.
+
+A **workspace** is the thing you create and switch inside Herdr. A named **session** is a whole Herdr server; start one with `herdr --session notes`.
 
 | Key | Action |
 | --- | --- |
+| `Ctrl+B a` | New workspace |
+| `Ctrl+B u` / `i` | Previous / next workspace |
+| `Ctrl+B s` | Choose workspace |
+| `Ctrl+B q` | Close current workspace |
 | `Ctrl+B c` | New tab |
 | `Ctrl+B r` | Rename tab |
 | `Ctrl+B 1–9` | Jump to tab |
@@ -85,9 +91,6 @@ Prefix: `Ctrl+B`. Same prefix-only model as tmux. Sessions are `macOS` on the Ma
 | `Ctrl+B h/j/k/l` | Focus left/down/up/right pane |
 | `Ctrl+B o` | Cycle panes |
 | `Ctrl+B x` | Close pane |
-| `Ctrl+B N` | New workspace |
-| `Ctrl+B Q` | Close current workspace |
-| `Ctrl+B s` | Choose workspace |
 | `Ctrl+B d` | Detach and leave the session running |
 
 ## Files
