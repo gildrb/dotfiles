@@ -78,14 +78,14 @@ Close the current workspace: `Ctrl+B q`. Confirm with `y`.
 
 A **workspace** is a project inside Herdr. A named **session** is a whole Herdr server; start one with `herdr --session notes`.
 
-Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B [` / `]` jumps previous / next agent.
+Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B ,` / `.` jumps previous / next agent.
 
 | Key | Action |
 | --- | --- |
 | `Ctrl+B a` | New workspace |
 | `Ctrl+B u` / `i` | Previous / next workspace |
 | `Ctrl+B s` | Workspace / agent picker |
-| `Ctrl+B [` / `]` | Previous / next agent |
+| `Ctrl+B ,` / `.` | Previous / next agent |
 | `Ctrl+B Alt+1–9` | Jump to agent 1–9 |
 | `Ctrl+B q` | Close current workspace |
 | `Ctrl+B c` | New tab |

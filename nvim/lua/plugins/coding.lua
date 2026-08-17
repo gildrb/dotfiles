@@ -42,6 +42,12 @@ return {
     opts = { check_ts = true },
   },
   {
+    "dmmulroy/tsc.nvim",
+    cmd = "TSC",
+    ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    opts = { auto_open_qflist = true, pretty_diagnostics = true },
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
     build = ":TSUpdate",
