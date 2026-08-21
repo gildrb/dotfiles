@@ -1,1 +1,22 @@
-{}
+{
+  "onboardingShown": true,
+  "quietStartup": true,
+  "defaultThinkingLevel": "xhigh",
+  "theme": "death-note",
+  "steeringMode": "all",
+  "followUpMode": "one-at-a-time",
+  "showHardwareCursor": false,
+  "enableSkillCommands": true,
+  "images": {
+    "blockImages": false
+  },
+  "terminal": {
+    "showImages": true,
+    "fullscreen": true
+  },
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 40000,
+    "keepRecentTokens": 25000
+  }
+}

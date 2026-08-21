@@ -1,0 +1,13 @@
+theme:
+  dark: death-note
+  light: death-note
+defaultThinkingLevel: xhigh
+steeringMode: all
+followUpMode: one-at-a-time
+showHardwareCursor: false
+startup:
+  changelogMode: summary
+compaction:
+  enabled: true
+  reserveTokens: 40000
+  keepRecentTokens: 25000

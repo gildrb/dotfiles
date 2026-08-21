@@ -1,6 +1,6 @@
 # dotfiles
 
-Portable configuration for tmux, Herdr, Neovim, Pi, Hermes, Zed, Ghostty, and related tools.
+Portable configuration for tmux, Herdr, Neovim, Pi, Oh My Pi, Hermes, Zed, Ghostty, and related tools.
 
 ## tmux
 
@@ -111,6 +111,7 @@ dotfiles/
   herdr/          agent multiplexer settings
   nvim/           editor configuration and pinned plugins
   optmem/         persistent agent-memory command
+  omp/            Oh My Pi settings, Pi-compatible keys, and Death Note theme
   pi/             Pi settings, extensions, prompts, and theme
   prime/          Prime settings, extensions, and theme
   tmux/           macOS and NixOS multiplexer settings
