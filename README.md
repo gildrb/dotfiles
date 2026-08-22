@@ -76,7 +76,7 @@ Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B ,` / `.`
 | `Ctrl+B d` | Detach and leave the session running |
 | `Ctrl+B ?` | Show every active binding |
 
-### Files
+## Files
 
 ```text
 dotfiles/
