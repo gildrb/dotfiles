@@ -1,1 +1,0 @@
-/nix/store/dry2sz3hbcfg0n3jsn8vfghi2zz126vg-home-manager-files/.pi/agent/extensions/thinking-tone/index.ts
