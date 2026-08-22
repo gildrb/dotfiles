@@ -6,7 +6,10 @@ steeringMode: all
 followUpMode: one-at-a-time
 showHardwareCursor: false
 startup:
-  changelogMode: summary
+  quiet: true
+  changelogMode: hidden
+  checkUpdate: false
+  setupWizard: false
 compaction:
   enabled: true
   reserveTokens: 40000
