@@ -1,6 +1,12 @@
 {
   "onboardingShown": true,
   "quietStartup": true,
+  "defaultProvider": "openrouter",
+  "defaultModel": "openrouter/free",
+  "defaultServiceTier": "priority",
+  "telemetry": {
+    "noticeShown": true
+  },
   "defaultThinkingLevel": "xhigh",
   "theme": "death-note",
   "steeringMode": "all",

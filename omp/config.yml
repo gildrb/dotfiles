@@ -20,7 +20,7 @@ symbolPreset: ascii
 composer:
   shape: pi
 statusLine:
-  preset: minimal
+  preset: nerd
   separator: slash
   sessionAccent: true
   transparent: true
