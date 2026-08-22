@@ -5,6 +5,7 @@ argument-hint: "[scope]"
 Review the Python changes in scope: $ARGUMENTS
 
 Focus on:
+
 - correctness and edge cases
 - type-safety and basedpyright issues
 - ruff/style problems that affect readability

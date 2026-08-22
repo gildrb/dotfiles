@@ -28,6 +28,7 @@
     "git:github.com/Michaelliv/pi-ask-user-question@eaa38c32a3641be80667e79d9c91d3d25668343f",
     "npm:@ff-labs/pi-fff@0.10.3",
     "npm:pi-lens",
-    "git:github.com/YuGiMob/pi-hashline-edit-pro@0f02d358db06ecd6e5754106e4d6cf0069725681"
+    "git:github.com/YuGiMob/pi-hashline-edit-pro@0f02d358db06ecd6e5754106e4d6cf0069725681",
+    "npm:pi-privacy"
   ]
 }

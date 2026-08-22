@@ -5,6 +5,7 @@ argument-hint: "<task>"
 Implement this Python task: $ARGUMENTS
 
 Workflow:
+
 1. Read the relevant project files before editing.
 2. Follow existing architecture and naming; prefer readable, typed code.
 3. Keep behavior changes intentional and minimal.

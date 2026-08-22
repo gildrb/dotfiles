@@ -1,40 +1,40 @@
-theme: 
+theme:
   dark: death-note
   light: death-note
 defaultThinkingLevel: xhigh
 steeringMode: all
 followUpMode: one-at-a-time
 showHardwareCursor: false
-startup: 
+startup:
   quiet: true
   changelogMode: hidden
   checkUpdate: false
   setupWizard: false
-compaction: 
+compaction:
   enabled: true
   reserveTokens: 40000
   keepRecentTokens: 25000
-modelRoles: 
+modelRoles:
   default: openrouter/stealth/ox-alpha
 symbolPreset: ascii
-composer: 
+composer:
   shape: pi
-statusLine: 
+statusLine:
   preset: minimal
   separator: slash
   sessionAccent: true
   transparent: true
   compactThinkingLevel: true
-terminal: 
+terminal:
   showProgress: false
-tui: 
+tui:
   textSizing: false
   tight: true
-display: 
+display:
   shimmer: kitt
   cacheMissMarker: true
-plan: 
+plan:
   enabled: false
-goal: 
+goal:
   enabled: true
   statusInFooter: true

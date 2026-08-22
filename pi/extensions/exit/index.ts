@@ -1,1 +1,10 @@
-/nix/store/dry2sz3hbcfg0n3jsn8vfghi2zz126vg-home-manager-files/.pi/agent/extensions/exit/index.ts
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+
+export default function (pi: ExtensionAPI): void {
+  pi.registerCommand("exit", {
+    description: "Exit pi cleanly",
+    handler: async (_args, ctx) => {
+      ctx.shutdown();
+    },
+  });
+}
