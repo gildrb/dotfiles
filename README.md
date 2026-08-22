@@ -30,7 +30,7 @@ Leader: `Space`. The current line is absolute; surrounding line numbers are rela
 | `Space /` | Search current buffer |
 | `Space gc` / `gs` | Git commits / status |
 
-#### Code and diagnostics
+### Code and diagnostics
 
 | Key | Action |
 | --- | --- |
