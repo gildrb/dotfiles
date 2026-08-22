@@ -2,6 +2,7 @@
   "lastChangelogVersion": "0.82.1",
   "defaultThinkingLevel": "xhigh",
   "theme": "death-note",
+  "quietStartup": true,
   "images": {
     "blockImages": false
   },

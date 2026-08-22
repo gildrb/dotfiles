@@ -1,8 +1,10 @@
 # dotfiles
 
-Portable configuration for tmux, Herdr, Neovim, Pi, Oh My Pi, Hermes, Zed, Ghostty, and related tools.
+Portable configuration for Herdr, Neovim, Pi, Oh My Pi, Hermes, Zed, Ghostty, and related tools.
 
 ## tmux
+
+The multiplexer config is owned by the nix repository; these bindings still apply.
 
 Prefix: `Ctrl+B`. Press the prefix, release it, then press the action key. Raw Ctrl keys otherwise pass through to Neovim and the shell.
 
