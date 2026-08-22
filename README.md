@@ -1,31 +1,5 @@
 # dotfiles
 
-Portable configuration for Herdr, Neovim, Pi, Oh My Pi, Hermes, Zed, Ghostty, and related tools.
-
-## tmux
-
-The multiplexer config is owned by the nix repository; these bindings still apply.
-
-Prefix: `Ctrl+B`. Press the prefix, release it, then press the action key. Raw Ctrl keys otherwise pass through to Neovim and the shell.
-
-| Key | Action |
-| --- | --- |
-| `Ctrl+B c` | New tab/window in the current directory |
-| `Ctrl+B &` | Close tab/window |
-| `Ctrl+B 1–9` | Jump to tab/window |
-| `Ctrl+B n` / `p` | Next / previous tab/window |
-| `Ctrl+B r` | Rename tab/window |
-| `Ctrl+B H` or `\|` | Split side by side |
-| `Ctrl+B V` or `-` | Split top and bottom |
-| `Ctrl+B h/j/k/l` | Focus left/down/up/right pane |
-| `Ctrl+B o` | Cycle panes |
-| `Ctrl+B x` | Close pane |
-| `Ctrl+B N` | New session in the current directory |
-| `Ctrl+B Q` | Close current session |
-| `Ctrl+B s` | Choose session/window/pane |
-| `Ctrl+B d` | Detach and leave the session running |
-| `Ctrl+B Ctrl+B` | Send a literal `Ctrl+B` to the application |
-
 ## Neovim
 
 Leader: `Space`. The current line is absolute; surrounding line numbers are relative.
@@ -56,7 +30,7 @@ Leader: `Space`. The current line is absolute; surrounding line numbers are rela
 | `Space /` | Search current buffer |
 | `Space gc` / `gs` | Git commits / status |
 
-### Code and diagnostics
+#### Code and diagnostics
 
 | Key | Action |
 | --- | --- |
@@ -102,7 +76,7 @@ Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B ,` / `.`
 | `Ctrl+B d` | Detach and leave the session running |
 | `Ctrl+B ?` | Show every active binding |
 
-## Files
+### Files
 
 ```text
 dotfiles/
