@@ -1,15 +1,15 @@
 {
   "onboardingShown": true,
   "quietStartup": true,
-  "defaultProvider": "openrouter",
-  "defaultModel": "openrouter/free",
-  "defaultServiceTier": "priority",
+  "agentTraces": {
+    "enabled": false
+  },
   "telemetry": {
+    "enabled": false,
     "noticeShown": true
   },
-  "defaultThinkingLevel": "xhigh",
   "theme": "death-note",
-  "steeringMode": "all",
+  "steeringMode": "one-at-a-time",
   "followUpMode": "one-at-a-time",
   "showHardwareCursor": false,
   "enableSkillCommands": true,
@@ -22,7 +22,20 @@
   },
   "compaction": {
     "enabled": true,
-    "reserveTokens": 40000,
-    "keepRecentTokens": 25000
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
+  "autoRefine": {
+    "enabled": false
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 2,
+    "baseDelayMs": 1000,
+    "provider": {
+      "timeoutMs": 180000,
+      "maxRetries": 0,
+      "maxRetryDelayMs": 15000
+    }
   }
 }
