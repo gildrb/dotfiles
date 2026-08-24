@@ -5,7 +5,7 @@ font-size = 15
 # Keep the same appearance on Linux. Full-screen programs use the explicit
 # xterm-256color compatibility profile.
 term = xterm-256color
-background-opacity = 0.9
+background-opacity = 0.95
 background-blur = true
 background-opacity-cells = true
 keybind = cmd+w=close_surface
