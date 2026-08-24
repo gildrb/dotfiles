@@ -12,10 +12,6 @@ startup:
   setupWizard: false
 compaction:
   enabled: true
-  reserveTokens: 40000
-  keepRecentTokens: 25000
-modelRoles:
-  default: openrouter/stealth/ox-alpha
 symbolPreset: ascii
 composer:
   shape: pi
