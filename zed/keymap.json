@@ -1,0 +1,80 @@
+[
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !menu",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp",
+      "space w": "workspace::Save",
+      "space t": "workspace::NewTerminal",
+      "space q": "pane::CloseActiveItem",
+      "space shift-q": "zed::Quit",
+      "space b d": "workspace::CloseItemInAllPanes",
+      "ctrl-n": "project_panel::ToggleFocus",
+      "space e": "pane::RevealInProjectPanel",
+      "space f f": "file_finder::Toggle",
+      "space f g": "pane::DeploySearch",
+      "space f b": "tab_switcher::ToggleAll",
+      "space f r": "file_finder::Toggle",
+      "space f h": "zed::OpenDocs",
+      "space f k": "zed::OpenKeymap",
+      "space f c": "command_palette::Toggle",
+      "space g c": "git_panel::ToggleFocus",
+      "space g s": "git_panel::ToggleFocus",
+      "space /": "buffer_search::Deploy",
+      "space c a": "editor::ToggleCodeActions",
+      "space c r": "editor::Rename",
+      "space c d": "editor::Hover",
+      "space c s": "outline::Toggle",
+      "space c l": "editor::FindAllReferences",
+      "space x x": "diagnostics::Deploy",
+      "space x shift-x": "diagnostics::DeployCurrentFile",
+      "[ h": "editor::GoToPreviousHunk",
+      "] h": "editor::GoToHunk",
+      "space h p": "editor::ToggleSelectedDiffHunks",
+      "space h s": "git::ToggleStaged",
+      "space h r": "git::Restore",
+      "space h b": "git::Blame"
+    }
+  },
+  {
+    "context": "vim_mode == normal && !menu",
+    "bindings": {
+      "space c f": "editor::Format"
+    }
+  },
+  {
+    "context": "vim_mode == visual && !menu",
+    "bindings": {
+      "space c f": "editor::FormatSelections"
+    }
+  },
+  {
+    "context": "Dock && !Terminal",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "ctrl-n": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "f": "file_finder::Toggle",
+      "n": "workspace::NewFile",
+      "g": "project_search::ToggleFocus",
+      "r": "projects::OpenRecent",
+      "q": "workspace::CloseWindow"
+    }
+  }
+]
