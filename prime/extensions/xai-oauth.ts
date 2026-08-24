@@ -8,11 +8,15 @@
  * /login flow; the built-in grok models are untouched.
  */
 
-import type { OAuthCredentials, OAuthLoginCallbacks } from "@earendil-works/pi-ai";
+import type {
+	OAuthCredentials,
+	OAuthLoginCallbacks,
+} from "@earendil-works/pi-ai";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const XAI_CLIENT_ID = "b1a00492-073a-47ea-816f-4c329264a828";
-const XAI_SCOPE = "openid profile email offline_access grok-cli:access api:access";
+const XAI_SCOPE =
+	"openid profile email offline_access grok-cli:access api:access";
 const XAI_DEVICE_CODE_URL = "https://auth.x.ai/oauth2/device/code";
 const XAI_TOKEN_URL = "https://auth.x.ai/oauth2/token";
 // Refresh slightly before the reported expiry to avoid using a token that dies mid-request.
@@ -71,7 +75,11 @@ function validateVerificationUri(raw: string): string {
 	return url.href;
 }
 
-async function postForm(url: string, fields: Record<string, string>, signal?: AbortSignal): Promise<FormResponse> {
+async function postForm(
+	url: string,
+	fields: Record<string, string>,
+	signal?: AbortSignal,
+): Promise<FormResponse> {
 	let response: Response;
 	try {
 		response = await fetch(url, {
@@ -93,23 +101,33 @@ async function postForm(url: string, fields: Record<string, string>, signal?: Ab
 	let body: Record<string, unknown>;
 	try {
 		const parsed = await response.json();
-		body = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+		body =
+			parsed && typeof parsed === "object" && !Array.isArray(parsed)
+				? parsed
+				: {};
 	} catch {
 		if (signal?.aborted) {
 			throw new Error("Login cancelled");
 		}
-		throw new Error(`xAI OAuth returned invalid JSON (HTTP ${response.status})`);
+		throw new Error(
+			`xAI OAuth returned invalid JSON (HTTP ${response.status})`,
+		);
 	}
 
 	return { ok: response.ok, status: response.status, body };
 }
 
 function requestFailure(action: string, response: FormResponse): Error {
-	const error = typeof response.body.error === "string" ? response.body.error : undefined;
+	const error =
+		typeof response.body.error === "string" ? response.body.error : undefined;
 	const description =
-		typeof response.body.error_description === "string" ? response.body.error_description : undefined;
+		typeof response.body.error_description === "string"
+			? response.body.error_description
+			: undefined;
 	const detail = [error, description].filter(Boolean).join(": ");
-	return new Error(`xAI OAuth ${action} failed (HTTP ${response.status})${detail ? `: ${detail}` : ""}`);
+	return new Error(
+		`xAI OAuth ${action} failed (HTTP ${response.status})${detail ? `: ${detail}` : ""}`,
+	);
 }
 
 function parseDeviceCode(body: Record<string, unknown>): DeviceCode {
@@ -117,15 +135,20 @@ function parseDeviceCode(body: Record<string, unknown>): DeviceCode {
 	// default instead of failing on non-positive or malformed values.
 	const interval = body.interval;
 	const intervalSeconds =
-		typeof interval === "number" && Number.isFinite(interval) && interval > 0 ? interval : undefined;
+		typeof interval === "number" && Number.isFinite(interval) && interval > 0
+			? interval
+			: undefined;
 	const verificationUriComplete =
-		typeof body.verification_uri_complete === "string" && body.verification_uri_complete.length > 0
+		typeof body.verification_uri_complete === "string" &&
+		body.verification_uri_complete.length > 0
 			? validateVerificationUri(body.verification_uri_complete)
 			: undefined;
 	return {
 		deviceCode: requiredString(body, "device_code"),
 		userCode: requiredString(body, "user_code"),
-		verificationUri: validateVerificationUri(requiredString(body, "verification_uri")),
+		verificationUri: validateVerificationUri(
+			requiredString(body, "verification_uri"),
+		),
 		verificationUriComplete,
 		intervalSeconds,
 		expiresInSeconds: positiveNumber(body, "expires_in"),
@@ -143,7 +166,9 @@ function credentialsFromTokenResponse(
 			? previousRefreshToken
 			: requiredString(body, "refresh_token");
 	const expiresInSeconds =
-		body.expires_in === undefined ? DEFAULT_TOKEN_LIFETIME_SECONDS : positiveNumber(body, "expires_in");
+		body.expires_in === undefined
+			? DEFAULT_TOKEN_LIFETIME_SECONDS
+			: positiveNumber(body, "expires_in");
 	return {
 		type: "oauth",
 		access,
@@ -168,7 +193,11 @@ async function requestDeviceCode(signal?: AbortSignal): Promise<DeviceCode> {
 	return parseDeviceCode(response.body);
 }
 
-function abortableSleep(ms: number, signal: AbortSignal | undefined, cancelMessage: string): Promise<void> {
+function abortableSleep(
+	ms: number,
+	signal: AbortSignal | undefined,
+	cancelMessage: string,
+): Promise<void> {
 	return new Promise((resolve, reject) => {
 		if (signal?.aborted) {
 			reject(new Error(cancelMessage));
@@ -186,16 +215,25 @@ function abortableSleep(ms: number, signal: AbortSignal | undefined, cancelMessa
 	});
 }
 
-async function pollForTokens(device: DeviceCode, callbacks: OAuthLoginCallbacks): Promise<OAuthCredentials> {
+async function pollForTokens(
+	device: DeviceCode,
+	callbacks: OAuthLoginCallbacks,
+): Promise<OAuthCredentials> {
 	const signal = callbacks.signal;
 	const deadline = Date.now() + device.expiresInSeconds * 1000;
 	let intervalMs = Math.max(
 		MINIMUM_INTERVAL_MS,
-		Math.floor((device.intervalSeconds ?? DEFAULT_POLL_INTERVAL_SECONDS) * 1000),
+		Math.floor(
+			(device.intervalSeconds ?? DEFAULT_POLL_INTERVAL_SECONDS) * 1000,
+		),
 	);
 
 	// The device code was just issued; wait one interval before the first poll.
-	await abortableSleep(Math.min(intervalMs, deadline - Date.now()), signal, "Login cancelled");
+	await abortableSleep(
+		Math.min(intervalMs, deadline - Date.now()),
+		signal,
+		"Login cancelled",
+	);
 
 	while (Date.now() < deadline) {
 		if (signal?.aborted) {
@@ -223,9 +261,14 @@ async function pollForTokens(device: DeviceCode, callbacks: OAuthLoginCallbacks)
 			// RFC 8628 section 3.5: honor a server-provided interval, else add 5s.
 			const interval = response.body.interval;
 			intervalMs =
-				typeof interval === "number" && Number.isFinite(interval) && interval > 0
+				typeof interval === "number" &&
+				Number.isFinite(interval) &&
+				interval > 0
 					? Math.max(MINIMUM_INTERVAL_MS, Math.floor(interval * 1000))
-					: Math.max(MINIMUM_INTERVAL_MS, intervalMs + SLOW_DOWN_INTERVAL_INCREMENT_MS);
+					: Math.max(
+							MINIMUM_INTERVAL_MS,
+							intervalMs + SLOW_DOWN_INTERVAL_INCREMENT_MS,
+						);
 		} else if (error === "access_denied" || error === "authorization_denied") {
 			throw new Error("xAI device authorization was denied");
 		} else if (error === "expired_token") {
@@ -238,13 +281,19 @@ async function pollForTokens(device: DeviceCode, callbacks: OAuthLoginCallbacks)
 		if (remainingMs <= 0) {
 			break;
 		}
-		await abortableSleep(Math.min(intervalMs, remainingMs), signal, "Login cancelled");
+		await abortableSleep(
+			Math.min(intervalMs, remainingMs),
+			signal,
+			"Login cancelled",
+		);
 	}
 
 	throw new Error("Device flow timed out");
 }
 
-async function loginXai(callbacks: OAuthLoginCallbacks): Promise<OAuthCredentials> {
+async function loginXai(
+	callbacks: OAuthLoginCallbacks,
+): Promise<OAuthCredentials> {
 	const device = await requestDeviceCode(callbacks.signal);
 	callbacks.onAuth({
 		url: device.verificationUriComplete ?? device.verificationUri,
@@ -254,7 +303,9 @@ async function loginXai(callbacks: OAuthLoginCallbacks): Promise<OAuthCredential
 	return pollForTokens(device, callbacks);
 }
 
-async function refreshXaiToken(credentials: OAuthCredentials): Promise<OAuthCredentials> {
+async function refreshXaiToken(
+	credentials: OAuthCredentials,
+): Promise<OAuthCredentials> {
 	const response = await postForm(XAI_TOKEN_URL, {
 		grant_type: "refresh_token",
 		client_id: XAI_CLIENT_ID,
