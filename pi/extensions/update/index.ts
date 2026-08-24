@@ -3,7 +3,7 @@ import type {
   ExtensionCommandContext,
 } from "@earendil-works/pi-coding-agent";
 
-const PINNED_VERSION = "0.82.1";
+const PINNED_VERSION = "0.84.3";
 
 async function shell(pi: ExtensionAPI, script: string) {
   const result = await pi.exec("bash", ["-lc", script], { timeout: 10_000 });

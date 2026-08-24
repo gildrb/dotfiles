@@ -1,9 +1,6 @@
 {
-  "lastChangelogVersion": "0.84.2",
-  "defaultThinkingLevel": "xhigh",
+  "lastChangelogVersion": "0.84.3",
   "theme": "death-note",
-  "defaultProvider": "openrouter",
-  "defaultModel": "stealth/ox-alpha",
   "showCacheMissNotices": true,
   "quietStartup": true,
   "images": {
