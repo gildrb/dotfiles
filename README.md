@@ -84,7 +84,7 @@ dotfiles/
   btop/           terminal system monitor
   ghostty/        terminal settings and Workstation theme
   hermes/         Hermes identity and Death Note skin
-  herdr/          agent multiplexer settings and separate Death Note theme
+  herdr/          agent multiplexer settings and Death Note palette
   nvim/           editor configuration and pinned plugins
   optmem/         persistent agent-memory command
   omp/            Oh My Pi settings, Pi-compatible keys, and Death Note theme
