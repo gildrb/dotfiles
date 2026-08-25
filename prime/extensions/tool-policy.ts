@@ -1,0 +1,234 @@
+/**
+ * Guardrails for commands that can leave a long-running development server.
+ *
+ * This blocks only model tool calls. User-entered terminal commands are not
+ * affected, so the user can start a Vite server manually when needed.
+ */
+
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+
+const PACKAGE_MANAGERS = new Set([
+	"bun",
+	"bunx",
+	"npm",
+	"npx",
+	"pnpm",
+	"yarn",
+]);
+const SHELL_WRAPPERS = new Set(["bash", "dash", "fish", "sh", "zsh"]);
+const COMMAND_WRAPPERS = new Set([
+	"command",
+	"corepack",
+	"env",
+	"exec",
+	"nice",
+	"nohup",
+	"setsid",
+	"sudo",
+	"time",
+	"timeout",
+]);
+const SAFE_VITE_SUBCOMMANDS = new Set([
+	"--help",
+	"--version",
+	"-h",
+	"-v",
+	"build",
+	"optimize",
+	"preview",
+]);
+const VITE_DEV_SCRIPT = /^dev(?::[a-z0-9_.-]+)?$/i;
+
+function shellWords(source: string): string[] {
+	return (
+		source.match(/(?:\\.|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|[^\s]+)/g) ?? []
+	).map((word) => {
+		if (
+			(word.startsWith("\"") && word.endsWith("\"")) ||
+			(word.startsWith("'") && word.endsWith("'"))
+		) {
+			return word.slice(1, -1);
+		}
+		return word;
+	});
+}
+
+function commandName(word: string): string {
+	return word.split("/").at(-1)?.replace(/\.(?:cmd|exe|js)$/i, "") ?? word;
+}
+
+function splitShellCommands(source: string): string[] {
+	const commands: string[] = [];
+	let start = 0;
+	let quote: string | undefined;
+	let escaped = false;
+
+	for (let index = 0; index < source.length; index += 1) {
+		const character = source[index];
+		if (escaped) {
+			escaped = false;
+			continue;
+		}
+		if (character === "\\" && quote !== "'") {
+			escaped = true;
+			continue;
+		}
+		if (quote) {
+			if (character === quote) quote = undefined;
+			continue;
+		}
+		if (character === "'" || character === '\"') {
+			quote = character;
+			continue;
+		}
+
+		const isPipe = character === "|";
+		const isAnd = character === "&";
+		if (character === ";" || character === "\n" || isPipe || isAnd) {
+			commands.push(source.slice(start, index));
+			if ((isPipe || isAnd) && source[index + 1] === character) index += 1;
+			start = index + 1;
+		}
+	}
+	commands.push(source.slice(start));
+	return commands;
+}
+
+function isViteExecutable(word: string): boolean {
+	const name = commandName(word);
+	return name === "vite" || name === "vitejs";
+}
+
+function viteNeedsDevelopmentServer(words: string[], viteIndex: number): boolean {
+	const subcommand = words[viteIndex + 1];
+	if (!subcommand) return true;
+	return !SAFE_VITE_SUBCOMMANDS.has(subcommand.toLowerCase());
+}
+
+function firstCommandIndex(words: string[]): number {
+	let index = 0;
+	while (index < words.length) {
+		const name = commandName(words[index]);
+		if (COMMAND_WRAPPERS.has(name)) {
+			index += 1;
+			while (index < words.length && /^-/.test(words[index])) index += 1;
+			continue;
+		}
+		if (/^[A-Za-z_][A-Za-z0-9_]*=/.test(words[index])) {
+			index += 1;
+			continue;
+		}
+		break;
+	}
+	return index;
+}
+
+function commandStartsViteDevServer(source: string): boolean {
+	const words = shellWords(source);
+	const index = firstCommandIndex(words);
+	const executable = commandName(words[index] ?? "");
+	if (!executable) return false;
+
+	if (SHELL_WRAPPERS.has(executable) || executable === "nix") {
+		const commandOption = words.findIndex(
+			(word) =>
+				word === "-c" || word === "--command" || /^-[^-]*c/.test(word),
+		);
+		return commandOption >= 0 && commandStartsViteDevServer(words.slice(commandOption + 1).join(" "));
+	}
+
+	if (executable === "node" || executable === "nodejs") {
+		const scriptIndex = index + 1;
+		if (scriptIndex < words.length && isViteExecutable(words[scriptIndex])) {
+			return viteNeedsDevelopmentServer(words, scriptIndex);
+		}
+	}
+
+	if (PACKAGE_MANAGERS.has(executable)) {
+		for (let wordIndex = index + 1; wordIndex < words.length; wordIndex += 1) {
+			const word = words[wordIndex];
+			if (VITE_DEV_SCRIPT.test(word)) return true;
+			if (isViteExecutable(word) && viteNeedsDevelopmentServer(words, wordIndex)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	return isViteExecutable(words[index]) && viteNeedsDevelopmentServer(words, index);
+}
+
+/** True when a shell command starts a Vite development server. */
+export function isViteDevCommand(source: string): boolean {
+	return splitShellCommands(source).some(commandStartsViteDevServer);
+}
+
+function pythonRunsBlockedCommand(code: string): boolean {
+	const bashCells = code.matchAll(/%%bash[^\n]*\n([\s\S]*)/g);
+	for (const match of bashCells) {
+		if (isViteDevCommand(match[1])) return true;
+	}
+
+	// Covers subprocess.run/Popen, os.system, child-process calls, and IPython
+	// system magics. Joining string literals also catches list-style argv calls.
+	const executions = code.matchAll(
+		/\b(?:subprocess\.(?:call|check_call|check_output|run|Popen)|os\.(?:popen|system)|child_process\.(?:exec|execFile|spawn)|run_cell_magic|run_line_magic)\s*\(([\s\S]*?)(?:\n\s*)?\)/g,
+	);
+	for (const match of executions) {
+		const literalValues = [
+			...match[1].matchAll(
+				/(?:"((?:\\.|[^"\\])*)"|'((?:\\.|[^'\\])*)'|`((?:\\.|[^`\\])*)`)/g,
+			),
+		].map((literal) => literal[1] ?? literal[2] ?? literal[3] ?? "");
+		const isSystemMagic = /\b(?:run_cell_magic|run_line_magic)\b/.test(
+			match[0],
+		);
+		if (
+			(isSystemMagic && literalValues.some(isViteDevCommand)) ||
+			isViteDevCommand(literalValues.join(" "))
+		) {
+			return true;
+		}
+	}
+
+	// Catch a command assembled from simple literals on one executable line,
+	// while avoiding ordinary source inspection and comments on other lines.
+	return (
+		/(?:subprocess\.|os\.(?:popen|system)|child_process\.|run_(?:cell|line)_magic)/.test(
+			code,
+		) &&
+		code.split("\n").some((line) => {
+			const withoutStrings = line.replace(
+				/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/g,
+				"",
+			);
+			return /\b(?:bun|bunx|npm|npx|pnpm|yarn)\b[^#\n]{0,120}\bdev(?::[a-z0-9_.-]+)?\b/i.test(
+				withoutStrings,
+			);
+		})
+	);
+}
+
+function blockedToolCall(toolName: string, input: Record<string, unknown>): boolean {
+	if (toolName === "bash" && typeof input.command === "string") {
+		return isViteDevCommand(input.command);
+	}
+	return (
+		toolName === "ipython" &&
+		typeof input.code === "string" &&
+		pythonRunsBlockedCommand(input.code)
+	);
+}
+
+export default function (pi: ExtensionAPI) {
+	pi.on("tool_call", (event) => {
+		if (!blockedToolCall(event.toolName, event.input)) return;
+		return {
+			block: true,
+			reason:
+				"Blocked: Vite development-server commands are user-only. " +
+				"Run the dev server manually outside Prime Agent; build and preview " +
+				"commands are allowed.",
+		};
+	});
+}
