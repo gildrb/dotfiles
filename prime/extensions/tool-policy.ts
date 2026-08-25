@@ -163,10 +163,22 @@ export function isViteDevCommand(source: string): boolean {
 	return splitShellCommands(source).some(commandStartsViteDevServer);
 }
 
-function pythonRunsBlockedCommand(code: string): boolean {
+/** True when a direct NixOS VM test build has no external deadline. */
+export function isUnboundedNixVmTestCommand(source: string): boolean {
+	const buildsVmTest =
+		/\bnix\b[\s\S]{0,500}\bbuild\b/.test(source) &&
+		/(?:^|[\s'"`])(?:\.\/)?tests\/[A-Za-z0-9_.-]+\.nix\b/.test(source);
+	return buildsVmTest && !/(?:^|[\s;&|])timeout(?:[\s]|$)/.test(source);
+}
+
+function pythonRunsBlockedCommand(
+	code: string,
+	predicate: (source: string) => boolean,
+	detectAssembledVite = false,
+): boolean {
 	const bashCells = code.matchAll(/%%bash[^\n]*\n([\s\S]*)/g);
 	for (const match of bashCells) {
-		if (isViteDevCommand(match[1])) return true;
+		if (predicate(match[1])) return true;
 	}
 
 	// Covers subprocess.run/Popen, os.system, child-process calls, and IPython
@@ -184,8 +196,8 @@ function pythonRunsBlockedCommand(code: string): boolean {
 			match[0],
 		);
 		if (
-			(isSystemMagic && literalValues.some(isViteDevCommand)) ||
-			isViteDevCommand(literalValues.join(" "))
+			(isSystemMagic && literalValues.some(predicate)) ||
+			predicate(literalValues.join(" "))
 		) {
 			return true;
 		}
@@ -193,6 +205,7 @@ function pythonRunsBlockedCommand(code: string): boolean {
 
 	// Catch a command assembled from simple literals on one executable line,
 	// while avoiding ordinary source inspection and comments on other lines.
+	if (!detectAssembledVite) return false;
 	return (
 		/(?:subprocess\.|os\.(?:popen|system)|child_process\.|run_(?:cell|line)_magic)/.test(
 			code,
@@ -209,26 +222,45 @@ function pythonRunsBlockedCommand(code: string): boolean {
 	);
 }
 
-function blockedToolCall(toolName: string, input: Record<string, unknown>): boolean {
-	if (toolName === "bash" && typeof input.command === "string") {
-		return isViteDevCommand(input.command);
+function blockedToolCall(
+	toolName: string,
+	input: Record<string, unknown>,
+): string | undefined {
+	const source =
+		toolName === "bash" && typeof input.command === "string"
+			? input.command
+			: undefined;
+	const python =
+		toolName === "ipython" && typeof input.code === "string"
+			? input.code
+			: undefined;
+
+	if (
+		(source && isViteDevCommand(source)) ||
+		(python && pythonRunsBlockedCommand(python, isViteDevCommand, true))
+	) {
+		return (
+			"Blocked: Vite development-server commands are user-only. " +
+			"Run the dev server manually outside Prime Agent; build and preview " +
+			"commands are allowed."
+		);
 	}
-	return (
-		toolName === "ipython" &&
-		typeof input.code === "string" &&
-		pythonRunsBlockedCommand(input.code)
-	);
+	if (
+		(source && isUnboundedNixVmTestCommand(source)) ||
+		(python && pythonRunsBlockedCommand(python, isUnboundedNixVmTestCommand))
+	) {
+		return (
+			"Blocked: direct NixOS VM test builds need a hard deadline. " +
+			"Use the repository validation runner, or wrap the command in timeout."
+		);
+	}
+	return undefined;
 }
 
 export default function (pi: ExtensionAPI) {
 	pi.on("tool_call", (event) => {
-		if (!blockedToolCall(event.toolName, event.input)) return;
-		return {
-			block: true,
-			reason:
-				"Blocked: Vite development-server commands are user-only. " +
-				"Run the dev server manually outside Prime Agent; build and preview " +
-				"commands are allowed.",
-		};
+		const reason = blockedToolCall(event.toolName, event.input);
+		if (!reason) return;
+		return { block: true, reason };
 	});
 }
