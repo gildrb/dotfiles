@@ -8,18 +8,18 @@ panel_bg = "#09090b"
 surface0 = "#141416"
 surface1 = "#1c1c1f"
 surface_dim = "#0d0d0f"
-overlay0 = "#8a8a8a"
-overlay1 = "#b0b0b0"
-text = "#e8e8e8"
-subtext0 = "#8a8a8a"
-accent = "#8196e0"
-mauve = "#8196e0"
-green = "#3dba6e"
-yellow = "#e8a020"
-red = "#ff3d6e"
-blue = "#8196e0"
-teal = "#8196e0"
-peach = "#e8a020"
+overlay0 = "#a0a0a0"
+overlay1 = "#c9c9c9"
+text = "#ededed"
+subtext0 = "#a0a0a0"
+accent = "#ff6f95"
+mauve = "#c77dff"
+green = "#00ca52"
+yellow = "#ffb200"
+red = "#ff6f95"
+blue = "#51aeff"
+teal = "#52f0db"
+peach = "#ffb200"
 
 [terminal]
 new_cwd = "follow"
@@ -74,6 +74,10 @@ prompt_new_workspace_name = false
 pane_borders = true
 pane_gaps = false
 hide_tab_bar_when_single_tab = false
+
+[ui.sound]
+enabled = false
+
 [ui.toast]
 delivery = "herdr"
 
