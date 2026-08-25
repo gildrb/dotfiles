@@ -29,7 +29,7 @@
         "ghost_element.active": "#c22b5c55",
         "ghost_element.selected": "#c22b5c44",
         "ghost_element.disabled": "#737fa8",
-        "text": "#e9e8f4",
+        "text": "#f4f3fa",
         "text.muted": "#a0aacd",
         "text.placeholder": "#737fa8",
         "text.disabled": "#737fa8",
@@ -56,7 +56,7 @@
         "scrollbar.thumb.border": "#00000000",
         "scrollbar.track.background": "#00000000",
         "scrollbar.track.border": "#00000000",
-        "editor.foreground": "#e9e8f4",
+        "editor.foreground": "#f4f3fa",
         "editor.background": "#0c0f1c",
         "editor.gutter.background": "#0c0f1c",
         "editor.subheader.background": "#0c0f1c",
@@ -73,9 +73,9 @@
         "editor.document_highlight.write_background": "#dcaa5633",
         "editor.document_highlight.bracket_background": "#ff6b8c33",
         "terminal.background": "#00000000",
-        "terminal.foreground": "#e9e8f4",
+        "terminal.foreground": "#f4f3fa",
         "terminal.ansi.background": "#00000000",
-        "terminal.bright_foreground": "#e9e8f4",
+        "terminal.bright_foreground": "#f4f3fa",
         "terminal.dim_foreground": "#a0aacd",
         "terminal.ansi.black": "#0c0f1c",
         "terminal.ansi.bright_black": "#737fa8",
@@ -92,7 +92,7 @@
         "terminal.ansi.cyan": "#a3b4e4",
         "terminal.ansi.bright_cyan": "#a3b4e4",
         "terminal.ansi.white": "#c9cbe0",
-        "terminal.ansi.bright_white": "#e9e8f4",
+        "terminal.ansi.bright_white": "#f4f3fa",
         "link_text.hover": "#a3b4e4",
         "conflict": "#dcaa56",
         "created": "#6cc390",
@@ -121,12 +121,12 @@
         ],
         "syntax": {
           "attribute": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
           "boolean": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
@@ -141,7 +141,7 @@
             "font_weight": null
           },
           "constant": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
@@ -151,7 +151,7 @@
             "font_weight": null
           },
           "embedded": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
@@ -161,12 +161,12 @@
             "font_weight": null
           },
           "emphasis.strong": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": 700
           },
           "enum": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
@@ -201,7 +201,7 @@
             "font_weight": null
           },
           "number": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
@@ -221,12 +221,12 @@
             "font_weight": null
           },
           "primary": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
           "property": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
@@ -276,7 +276,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
@@ -296,22 +296,22 @@
             "font_weight": 700
           },
           "type": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
           "variable": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
           "variable.special": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           },
           "variant": {
-            "color": "#e9e8f4",
+            "color": "#f4f3fa",
             "font_style": null,
             "font_weight": null
           }

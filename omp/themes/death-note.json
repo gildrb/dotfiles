@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/v18.0.4/packages/coding-agent/src/modes/theme/theme-schema.json",
   "name": "death-note",
   "vars": {
-    "paper": "#e9e8f4",
+    "paper": "#f4f3fa",
     "ink": "#0c0f1c",
     "crimson": "#c22b5c",
     "red": "#e83e66",

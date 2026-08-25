@@ -1,10 +1,10 @@
 # Death Note for btop. Empty main_bg keeps the terminal transparent.
 theme[main_bg]=""
-theme[main_fg]="#e9e8f4"
+theme[main_fg]="#f4f3fa"
 theme[title]="#ff6b8c"
 theme[hi_fg]="#a3b4e4"
 theme[selected_bg]="#2e1a2f"
-theme[selected_fg]="#e9e8f4"
+theme[selected_fg]="#f4f3fa"
 theme[inactive_fg]="#737fa8"
 theme[graph_text]="#c9cbe0"
 theme[meter_bg]="#394a78"

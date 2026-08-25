@@ -1,5 +1,5 @@
 return {
-  paper = "#e9e8f4",
+  paper = "#f4f3fa",
   ink = "#0c0f1c",
   deep = "#121628",
   surface = "#1a2036",
