@@ -1,0 +1,28 @@
+hunk_headers = true
+line_numbers = true
+menu_bar = true
+mode = "auto"
+theme = "death-note"
+transparent_background = true
+watch = true
+wrap_lines = false
+
+[themes.death-note]
+accent = "#ff3d6e"
+base = "github-dark-default"
+label = "Death Note"
+noteBorder = "#8a1028"
+panel = "#09090b"
+
+[themes.death-note.syntax_scopes]
+comment = "#8a8a8a"
+"constant.numeric" = "#e8e8e8"
+"entity.name.function" = "#8196e0"
+"entity.name.type" = "#e8e8e8"
+keyword = "#ff3d6e"
+"keyword.operator" = "#c8c8c8"
+punctuation = "#b0b0b0"
+"punctuation.definition.comment" = "#8a8a8a"
+"storage.type" = "#e8e8e8"
+string = "#3dba6e"
+variable = "#e8e8e8"
