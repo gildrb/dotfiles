@@ -4,22 +4,22 @@ onboarding = false
 name = "terminal"
 
 [theme.custom]
-panel_bg = "#090b10"
-surface0 = "#171923"
-surface1 = "#281823"
-surface_dim = "#090b10"
-overlay0 = "#7f8395"
-overlay1 = "#b8b6c3"
-text = "#dedce3"
-subtext0 = "#85899b"
-accent = "#df5577"
-mauve = "#df5577"
-green = "#78a68e"
-yellow = "#d5a14a"
-red = "#df5577"
-blue = "#8292cf"
-teal = "#96af9e"
-peach = "#d5a14a"
+panel_bg = "#09090b"
+surface0 = "#141416"
+surface1 = "#1c1c1f"
+surface_dim = "#0d0d0f"
+overlay0 = "#8a8a8a"
+overlay1 = "#b0b0b0"
+text = "#e8e8e8"
+subtext0 = "#8a8a8a"
+accent = "#8196e0"
+mauve = "#8196e0"
+green = "#3dba6e"
+yellow = "#e8a020"
+red = "#ff3d6e"
+blue = "#8196e0"
+teal = "#8196e0"
+peach = "#e8a020"
 
 [terminal]
 new_cwd = "follow"
@@ -76,9 +76,6 @@ pane_gaps = false
 hide_tab_bar_when_single_tab = false
 [ui.toast]
 delivery = "herdr"
-
-[ui.sound]
-enabled = false
 
 [session]
 resume_agents_on_restore = true
