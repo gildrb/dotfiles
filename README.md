@@ -83,8 +83,8 @@ dotfiles/
   AGENTS.md       shared Pi/Codex behavior and OptMem workflow
   btop/           terminal system monitor
   ghostty/        terminal settings and Workstation theme
-  hermes/         Hermes identity
-  herdr/          agent multiplexer settings
+  hermes/         Hermes identity and Death Note skin
+  herdr/          agent multiplexer settings and separate Death Note theme
   nvim/           editor configuration and pinned plugins
   optmem/         persistent agent-memory command
   omp/            Oh My Pi settings, Pi-compatible keys, and Death Note theme
