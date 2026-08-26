@@ -28,16 +28,15 @@ const COMMAND_WRAPPERS = new Set([
 	"time",
 	"timeout",
 ]);
-const SAFE_VITE_SUBCOMMANDS = new Set([
+const NON_SERVER_VITE_SUBCOMMANDS = new Set([
 	"--help",
 	"--version",
 	"-h",
 	"-v",
 	"build",
 	"optimize",
-	"preview",
 ]);
-const VITE_DEV_SCRIPT = /^dev(?::[a-z0-9_.-]+)?$/i;
+const VITE_SERVER_SCRIPT = /^(?:dev|preview)(?::[a-z0-9_.-]+)?$/i;
 
 function shellWords(source: string): string[] {
 	return (
@@ -99,10 +98,10 @@ function isViteExecutable(word: string): boolean {
 	return name === "vite" || name === "vitejs";
 }
 
-function viteNeedsDevelopmentServer(words: string[], viteIndex: number): boolean {
+function viteStartsServer(words: string[], viteIndex: number): boolean {
 	const subcommand = words[viteIndex + 1];
 	if (!subcommand) return true;
-	return !SAFE_VITE_SUBCOMMANDS.has(subcommand.toLowerCase());
+	return !NON_SERVER_VITE_SUBCOMMANDS.has(subcommand.toLowerCase());
 }
 
 function firstCommandIndex(words: string[]): number {
@@ -123,7 +122,7 @@ function firstCommandIndex(words: string[]): number {
 	return index;
 }
 
-function commandStartsViteDevServer(source: string): boolean {
+function commandStartsViteServer(source: string): boolean {
 	const words = shellWords(source);
 	const index = firstCommandIndex(words);
 	const executable = commandName(words[index] ?? "");
@@ -134,33 +133,33 @@ function commandStartsViteDevServer(source: string): boolean {
 			(word) =>
 				word === "-c" || word === "--command" || /^-[^-]*c/.test(word),
 		);
-		return commandOption >= 0 && commandStartsViteDevServer(words.slice(commandOption + 1).join(" "));
+		return commandOption >= 0 && commandStartsViteServer(words.slice(commandOption + 1).join(" "));
 	}
 
 	if (executable === "node" || executable === "nodejs") {
 		const scriptIndex = index + 1;
 		if (scriptIndex < words.length && isViteExecutable(words[scriptIndex])) {
-			return viteNeedsDevelopmentServer(words, scriptIndex);
+			return viteStartsServer(words, scriptIndex);
 		}
 	}
 
 	if (PACKAGE_MANAGERS.has(executable)) {
 		for (let wordIndex = index + 1; wordIndex < words.length; wordIndex += 1) {
 			const word = words[wordIndex];
-			if (VITE_DEV_SCRIPT.test(word)) return true;
-			if (isViteExecutable(word) && viteNeedsDevelopmentServer(words, wordIndex)) {
+			if (VITE_SERVER_SCRIPT.test(word)) return true;
+			if (isViteExecutable(word) && viteStartsServer(words, wordIndex)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	return isViteExecutable(words[index]) && viteNeedsDevelopmentServer(words, index);
+	return isViteExecutable(words[index]) && viteStartsServer(words, index);
 }
 
-/** True when a shell command starts a Vite development server. */
-export function isViteDevCommand(source: string): boolean {
-	return splitShellCommands(source).some(commandStartsViteDevServer);
+/** True when a shell command starts a Vite development or preview server. */
+export function isViteServerCommand(source: string): boolean {
+	return splitShellCommands(source).some(commandStartsViteServer);
 }
 
 /** True when a direct NixOS VM test build has no external deadline. */
@@ -174,7 +173,7 @@ export function isUnboundedNixVmTestCommand(source: string): boolean {
 function pythonRunsBlockedCommand(
 	code: string,
 	predicate: (source: string) => boolean,
-	detectAssembledVite = false,
+	detectAssembledViteServer = false,
 ): boolean {
 	const bashCells = code.matchAll(/%%bash[^\n]*\n([\s\S]*)/g);
 	for (const match of bashCells) {
@@ -205,7 +204,7 @@ function pythonRunsBlockedCommand(
 
 	// Catch a command assembled from simple literals on one executable line,
 	// while avoiding ordinary source inspection and comments on other lines.
-	if (!detectAssembledVite) return false;
+	if (!detectAssembledViteServer) return false;
 	return (
 		/(?:subprocess\.|os\.(?:popen|system)|child_process\.|run_(?:cell|line)_magic)/.test(
 			code,
@@ -215,7 +214,7 @@ function pythonRunsBlockedCommand(
 				/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`)/g,
 				"",
 			);
-			return /\b(?:bun|bunx|npm|npx|pnpm|yarn)\b[^#\n]{0,120}\bdev(?::[a-z0-9_.-]+)?\b/i.test(
+			return /\b(?:bun|bunx|npm|npx|pnpm|yarn)\b[^#\n]{0,120}\b(?:dev|preview)(?::[a-z0-9_.-]+)?\b/i.test(
 				withoutStrings,
 			);
 		})
@@ -236,13 +235,13 @@ function blockedToolCall(
 			: undefined;
 
 	if (
-		(source && isViteDevCommand(source)) ||
-		(python && pythonRunsBlockedCommand(python, isViteDevCommand, true))
+		(source && isViteServerCommand(source)) ||
+		(python && pythonRunsBlockedCommand(python, isViteServerCommand, true))
 	) {
 		return (
-			"Blocked: Vite development-server commands are user-only. " +
-			"Run the dev server manually outside Prime Agent; build and preview " +
-			"commands are allowed."
+			"Blocked: Vite development and preview servers are user-only. " +
+			"Start local servers manually outside Prime Agent; build and static " +
+			"validation commands are allowed."
 		);
 	}
 	if (

@@ -8,10 +8,10 @@
 - Read the project and relevant documentation before editing. Follow local instructions and established best practices.
 - Keep responses concise, technical, and direct. Avoid fluff, hype, and unnecessary preambles.
 
-## Vite development-server policy
+## Local server policy
 
-- Never start a Vite development server from a model tool call. Do not use `pnpm dev`, `pnpm exec vite --host`, bare `vite`, or equivalent commands. The user starts development servers manually.
-- Build and preview commands are allowed when validation requires them. Do not replace a blocked development-server command with another background or detached server.
+- Never start a Vite development or preview server from a model tool call. Do not use `pnpm dev`, `pnpm preview`, `pnpm exec vite`, bare `vite`, or equivalent commands. The user starts local servers manually.
+- Build and static validation commands are allowed. Do not bypass this policy with raw Node scripts, shell backgrounding, alternate ports, or detached processes.
 
 ## Default output format
 
