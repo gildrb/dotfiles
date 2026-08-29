@@ -2,9 +2,9 @@ theme = Death Note
 
 font-family = Ioskeley Mono
 font-size = 15
-# Keep the same appearance on Linux. Full-screen programs use the explicit
-# xterm-256color compatibility profile.
-term = xterm-256color
+# Keep the same appearance on Linux. Native Ghostty terminfo is installed
+# with the per-user ghostty profile.
+term = xterm-ghostty
 background-opacity = 0.95
 background-blur = true
 background-opacity-cells = true

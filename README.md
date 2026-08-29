@@ -91,5 +91,6 @@ dotfiles/
   pi/             Pi settings, extensions, prompts, and theme
   prime/          Prime settings, extensions, tests, and theme
   tmux/           macOS and NixOS multiplexer settings
+  vorssaint/      menubar toolkit preferences (defaults domain plist)
   zed/            editor settings, extensions, and themes
 ```

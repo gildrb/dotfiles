@@ -8,11 +8,6 @@
 - Read the project and relevant documentation before editing. Follow local instructions and established best practices.
 - Keep responses concise, technical, and direct. Avoid fluff, hype, and unnecessary preambles.
 
-## Local server policy
-
-- Never start a Vite development or preview server from a model tool call. Do not use `pnpm dev`, `pnpm preview`, `pnpm exec vite`, bare `vite`, or equivalent commands. The user starts local servers manually.
-- Build and static validation commands are allowed. Do not bypass this policy with raw Node scripts, shell backgrounding, alternate ports, or detached processes.
-
 ## Default output format
 
 Apply `~/.codex/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.

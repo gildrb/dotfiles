@@ -66,6 +66,8 @@ close_pane = "prefix+x"
 resize_mode = "prefix+shift+r"
 
 [ui]
+# Agent panel ordering: "spaces" (grouped by space) or "priority" (attention queue).
+agent_panel_sort = "priority"
 mouse_capture = true
 copy_on_select = true
 confirm_close = true
