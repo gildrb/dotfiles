@@ -76,6 +76,15 @@ Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B ,` / `.`
 | `Ctrl+B d` | Detach and leave the session running |
 | `Ctrl+B ?` | Show every active binding |
 
+## Prime
+
+`prime/settings.json` deploys verbatim to `~/.prime/agent/settings.json`.
+
+- `packages` pins `npm:@ff-labs/pi-fff@0.10.3` with `extensions: []`; the package only installs dependencies, and `prime/extensions/prime-fff.ts` is the single loader. The adapter forces FFF's `override` mode so Prime gets `grep`/`find` tool names: Prime has no builtin find/grep to collide with, and models adopt the familiar names (benchmark: cache hit share 90.2% -> 92.0%, uncached input 27.4k -> 25.2k tokens, glm-5.3, 3 turns x 2 reps). `PI_FFF_MODE` still wins if set explicitly.
+- `npmCommand` redirects npm's global root to `~/.prime/agent/npm-global` because the Nix store is read-only; `$HOME` keeps it portable across hosts. After activation run `prime-agent package install npm:@ff-labs/pi-fff@0.10.3` once (or let the first online session install it).
+- The npm pin equals `git:github.com/dmtrKovalenko/fff@e2cad2f09ea617d4c024f396f21d80e557f23a17` (npm `gitHead` = tag `v0.10.3`). The git source itself is not loadable: the workspace ships no `dist` and pins its platform binaries to a `0.0.0` placeholder npm cannot resolve.
+- `pi-hashline-edit-pro` and `pi-lens` stay Pi-only. Measured in Prime (same benchmark): hashline was cache-neutral (+0.4pp) with +18% wall time; lens raised hit share to 94.3% only by doubling the cached prefix while uncached input grew 17% and wall time grew 74%. Both remain pinned in `pi/settings.json` where they hook Pi's real read/edit tools.
+
 ## Files
 
 ```text
@@ -89,7 +98,7 @@ dotfiles/
   optmem/         persistent agent-memory command
   omp/            Oh My Pi settings, Pi-compatible keys, and Death Note theme
   pi/             Pi settings, extensions, prompts, and theme
-  prime/          Prime settings, extensions, and theme
+  prime/          Prime settings, extensions, tests, and theme
   tmux/           macOS and NixOS multiplexer settings
   zed/            editor settings, extensions, and themes
 ```

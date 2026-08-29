@@ -40,5 +40,17 @@
       "maxRetries": 0,
       "maxRetryDelayMs": 15000
     }
-  }
+  },
+  "packages": [
+    {
+      "source": "npm:@ff-labs/pi-fff@0.10.3",
+      "extensions": []
+    }
+  ],
+  "npmCommand": [
+    "sh",
+    "-c",
+    "exec npm --prefix \"$HOME/.prime/agent/npm-global\" \"$@\"",
+    "npm"
+  ]
 }
