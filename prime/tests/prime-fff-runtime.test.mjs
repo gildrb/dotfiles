@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -87,6 +87,15 @@ const text = async (tool, params) => (await tool.execute("t", params, undefined)
 			throw new Error("Can not run certain FFF features in a file system root or home directories");
 		},
 	});
+	pi.registerTool({
+		name: "multi_grep",
+		label: "multi_grep",
+		description: "fake",
+		parameters: {},
+		execute: async () => {
+			throw new Error("Failed to create FFF file finder for /x: mocked native failure");
+		},
+	});
 }
 `,
 	);
@@ -106,6 +115,47 @@ const text = async (tool, params) => (await tool.execute("t", params, undefined)
 		await text(tools.get("find"), { pattern: "alpha", path: "." }),
 		/src\/alpha\.txt/,
 		"find degrades on the home-directory scan refusal",
+	);
+	assert.match(
+		await text(tools.get("multi_grep"), { patterns: ["npm command"], path: "src" }),
+		/src\/alpha\.txt/,
+		"multi_grep degrades across its patterns array",
+	);
+}
+
+// Scenario D: git checkout missing, npm-global bridge present -> bridge loads.
+{
+	const bridgeAgentDir = join(scratch, "agent-bridge");
+	// Bare node refuses to strip types under node_modules, so the package lives
+	// outside it and is linked in; Prime's own TS loader has no such limit.
+	const realPkg = join(scratch, "bridge-pkg");
+	const bridgeDir = join(realPkg, "src");
+	mkdirSync(bridgeDir, { recursive: true });
+	mkdirSync(join(bridgeAgentDir, "npm-global/lib/node_modules/@ff-labs"), { recursive: true });
+	symlinkSync(realPkg, join(bridgeAgentDir, "npm-global/lib/node_modules/@ff-labs/pi-fff"), "dir");
+	writeFileSync(
+		join(bridgeDir, "index.ts"),
+		`export default function fake(pi) {
+	pi.registerTool({ name: "grep", label: "grep", description: "fake", parameters: {},
+		execute: async () => ({ content: [{ type: "text", text: "from-bridge-package" }], details: {} }) });
+	pi.registerTool({ name: "find", label: "find", description: "fake", parameters: {},
+		execute: async () => ({ content: [{ type: "text", text: "from-bridge-package" }], details: {} }) });
+}
+`,
+	);
+	process.env.PI_CODING_AGENT_DIR = bridgeAgentDir;
+	const { pi, tools, handlers } = stubPi();
+	const primeFff = (await import(`${adapterUrl}?scenario=bridge`)).default;
+	await primeFff(pi);
+	assert.ok(tools.has("grep") && tools.has("find"), "bridge candidate registers grep+find");
+	assert.match(
+		await text(tools.get("grep"), { pattern: "x" }),
+		/from-bridge-package/,
+		"bridge package tools serve the calls",
+	);
+	assert.ok(
+		!handlers.some(([event]) => event === "session_start"),
+		"a successful bridge load stays silent",
 	);
 }
 

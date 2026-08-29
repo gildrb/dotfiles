@@ -49,35 +49,4 @@ assert.equal(
 	"npmCommand redirects the global npm root into the Prime config dir",
 );
 
-assert.match(
-	adapter,
-	/npm-global\/lib\/node_modules\/@ff-labs\/pi-fff\/src\/index\.ts/,
-	"adapter keeps the npm-global copy as a bridge candidate",
-);
-assert.match(
-	adapter,
-	/Symbol\.for\("TypeBox\.Kind"\)/,
-	"degraded fallback schemas carry TypeBox Kind markers (plain JSON schema is rejected)",
-);
-assert.match(
-	adapter,
-	/registerDegradedTools/,
-	"adapter registers dependency-free builtin grep/find when FFF cannot load",
-);
-assert.match(
-	adapter,
-	/withDegradedFallback/,
-	"loaded FFF search tools degrade per-call on infrastructure failures",
-);
-assert.match(
-	adapter,
-	/session_start/,
-	"a failed FFF load notifies the user at session start",
-);
-assert.match(
-	adapter,
-	/Can not run certain FFF features in a file system root or home directories/,
-	"execute-time degradation covers the home-directory scan refusal",
-);
-
 assert.equal(typeof primeFff, "function", "adapter default-exports a loader");

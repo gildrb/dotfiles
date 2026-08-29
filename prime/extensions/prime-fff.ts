@@ -69,6 +69,7 @@ const MAX_FILE_BYTES = 2 * 1024 * 1024;
 
 interface DegradedParams {
 	pattern?: string;
+	patterns?: string[];
 	path?: string;
 	limit?: number;
 	exclude?: string | string[];
@@ -168,6 +169,18 @@ async function degradedFind(params: DegradedParams): Promise<string> {
 	return found.length > 0 ? found.join("\n") : "No matches found";
 }
 
+// multi_grep takes patterns (OR); degrade by running the builtin per pattern.
+async function degradedMultiGrep(params: DegradedParams): Promise<string> {
+	const patterns = params.patterns ?? (params.pattern ? [params.pattern] : []);
+	if (patterns.length === 0) throw new Error("patterns array must have at least 1 element");
+	const blocks: string[] = [];
+	for (const pattern of patterns) {
+		const out = await degradedGrep({ ...params, pattern });
+		if (out !== "No matches found") blocks.push(out);
+	}
+	return blocks.length > 0 ? blocks.join("\n\n") : "No matches found";
+}
+
 function degradedTool(
 	name: "grep" | "find",
 	description: string,
@@ -234,7 +247,8 @@ function isInfraFailure(error: unknown): boolean {
 
 function withDegradedFallback(def: any): any {
 	if (!SEARCH_TOOLS.has(def.name)) return def;
-	const run = def.name === "find" ? degradedFind : degradedGrep;
+	const run =
+		def.name === "find" ? degradedFind : def.name === "multi_grep" ? degradedMultiGrep : degradedGrep;
 	return {
 		...def,
 		execute: async (toolCallId: string, params: DegradedParams, signal: unknown, onUpdate: unknown, ctx: unknown) => {
