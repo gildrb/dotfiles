@@ -43,14 +43,14 @@
   },
   "packages": [
     {
-      "source": "npm:@ff-labs/pi-fff@0.10.3",
+      "source": "git:github.com/gildrb/pi-fff-patched@14deeeb426aa48486454b4c3fc4907c82c0cb4f4",
       "extensions": []
     }
   ],
   "npmCommand": [
     "sh",
     "-c",
-    "exec npm --prefix \"$HOME/.prime/agent/npm-global\" \"$@\"",
+    "export npm_config_prefix=\"$HOME/.prime/agent/npm-global\"; exec npm \"$@\"",
     "npm"
   ]
 }

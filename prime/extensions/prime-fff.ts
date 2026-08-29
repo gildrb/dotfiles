@@ -9,21 +9,26 @@
  * tokens versus baseline by moving search off python subprocess round-trips.
  *
  * The package is installed declaratively by the packages entry in
- * settings.json ({"extensions": []} so it does not auto-load a second time);
- * npmCommand in settings.json redirects npm's global root to
- * ~/.prime/agent/npm-global because the Nix store is read-only.
+ * settings.json ({"extensions": []} so it does not auto-load a second time).
+ * Git packages clone to ~/.prime/agent/git/<host>/<path> and run
+ * `npm install` inside the checkout; npmCommand in settings.json therefore
+ * exports npm_config_prefix instead of passing --prefix, so -g installs land
+ * in ~/.prime/agent/npm-global while in-checkout installs stay local (the
+ * Nix store global root is read-only).
  *
- * Provenance: npm:@ff-labs/pi-fff@0.10.3 =
- * git:github.com/dmtrKovalenko/fff@e2cad2f09ea617d4c024f396f21d80e557f23a17
- * (npm gitHead matches tag v0.10.3; the git source itself is not loadable:
- * the workspace ships no dist and pins platform binaries to a 0.0.0
- * placeholder that npm cannot resolve).
+ * Provenance: gildrb/pi-fff-patched@14deeeb426aa48486454b4c3fc4907c82c0cb4f4
+ * = npm:@ff-labs/pi-fff@0.10.5
+ * = git:github.com/dmtrKovalenko/fff@16730049c86e9f7fe987ab8df0c36b82450c8438
+ * (tag v0.10.5) plus one patch: fuzzy-fallback pagination cursors resume the
+ * fuzzy match stream instead of replaying against the literal query that
+ * matched nothing, which turned every fallback continuation into
+ * "No matches found".
  */
 import { homedir } from "node:os";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const agentDir = process.env.PI_CODING_AGENT_DIR ?? `${homedir()}/.prime/agent`;
-const PACKAGE_ENTRY = `${agentDir}/npm-global/lib/node_modules/@ff-labs/pi-fff/src/index.ts`;
+const PACKAGE_ENTRY = `${agentDir}/git/github.com/gildrb/pi-fff-patched/src/index.ts`;
 
 export default async function primeFff(pi: ExtensionAPI): Promise<void> {
 	process.env.PI_FFF_MODE ??= "override";

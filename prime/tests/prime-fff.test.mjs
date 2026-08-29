@@ -11,14 +11,14 @@ const settings = JSON.parse(
 const adapter = readFileSync(join(here, "../extensions/prime-fff.ts"), "utf8");
 
 const fffEntry = settings.packages?.find((p) =>
-	typeof p === "object" ? p.source?.startsWith("npm:@ff-labs/pi-fff@") : false,
+	typeof p === "object" ? p.source?.includes("pi-fff") : false,
 );
 
-assert.ok(fffEntry, "settings.packages pins @ff-labs/pi-fff");
+assert.ok(fffEntry, "settings.packages pins the fff search package");
 assert.match(
 	fffEntry.source,
-	/npm:@ff-labs\/pi-fff@\d+\.\d+\.\d+$/,
-	"fff is pinned to an exact npm version",
+	/^git:github\.com\/gildrb\/pi-fff-patched@[0-9a-f]{40}$/,
+	"fff is pinned to an exact git sha of the patched package",
 );
 assert.deepEqual(
 	fffEntry.extensions,
@@ -28,28 +28,24 @@ assert.deepEqual(
 assert.match(
 	adapter,
 	/git:github\.com\/dmtrKovalenko\/fff@[0-9a-f]{40}/,
-	"adapter records the git provenance hash of the npm pin",
+	"adapter records the git provenance hash of the upstream pin",
 );
 assert.match(
 	adapter,
-	/npm-global\/lib\/node_modules\/@ff-labs\/pi-fff\/src\/index\.ts/,
-	"adapter loads the package from the redirected npm root",
-);
-assert.match(
-	adapter,
-	/process\.env\.PI_FFF_MODE \?\?= "override"/,
-	"adapter defaults to Prime-only override tool names without clobbering an explicit mode",
+	/git\/github\.com\/gildrb\/pi-fff-patched\/src\/index\.ts/,
+	"adapter loads the package from the git checkout root",
 );
 
-// npm's global root is read-only under Nix; the redirect must stay portable
-// across hosts via $HOME and keep install and resolution on the same root.
+// npmCommand redirects npm's global root into the Prime config dir via env so
+// -g installs stay off the read-only Nix store, while in-checkout npm installs
+// (git packages) keep working from their own cwd. Keep $HOME for portability.
 const [sh, dashC, script, argv0] = settings.npmCommand ?? [];
 assert.equal(sh, "sh");
 assert.equal(dashC, "-c");
 assert.equal(argv0, "npm");
 assert.equal(
 	script,
-	'exec npm --prefix "$HOME/.prime/agent/npm-global" "$@"',
+	'export npm_config_prefix="$HOME/.prime/agent/npm-global"; exec npm "$@"',
 	"npmCommand redirects the global npm root into the Prime config dir",
 );
 
