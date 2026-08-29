@@ -16,7 +16,6 @@ keybind = shift+cmd+n=new_window
 keybind = shift+cmd+w=close_tab:this
 keybind = cmd+v=paste_from_clipboard
 keybind = ctrl+v=paste_from_clipboard
-keybind = ctrl+shift+v=paste_from_clipboard
 keybind = ctrl+digit_1=csi:49;5u
 keybind = ctrl+digit_2=csi:50;5u
 keybind = ctrl+digit_3=csi:51;5u
