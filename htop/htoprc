@@ -1,0 +1,12 @@
+# htop 3.5.1. Omitted settings use its platform defaults.
+# htop has no custom RGB themes; scheme 7 maps accessible UI roles onto the
+# terminal's Death Note ANSI palette.
+# Meter and screen entries stay absent so the Linux layout adapts to CPU count.
+htop_version=3.5.1
+config_reader_min_version=3
+hide_userland_threads=1
+highlight_base_name=1
+shadow_distribution_path_prefix=1
+cpu_count_from_one=1
+screen_tabs=1
+color_scheme=7

@@ -1,5 +1,6 @@
--- Vercel token roles, Death Note red/blue from the Light/Ryuk art.
--- Keep hex values in sync with pi, ghostty, Zed, tmux, and btop.
+-- Canonical Vercel token roles and Death Note red/blue from the Light/Ryuk art.
+-- Keep direct-color app themes in sync. htop consumes the matching terminal
+-- ANSI palette because it cannot load custom RGB colors.
 return {
   paper = "#ededed",
   ink = "#09090b",

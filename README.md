@@ -76,6 +76,14 @@ Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B ,` / `.`
 | `Ctrl+B d` | Detach and leave the session running |
 | `Ctrl+B ?` | Show every active binding |
 
+## Theme
+
+`nvim/lua/death-note/palette.lua` is the canonical Death Note palette. App
+configs mirror those semantic colors, with small changes for each app's theme
+model. Normal text and status colors preserve accessible contrast against the
+ink background. htop cannot load custom RGB colors, so its Nord role map uses
+the matching Death Note ANSI palette supplied by the terminal.
+
 ## Files
 
 ```text
@@ -83,6 +91,7 @@ dotfiles/
   AGENTS.md       shared Pi/Codex behavior and OptMem workflow
   btop/           terminal system monitor
   ghostty/        terminal settings and Workstation theme
+  htop/           process monitor using the terminal Death Note palette
   hermes/         Hermes identity and Death Note skin
   herdr/          agent multiplexer settings and Death Note palette
   nvim/           editor configuration and pinned plugins
