@@ -1,25 +1,36 @@
--- Canonical Vercel token roles and Death Note red/blue from the Light/Ryuk art.
--- Keep direct-color app themes in sync. htop consumes the matching terminal
--- ANSI palette because it cannot load custom RGB colors.
-return {
+-- Neovim adapter for theme/death-note.json.
+local palette = {
   paper = "#ededed",
   ink = "#09090b",
-  crimson = "#9a2a4e",
-  red = "#ff6f95",
-  red_bright = "#ff6f95",
-  keyword = "#ff6f95",
+  crimson = "#a03759",
+  select = "#471d2b",
+  red_error = "#ff6a6e",
+  red_bright = "#fe598f",
   steel = "#a0a0a0",
-  blue = "#51aeff",
-  bone = "#c9c9c9",
-  comment = "#a0a0a0",
   dim = "#9a9a9a",
-  green = "#00ca52",
-  string = "#5ee9b5",
+  bone = "#c9c9c9",
+  green = "#10c955",
+  green_bright = "#5ee9b5",
   gold = "#ffb200",
-  type = "#ededed",
-  purple = "#c77dff",
+  gold_bright = "#ffc85e",
+  blue = "#5fa5ff",
+  blue_bright = "#97ccff",
+  purple = "#c674f9",
   cyan = "#52f0db",
-  orange = "#ffb200",
-  operator = "#c9c9c9",
-  punctuation = "#a8a8a8",
+  cyan_bright = "#b1f7ec",
+  white_bright = "#ffffff",
 }
+
+palette.red = palette.red_bright
+palette.keyword = palette.red_bright
+palette.comment = palette.steel
+palette.string = palette.green
+palette.callable = palette.purple
+palette.variable = palette.blue
+palette.number = palette.gold
+palette.type = palette.cyan
+palette.orange = palette.gold
+palette.operator = palette.red_bright
+palette.punctuation = palette.paper
+
+return palette

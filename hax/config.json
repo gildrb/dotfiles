@@ -1,10 +1,10 @@
 {
+	"theme": "ansi",
 	"presets": {
 		"math": {
 			"description": "INTELLECT-MATH 7B specialist on the workstation Ollama",
 			"provider": "ollama",
-			"model": "hf.co/mradermacher/INTELLECT-MATH-GGUF:Q4_K_M",
-			"tint": "sage"
+			"model": "hf.co/mradermacher/INTELLECT-MATH-GGUF:Q4_K_M"
 		}
 	},
 	"catalog": {

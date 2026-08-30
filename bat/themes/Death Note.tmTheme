@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>Death Note</string>
+  <key>settings</key>
+  <array>
+    <dict>
+      <key>settings</key>
+      <dict>
+        <key>background</key>
+        <string>#09090b</string>
+        <key>caret</key>
+        <string>#52f0db</string>
+        <key>foreground</key>
+        <string>#ededed</string>
+        <key>invisibles</key>
+        <string>#a0a0a0</string>
+        <key>lineHighlight</key>
+        <string>#141416</string>
+        <key>selection</key>
+        <string>#471d2b</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Comments</string>
+      <key>scope</key>
+      <string>comment, punctuation.definition.comment</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#a0a0a0</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Keywords and operators</string>
+      <key>scope</key>
+      <string>keyword, keyword.operator, storage, storage.type, storage.modifier, meta.class.c++ storage.type.c++, meta.enum.c++ storage.type.c++, meta.namespace.c++ storage.type.c++, meta.struct.c++ storage.type.c++, meta.union.c++ storage.type.c++</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#fe598f</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Strings</string>
+      <key>scope</key>
+      <string>string, string.quoted, string.template, string.regexp</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#10c955</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Functions and constructors</string>
+      <key>scope</key>
+      <string>entity.name.function, entity.name.function.constructor, support.function</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#c674f9</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Variables, properties, and constants</string>
+      <key>scope</key>
+      <string>variable, variable.other, variable.other.constant, variable.other.object, variable.other.property, variable.other.readwrite, variable.parameter.name.nix, entity.name.tag.yaml, entity.name.variable, support.type.property-name, support.variable, constant.other, meta.mapping.key.json string.quoted.double.json, meta.object-literal.key</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#5fa5ff</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Types and modules</string>
+      <key>scope</key>
+      <string>entity.name.class, entity.name.namespace, entity.name.tag, entity.name.type, storage.type.boolean, storage.type.c, storage.type.c++, storage.type.built-in, storage.type.generic, storage.type.generic.java, storage.type.numeric, storage.type.primitive, storage.type.string.go, support.class, support.type, support.type.primitive, variable.parameter.type</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#52f0db</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Numbers, booleans, and parameters</string>
+      <key>scope</key>
+      <string>constant.language, constant.numeric, variable.parameter</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#ffb200</string>
+      </dict>
+    </dict>
+    <dict>
+      <key>name</key>
+      <string>Punctuation</string>
+      <key>scope</key>
+      <string>punctuation, punctuation.definition.string, punctuation.separator, punctuation.terminator</string>
+      <key>settings</key>
+      <dict>
+        <key>foreground</key>
+        <string>#ededed</string>
+      </dict>
+    </dict>
+  </array>
+  <key>uuid</key>
+  <string>f67496e0-9dc3-4c8d-9344-dea7b90b0911</string>
+</dict>
+</plist>

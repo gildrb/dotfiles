@@ -62,7 +62,7 @@ function M.load()
   set("MoreMsg", { fg = p.green })
   set("ModeMsg", { fg = p.bone, bold = true })
   set("WarningMsg", { fg = p.gold })
-  set("ErrorMsg", { fg = p.red_bright, bold = true })
+  set("ErrorMsg", { fg = p.red_error, bold = true })
   set("Conceal", { fg = p.steel })
   set("QuickFixLine", { fg = p.red_bright, bold = true })
 
@@ -84,14 +84,15 @@ function M.load()
   set("WildMenu", { fg = p.red_bright, bg = background, bold = true })
 
   set("Comment", { fg = p.comment, italic = true })
-  set("Constant", { fg = p.paper })
+  set("Constant", { fg = p.variable })
   set("String", { fg = p.string })
   link("Character", "String")
-  set("Number", { fg = p.paper })
-  set("Boolean", { fg = p.paper })
+  set("Number", { fg = p.number })
+  set("Boolean", { fg = p.number })
   link("Float", "Number")
-  set("Identifier", { fg = p.paper })
-  set("Function", { fg = p.blue })
+  set("Identifier", { fg = p.variable })
+  set("Parameter", { fg = p.orange })
+  set("Function", { fg = p.callable })
   set("Statement", { fg = p.keyword })
   link("Conditional", "Statement")
   link("Repeat", "Statement")
@@ -102,13 +103,13 @@ function M.load()
   set("PreProc", { fg = p.keyword })
   link("Include", "Keyword")
   link("Define", "Keyword")
-  link("Macro", "Keyword")
+  link("Macro", "Constant")
   link("PreCondit", "Keyword")
-  set("Type", { fg = p.paper })
-  link("StorageClass", "Type")
+  set("Type", { fg = p.type })
+  link("StorageClass", "Keyword")
   link("Structure", "Type")
   link("Typedef", "Type")
-  set("Special", { fg = p.paper })
+  set("Special", { fg = p.cyan })
   set("SpecialChar", { fg = p.string })
   set("Tag", { fg = p.string })
   set("Delimiter", { fg = p.punctuation })
@@ -116,9 +117,9 @@ function M.load()
   set("Debug", { fg = p.red_bright })
   set("Underlined", { fg = p.blue, underline = true })
   set("Todo", { fg = p.gold, bold = true })
-  set("Error", { fg = p.red_bright, bold = true })
+  set("Error", { fg = p.red_error, bold = true })
 
-  set("DiagnosticError", { fg = p.red_bright })
+  set("DiagnosticError", { fg = p.red_error })
   set("DiagnosticWarn", { fg = p.gold })
   set("DiagnosticInfo", { fg = p.blue })
   set("DiagnosticHint", { fg = p.cyan })
@@ -127,7 +128,7 @@ function M.load()
   link("DiagnosticVirtualTextWarn", "DiagnosticWarn")
   link("DiagnosticVirtualTextInfo", "DiagnosticInfo")
   link("DiagnosticVirtualTextHint", "DiagnosticHint")
-  set("DiagnosticUnderlineError", { undercurl = true, sp = p.red_bright })
+  set("DiagnosticUnderlineError", { undercurl = true, sp = p.red_error })
   set("DiagnosticUnderlineWarn", { undercurl = true, sp = p.gold })
   set("DiagnosticUnderlineInfo", { undercurl = true, sp = p.blue })
   set("DiagnosticUnderlineHint", { undercurl = true, sp = p.cyan })
@@ -140,32 +141,32 @@ function M.load()
 
   set("DiffAdd", { fg = p.green })
   set("DiffChange", { fg = p.gold })
-  set("DiffDelete", { fg = p.red_bright })
+  set("DiffDelete", { fg = p.red_error })
   set("DiffText", { fg = p.paper, bold = true, underline = true, sp = p.gold })
   set("diffAdded", { fg = p.green })
-  set("diffRemoved", { fg = p.red_bright })
+  set("diffRemoved", { fg = p.red_error })
   set("diffChanged", { fg = p.gold })
   set("diffLine", { fg = p.steel })
   set("diffSubname", { fg = p.dim })
   set("diffFile", { fg = p.red_bright, bold = true })
   set("diffIndexLine", { fg = p.purple })
-  set("diffOldFile", { fg = p.red_bright })
+  set("diffOldFile", { fg = p.red_error })
   set("diffNewFile", { fg = p.green })
   link("Added", "DiffAdd")
   link("Changed", "DiffChange")
   link("Removed", "DiffDelete")
 
-  set("SpellBad", { undercurl = true, sp = p.red_bright })
+  set("SpellBad", { undercurl = true, sp = p.red_error })
   set("SpellCap", { undercurl = true, sp = p.gold })
   set("SpellLocal", { undercurl = true, sp = p.blue })
   set("SpellRare", { undercurl = true, sp = p.purple })
-  set("healthError", { fg = p.red_bright })
+  set("healthError", { fg = p.red_error })
   set("healthWarning", { fg = p.gold })
   set("healthSuccess", { fg = p.green })
   set("OkMsg", { fg = p.green })
   set("FloatShadow", { bg = background })
   set("FloatShadowThrough", { bg = background })
-  set("NvimInternalError", { fg = p.red_bright, bg = background })
+  set("NvimInternalError", { fg = p.red_error, bg = background })
   set("RedrawDebugClear", { fg = p.gold, bg = background })
   set("RedrawDebugComposed", { fg = p.green, bg = background })
   set("RedrawDebugRecompose", { fg = p.red_bright, bg = background })
@@ -200,12 +201,12 @@ function M.treesitter()
     ["@comment.note"] = "DiagnosticHint",
     ["@constant"] = "Constant",
     ["@constant.builtin"] = "Constant",
-    ["@constant.macro"] = "Macro",
+    ["@constant.macro"] = "Constant",
     ["@constructor"] = "Function",
     ["@function"] = "Function",
     ["@function.builtin"] = "Function",
     ["@function.call"] = "Function",
-    ["@function.macro"] = "Macro",
+    ["@function.macro"] = "Function",
     ["@function.method"] = "Function",
     ["@function.method.call"] = "Function",
     ["@method"] = "Function",
@@ -243,12 +244,12 @@ function M.treesitter()
     ["@punctuation"] = "Delimiter",
     ["@punctuation.bracket"] = "Delimiter",
     ["@punctuation.delimiter"] = "Delimiter",
-    ["@punctuation.special"] = "Special",
+    ["@punctuation.special"] = "Delimiter",
     ["@string"] = "String",
     ["@string.documentation"] = "SpecialComment",
     ["@string.escape"] = "SpecialChar",
-    ["@string.regexp"] = "Special",
-    ["@string.special"] = "Special",
+    ["@string.regexp"] = "String",
+    ["@string.special"] = "String",
     ["@string.special.path"] = "Directory",
     ["@string.special.symbol"] = "Constant",
     ["@string.special.url"] = "Underlined",
@@ -262,21 +263,22 @@ function M.treesitter()
     ["@variable"] = "Identifier",
     ["@variable.builtin"] = "Special",
     ["@variable.member"] = "Identifier",
-    ["@variable.parameter"] = "Identifier",
-    ["@variable.parameter.builtin"] = "Special",
+    ["@variable.parameter"] = "Parameter",
+    ["@variable.parameter.builtin"] = "Parameter",
   }
 
   for group, target in pairs(links) do
     link(group, target)
   end
 
-  set("@variable", { fg = p.paper })
-  set("@variable.builtin", { fg = p.paper })
-  set("@variable.parameter", { fg = p.paper })
-  set("@variable.member", { fg = p.paper })
-  set("@property", { fg = p.paper })
-  set("@function.builtin", { fg = p.blue })
-  set("@type.builtin", { fg = p.paper })
+  set("@variable", { fg = p.variable })
+  set("@variable.builtin", { fg = p.variable })
+  set("@variable.parameter", { fg = p.orange })
+  set("@variable.parameter.builtin", { fg = p.orange })
+  set("@variable.member", { fg = p.variable })
+  set("@property", { fg = p.variable })
+  set("@function.builtin", { fg = p.callable })
+  set("@type.builtin", { fg = p.type })
   set("@keyword.return", { fg = p.keyword })
   set("@markup.heading", { fg = p.red_bright, bold = true })
   set("@markup.link.url", { fg = p.steel, underline = true })
@@ -284,7 +286,7 @@ function M.treesitter()
   set("@markup.strong", { fg = p.paper, bold = true })
   set("@markup.italic", { fg = p.bone, italic = true })
   set("@diff.plus", { fg = p.green })
-  set("@diff.minus", { fg = p.red_bright })
+  set("@diff.minus", { fg = p.red_error })
   set("@diff.delta", { fg = p.gold })
 end
 
@@ -305,9 +307,9 @@ function M.semantic_tokens()
     ["@lsp.type.namespace"] = "Type",
     ["@lsp.type.number"] = "Number",
     ["@lsp.type.operator"] = "Operator",
-    ["@lsp.type.parameter"] = "@variable.parameter",
+    ["@lsp.type.parameter"] = "Parameter",
     ["@lsp.type.property"] = "@property",
-    ["@lsp.type.regexp"] = "Special",
+    ["@lsp.type.regexp"] = "String",
     ["@lsp.type.string"] = "String",
     ["@lsp.type.struct"] = "Type",
     ["@lsp.type.type"] = "Type",
@@ -319,9 +321,9 @@ function M.semantic_tokens()
     link(group, target)
   end
 
-  set("@lsp.typemod.variable.readonly", { fg = p.paper })
-  set("@lsp.typemod.variable.defaultLibrary", { fg = p.paper })
-  set("@lsp.typemod.function.defaultLibrary", { fg = p.blue })
+  link("@lsp.typemod.variable.readonly", "@variable")
+  link("@lsp.typemod.variable.defaultLibrary", "@variable.builtin")
+  link("@lsp.typemod.function.defaultLibrary", "Function")
   set("@lsp.mod.deprecated", { strikethrough = true, sp = p.dim })
 end
 
@@ -341,7 +343,7 @@ function M.plugins(background)
   surface("NvimTreeWinSeparator", p.crimson)
   set("NvimTreeGitDirty", { fg = p.gold })
   set("NvimTreeGitNew", { fg = p.green })
-  set("NvimTreeGitDeleted", { fg = p.red_bright })
+  set("NvimTreeGitDeleted", { fg = p.red_error })
   set("NvimTreeSpecialFile", { fg = p.cyan })
   set("NvimTreeSymlink", { fg = p.purple })
   set("NvimTreeWindowPicker", { fg = p.red_bright, bg = background, bold = true })
@@ -375,7 +377,7 @@ function M.plugins(background)
 
   set("GitSignsAdd", { fg = p.green })
   set("GitSignsChange", { fg = p.gold })
-  set("GitSignsDelete", { fg = p.red_bright })
+  set("GitSignsDelete", { fg = p.red_error })
   link("GitSignsAddNr", "GitSignsAdd")
   link("GitSignsChangeNr", "GitSignsChange")
   link("GitSignsDeleteNr", "GitSignsDelete")
@@ -383,7 +385,7 @@ function M.plugins(background)
     if group:match("^GitSignsStaged") then
       local color = p.green
       if group:find("Delete") or group:find("Topdelete") then
-        color = p.red_bright
+        color = p.red_error
       elseif group:find("Change") then
         color = p.gold
       end
@@ -399,9 +401,9 @@ function M.plugins(background)
   set("TodoBgTODO", { fg = p.gold, bold = true })
   set("TodoFgTODO", { fg = p.gold })
   set("TodoSignTODO", { fg = p.gold })
-  set("TodoBgFIX", { fg = p.red_bright, bold = true })
-  set("TodoFgFIX", { fg = p.red_bright })
-  set("TodoSignFIX", { fg = p.red_bright })
+  set("TodoBgFIX", { fg = p.red_error, bold = true })
+  set("TodoFgFIX", { fg = p.red_error })
+  set("TodoSignFIX", { fg = p.red_error })
   for kind, color in pairs({ HACK = p.red_bright, WARN = p.gold, PERF = p.orange, NOTE = p.cyan, TEST = p.orange }) do
     set("TodoBg" .. kind, { fg = color, bg = background, bold = true })
     set("TodoFg" .. kind, { fg = color })
@@ -429,7 +431,7 @@ function M.plugins(background)
   set("NoiceCmdlineIcon", { fg = p.red_bright })
   set("NoiceFormatTitle", { fg = p.red_bright, bold = true })
 
-  for kind, color in pairs({ ERROR = p.red_bright, WARN = p.gold, INFO = p.blue, DEBUG = p.steel, TRACE = p.purple }) do
+  for kind, color in pairs({ ERROR = p.red_error, WARN = p.gold, INFO = p.blue, DEBUG = p.steel, TRACE = p.purple }) do
     set("Notify" .. kind .. "Border", { fg = color, bg = background })
     set("Notify" .. kind .. "Icon", { fg = color, bg = background })
     set("Notify" .. kind .. "Title", { fg = color, bg = background, bold = true })
@@ -451,10 +453,10 @@ function M.plugins(background)
   surface("SnacksNotifierError", p.bone)
   set("SnacksNotifierInfoTitle", { fg = p.blue, bold = true })
   set("SnacksNotifierWarnTitle", { fg = p.gold, bold = true })
-  set("SnacksNotifierErrorTitle", { fg = p.red_bright, bold = true })
+  set("SnacksNotifierErrorTitle", { fg = p.red_error, bold = true })
   set("SnacksNotifierInfoBorder", { fg = p.blue, bg = background })
   set("SnacksNotifierWarnBorder", { fg = p.gold, bg = background })
-  set("SnacksNotifierErrorBorder", { fg = p.red_bright, bg = background })
+  set("SnacksNotifierErrorBorder", { fg = p.red_error, bg = background })
 
   surface("LazyNormal")
   set("LazyH1", { fg = p.red_bright, bg = background, bold = true })
@@ -476,7 +478,7 @@ function M.plugins(background)
   set("MasonHighlightBlockBold", { fg = p.red_bright, bg = background, bold = true })
   set("MasonMuted", { fg = p.steel })
   set("MasonMutedBlock", { fg = p.steel, bg = background })
-  set("MasonError", { fg = p.red_bright })
+  set("MasonError", { fg = p.red_error })
   set("MasonWarning", { fg = p.gold })
   set("MasonHeading", { fg = p.paper, bold = true })
 
@@ -494,8 +496,8 @@ end
 function M.terminal()
   local colors = {
     p.ink,
-    p.red,
-    p.string,
+    p.red_error,
+    p.green,
     p.gold,
     p.blue,
     p.purple,
@@ -503,12 +505,12 @@ function M.terminal()
     p.paper,
     p.dim,
     p.red_bright,
-    p.green,
-    p.gold,
-    p.blue,
+    p.green_bright,
+    p.gold_bright,
+    p.blue_bright,
     p.purple,
-    p.cyan,
-    p.paper,
+    p.cyan_bright,
+    p.white_bright,
   }
 
   for index, color in ipairs(colors) do

@@ -9,7 +9,7 @@ Leader: `Space`. The current line is absolute; surrounding line numbers are rela
 | Key | Action |
 | --- | --- |
 | `{count}j` / `k` | Jump down / up by a displayed relative line count |
-| `Ctrl+F` / `Ctrl+B` | Page down / up; inside tmux use `Ctrl+B Ctrl+B` for page up |
+| `Ctrl+F` / `Ctrl+B` | Page down / up; inside Herdr use `Ctrl+B Ctrl+B` for page up |
 | `Ctrl+h/j/k/l` | Focus left/down/up/right editor window |
 | `Alt+j/k` | Move the current line or visual selection down/up |
 | `<` / `>` in visual mode | Indent and keep the selection |
@@ -78,20 +78,37 @@ Open the agent list with `Ctrl+B s`, then `j`/`k`. From a pane, `Ctrl+B ,` / `.`
 
 ## Theme
 
-`nvim/lua/death-note/palette.lua` is the canonical Death Note palette. App
-configs mirror those semantic colors, with small changes for each app's theme
-model. Normal text and status colors preserve accessible contrast against the
-ink background. htop cannot load custom RGB colors, so its Nord role map uses
-the matching Death Note ANSI palette supplied by the terminal.
+`theme/death-note.json` is the app-neutral source of truth. Each app config is
+an adapter for the roles its theme model supports:
+
+| Syntax role | Color |
+| --- | --- |
+| Keywords and operators | Red `#fe598f` |
+| Strings | Green `#10c955` |
+| Functions and constructors | Purple `#c674f9` |
+| Variables, properties, and constants | Blue `#5fa5ff` |
+| Types and modules | Turquoise `#52f0db` |
+| Numbers, booleans, and parameters | Orange `#ffb200` |
+| Comments | Gray `#a0a0a0` |
+| Default text and punctuation | White `#ededed` |
+
+All syntax colors preserve at least 4.5:1 contrast against the ink, panel, and
+code-selection surfaces. Controls that force a paper foreground can use the
+stronger crimson fill. Terminal-only tools such as Hax and Nushell consume the matching ANSI table. Bat
+uses the semantic roles directly; Delta disables its divergent bundled syntax
+palette and uses the shared diff surfaces. htop uses its accessible Nord role map because it cannot load custom RGB colors.
 
 ## Files
 
 ```text
 dotfiles/
   AGENTS.md       shared Pi/Codex behavior and OptMem workflow
+  bat/             syntax viewer using the shared semantic palette
   btop/           terminal system monitor
-  ghostty/        terminal settings and Workstation theme
+  ghostty/        terminal settings and Death Note ANSI theme
+  hax/            coding-agent presets consuming the shared ANSI roles
   htop/           process monitor using the terminal Death Note palette
+  hunk/           diff viewer using the shared syntax and UI roles
   hermes/         Hermes identity and Death Note skin
   herdr/          agent multiplexer settings and Death Note palette
   nvim/           editor configuration and pinned plugins
@@ -99,7 +116,7 @@ dotfiles/
   omp/            Oh My Pi settings, Pi-compatible keys, and Death Note theme
   pi/             Pi settings, extensions, prompts, and theme
   prime/          Prime settings, extensions, tests, and theme
-  tmux/           macOS and NixOS multiplexer settings
+  theme/          app-neutral Death Note palette and semantic roles
   vorssaint/      menubar toolkit preferences (defaults domain plist)
   zed/            editor settings, extensions, and themes
 ```

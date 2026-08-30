@@ -1,6 +1,6 @@
 # htop 3.5.1. Omitted settings use its platform defaults.
-# htop has no custom RGB themes; scheme 7 maps accessible UI roles onto the
-# terminal's Death Note ANSI palette.
+# htop has no custom RGB themes; built-in Nord scheme 7 is its closest
+# accessible role map to the shared theme.
 # Meter and screen entries stay absent so the Linux layout adapts to CPU count.
 htop_version=3.5.1
 config_reader_min_version=3
