@@ -4,10 +4,15 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import primeFff from "../extensions/prime-fff.ts";
 
+type PrimeSettings = {
+	packages?: { source: string; extensions: string[] }[];
+	npmCommand?: string[];
+};
+
 const here = dirname(fileURLToPath(import.meta.url));
 const settings = JSON.parse(
 	readFileSync(join(here, "../settings.json"), "utf8"),
-);
+) as PrimeSettings;
 const adapter = readFileSync(join(here, "../extensions/prime-fff.ts"), "utf8");
 
 const fffEntry = settings.packages?.find((p) =>

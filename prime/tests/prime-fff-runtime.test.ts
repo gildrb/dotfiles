@@ -2,10 +2,26 @@ import assert from "node:assert/strict";
 import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 // Runtime contract for the resilient prime-fff adapter. The FFF package itself
 // is exercised separately; these scenarios must pass on a machine where the
 // package is absent or broken.
+
+type ToolResult = { content: { type: string; text: string }[]; details?: unknown };
+type ToolDef = {
+	name: string;
+	label?: string;
+	description?: string;
+	parameters?: unknown;
+	execute: (
+		toolCallId: string,
+		params: Record<string, unknown>,
+		ctx: unknown,
+	) => Promise<ToolResult>;
+};
+type FffLoader = (pi: ExtensionAPI) => void | Promise<void>;
+
 const scratch = mkdtempSync(join(tmpdir(), "prime-fff-runtime-"));
 const agentDir = join(scratch, "agent");
 const cwd = join(scratch, "work");
@@ -17,45 +33,46 @@ process.chdir(cwd);
 const adapterUrl = new URL("../extensions/prime-fff.ts", import.meta.url).href;
 
 function stubPi() {
-	const tools = new Map();
-	const handlers = [];
+	const tools = new Map<string, ToolDef>();
+	const handlers: Array<[string, unknown]> = [];
 	const pi = new Proxy(
 		{
-			registerTool: (def) => tools.set(def.name, def),
-			on: (event, fn) => handlers.push([event, fn]),
+			registerTool: (def: ToolDef) => tools.set(def.name, def),
+			on: (event: string, fn: unknown) => handlers.push([event, fn]),
 		},
 		{
-			get(target, prop) {
-				if (prop in target) return target[prop];
+			get(target: Record<string, unknown>, prop: string | symbol) {
+				if (prop in target) return target[prop as string];
 				return () => undefined;
 			},
 		},
-	);
+	) as unknown as ExtensionAPI;
 	return { pi, tools, handlers };
 }
 
-const text = async (tool, params) => (await tool.execute("t", params, undefined)).content[0].text;
+const text = async (tool: ToolDef, params: Record<string, unknown>): Promise<string> =>
+	(await tool.execute("t", params, undefined)).content[0].text;
 
 // Scenario B: no FFF package installed anywhere -> degraded builtin grep/find.
 {
 	const { pi, tools, handlers } = stubPi();
-	const primeFff = (await import(adapterUrl)).default;
+	const primeFff = (await import(adapterUrl)).default as FffLoader;
 	await primeFff(pi);
 	assert.ok(tools.has("grep") && tools.has("find"), "degraded grep+find register when FFF is missing");
 	assert.ok(
 		handlers.some(([event]) => event === "session_start"),
 		"a failed load registers a session_start notification",
 	);
-	const out = await text(tools.get("grep"), { pattern: "npm command", path: "src" });
+	const out = await text(tools.get("grep")!, { pattern: "npm command", path: "src" });
 	assert.match(out, /src\/alpha\.txt\n 2: npm command here/, "degraded grep finds literal substring with line number");
 	assert.match(out, /prime-fff degraded:/, "degraded output explains the mode");
 	assert.match(
-		await text(tools.get("grep"), { pattern: "zzz-not-here", path: "src" }),
+		await text(tools.get("grep")!, { pattern: "zzz-not-here", path: "src" }),
 		/No matches found/,
 		"degraded zero hit stays clean",
 	);
 	assert.match(
-		await text(tools.get("find"), { pattern: "alpha", path: "." }),
+		await text(tools.get("find")!, { pattern: "alpha", path: "." }),
 		/src\/alpha\.txt/,
 		"degraded find matches path substrings",
 	);
@@ -100,24 +117,24 @@ const text = async (tool, params) => (await tool.execute("t", params, undefined)
 `,
 	);
 	const { pi, tools } = stubPi();
-	const primeFff = (await import(adapterUrl)).default;
+	const primeFff = (await import(adapterUrl)).default as FffLoader;
 	await primeFff(pi);
 	assert.ok(tools.has("grep"), "loaded package registers its tools");
-	const out = await text(tools.get("grep"), { pattern: "npm command", path: "src" });
+	const out = await text(tools.get("grep")!, { pattern: "npm command", path: "src" });
 	assert.match(out, /src\/alpha\.txt/, "infra failure degrades the call to builtin results");
 	assert.match(out, /Failed to create FFF file finder/, "degraded header carries the real reason");
 	await assert.rejects(
-		() => tools.get("grep").execute("t", { pattern: "agenterror", path: "src" }, undefined),
+		() => tools.get("grep")!.execute("t", { pattern: "agenterror", path: "src" }, undefined),
 		/matches everything/,
 		"agent-facing errors pass through untouched",
 	);
 	assert.match(
-		await text(tools.get("find"), { pattern: "alpha", path: "." }),
+		await text(tools.get("find")!, { pattern: "alpha", path: "." }),
 		/src\/alpha\.txt/,
 		"find degrades on the home-directory scan refusal",
 	);
 	assert.match(
-		await text(tools.get("multi_grep"), { patterns: ["npm command"], path: "src" }),
+		await text(tools.get("multi_grep")!, { patterns: ["npm command"], path: "src" }),
 		/src\/alpha\.txt/,
 		"multi_grep degrades across its patterns array",
 	);
@@ -145,11 +162,11 @@ const text = async (tool, params) => (await tool.execute("t", params, undefined)
 	);
 	process.env.PI_CODING_AGENT_DIR = bridgeAgentDir;
 	const { pi, tools, handlers } = stubPi();
-	const primeFff = (await import(`${adapterUrl}?scenario=bridge`)).default;
+	const primeFff = (await import(`${adapterUrl}?scenario=bridge`)).default as FffLoader;
 	await primeFff(pi);
 	assert.ok(tools.has("grep") && tools.has("find"), "bridge candidate registers grep+find");
 	assert.match(
-		await text(tools.get("grep"), { pattern: "x" }),
+		await text(tools.get("grep")!, { pattern: "x" }),
 		/from-bridge-package/,
 		"bridge package tools serve the calls",
 	);

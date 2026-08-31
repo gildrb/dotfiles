@@ -6,6 +6,13 @@ import installPolicy, {
 	isPersistentProcessCommand,
 	isUnboundedNixVmTestCommand,
 } from "../extensions/tool-policy.ts";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+
+type ToolCallEvent = {
+	toolName: string;
+	input: ({ command?: string; code?: string; timeout?: number } & Record<string, unknown>);
+};
+type PolicyVerdict = { block: true; reason: string; terminate: boolean } | undefined;
 
 const cwd = mkdtempSync(join(tmpdir(), "prime-tool-policy-"));
 const app = join(cwd, "app");
@@ -156,15 +163,15 @@ for (const command of allowedNix) {
 	assert.equal(isUnboundedNixVmTestCommand(command), false, `deadline is valid: ${command}`);
 }
 
-let toolCall;
+let toolCall: ((event: ToolCallEvent) => PolicyVerdict) | undefined;
 installPolicy({
-	on(event, callback) {
+	on(event: string, callback: (event: ToolCallEvent) => PolicyVerdict) {
 		if (event === "tool_call") toolCall = callback;
 	},
-});
+} as unknown as ExtensionAPI);
 assert.equal(typeof toolCall, "function");
 
-const toolCases = [
+const toolCases: Array<[ToolCallEvent, boolean]> = [
 	[{ toolName: "bash", input: { command: "pnpm preview" } }, true],
 	[{ toolName: "bash", input: { command: "pnpm build" } }, false],
 	[{ toolName: "ipython", input: { code: "%%bash\npnpm preview" } }, true],
@@ -176,13 +183,16 @@ const toolCases = [
 	[{ toolName: "ipython", input: { code: "subprocess.run(['pnpm', 'build'])" } }, false],
 ];
 for (const [event, blocked] of toolCases) {
-	const result = toolCall(event);
+	const result = toolCall!(event);
 	assert.equal(Boolean(result?.block), blocked);
-	if (blocked) assert.equal(result.terminate, true);
+	if (blocked) assert.equal(result?.terminate, true);
 }
-for (const [given, expected] of [[undefined, 300], [30, 30], [900, 300]]) {
-	const input = { command: "echo ok", ...(given === undefined ? {} : { timeout: given }) };
-	toolCall({ toolName: "bash", input });
+for (const [given, expected] of [[undefined, 300], [30, 30], [900, 300]] as const) {
+	const input: ToolCallEvent["input"] = {
+		command: "echo ok",
+		...(given === undefined ? {} : { timeout: given }),
+	};
+	toolCall!({ toolName: "bash", input });
 	assert.equal(input.timeout, expected);
 }
 

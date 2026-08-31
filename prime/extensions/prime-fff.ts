@@ -206,7 +206,7 @@ function degradedTool(
 			},
 		},
 		execute: async (_toolCallId: string, params: DegradedParams) => ({
-			content: [{ type: "text", text: `${await run(params)}\n\n${degradedHeader("FFF package failed to load")}` }],
+			content: [{ type: "text" as const, text: `${await run(params)}\n\n${degradedHeader("FFF package failed to load")}` }],
 			details: {},
 		}),
 	};
