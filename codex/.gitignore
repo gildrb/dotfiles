@@ -1,0 +1,2 @@
+# Credentials are mutable user state and must never enter Git or the Nix store.
+/auth.json
