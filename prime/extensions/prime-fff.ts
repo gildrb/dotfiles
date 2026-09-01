@@ -30,12 +30,12 @@
  * in ~/.prime/agent/npm-global while in-checkout installs stay local (the
  * Nix store global root is read-only).
  *
- * Provenance: gildrb/pi-fff-patched@5365b4010d48d58d90df30fb154d3326ec6fbe5a
+ * Provenance: gildrb/pi-fff-patched@8689459d1ea2ea80d6c38f5a32085204ef4926f2
  * = npm:@ff-labs/pi-fff@0.10.5
  * = git:github.com/dmtrKovalenko/fff@16730049c86e9f7fe987ab8df0c36b82450c8438
- * (tag v0.10.5) plus two pagination fixes: fuzzy-fallback grep cursors resume
- * the fuzzy stream, and find cursors advance by the native item offset rather
- * than overlapping adjacent pages.
+ * (tag v0.10.5) plus pagination and search-contract fixes: fuzzy grep cursors
+ * resume the fuzzy stream, find pages use native item offsets, fuzzy fallback
+ * retains constraints and strict case, and invalid cursors fail closed.
  */
 import { homedir } from "node:os";
 import { promises as fs } from "node:fs";

@@ -49,7 +49,7 @@
   },
   "packages": [
     {
-      "source": "git:github.com/gildrb/pi-fff-patched@5365b4010d48d58d90df30fb154d3326ec6fbe5a",
+      "source": "git:github.com/gildrb/pi-fff-patched@8689459d1ea2ea80d6c38f5a32085204ef4926f2",
       "extensions": []
     }
   ],
