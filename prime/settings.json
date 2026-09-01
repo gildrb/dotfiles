@@ -12,7 +12,6 @@
     "enabled": false
   },
   "rlmMaxDepth": 1,
-  "idleEvictionMinutes": 480,
   "theme": "death-note",
   "steeringMode": "one-at-a-time",
   "followUpMode": "one-at-a-time",
