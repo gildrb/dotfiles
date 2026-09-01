@@ -105,6 +105,7 @@ dotfiles/
   AGENTS.md       shared Pi/Codex behavior and OptMem workflow
   bat/             syntax viewer using the shared semantic palette
   btop/           terminal system monitor
+  codex/           Codex settings and enabled MCP workflow plugins
   ghostty/        terminal settings and Death Note ANSI theme
   hax/            coding-agent presets consuming the shared ANSI roles
   htop/           process monitor using the terminal Death Note palette
