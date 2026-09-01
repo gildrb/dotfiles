@@ -41,6 +41,13 @@
       "maxRetryDelayMs": 15000
     }
   },
+  "mcpServers": {
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp",
+      "oauth": true
+    }
+  },
   "packages": [
     {
       "source": "git:github.com/gildrb/pi-fff-patched@14deeeb426aa48486454b4c3fc4907c82c0cb4f4",
