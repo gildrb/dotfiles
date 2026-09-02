@@ -276,14 +276,29 @@ function withPrimeReliability(definition: WebToolDefinition): WebToolDefinition 
 					if (signal?.aborted) throw error;
 					// Retry through the existing Prime/Codex authentication below.
 				}
-				const openai = await execute(
+				try {
+					const openai = await execute(
+						toolCallId,
+						{ ...params, provider: "openai" },
+						signal,
+						onUpdate,
+						context,
+					);
+					if (hasSearchResults(openai)) {
+						return withSearchRoute(openai, "openai", true);
+					}
+				} catch (error) {
+					if (signal?.aborted) throw error;
+					// Keep X research available when Codex is temporarily limited.
+				}
+				const duckduckgo = await execute(
 					toolCallId,
-					{ ...params, provider: "openai" },
+					{ ...params, provider: "duckduckgo" },
 					signal,
 					onUpdate,
 					context,
 				);
-				return withSearchRoute(openai, "openai", true);
+				return withSearchRoute(duckduckgo, "duckduckgo", true);
 			},
 		};
 	}

@@ -40,4 +40,6 @@ assert.doesNotMatch(JSON.stringify(config), /(apiKey|token|secret|password)/i, "
 assert.match(adapter, /PRIME_AGENT_CODING_AGENT_DIR/, "adapter maps Prime's config directory into Pi packages");
 assert.match(adapter, /nicobailon\/pi-web-access@[0-9a-f]{40}/, "adapter records upstream provenance");
 assert.match(adapter, /provider: "parallel-mcp"/, "X searches use the tested keyless Parallel MCP route");
+assert.match(adapter, /provider: "openai"/, "X searches retry through native Codex");
+assert.match(adapter, /provider: "duckduckgo"/, "X searches keep a keyless final fallback");
 assert.match(adapter, /primeFallbackUsed/, "X search results disclose adapter fallback use");

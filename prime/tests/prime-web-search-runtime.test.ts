@@ -32,7 +32,11 @@ writeFileSync(
 		pi.registerShortcut("web-activity", {});
 		pi.registerTool({ name: "web_search", execute: async (_id, params) => {
 			if (params.query.includes("throw") && params.provider === "parallel-mcp") throw new Error("mocked provider failure");
-			const empty = params.query.includes("fallback") && params.provider === "parallel-mcp";
+			if (params.query.includes("openai-error") && params.provider === "openai") throw new Error("mocked OpenAI quota failure");
+			const empty = (
+				(params.query.includes("fallback") || params.query.includes("openai-"))
+				&& params.provider === "parallel-mcp"
+			) || (params.query.includes("openai-empty") && params.provider === "openai");
 			return { content: [{ type: "text", text: params.provider ?? "routed" }], details: { totalResults: empty ? 0 : 1 } };
 		} });
 		pi.registerTool({ name: "web_fetch", execute: async () => ({ content: [{ type: "text", text: "generic" }] }) });
@@ -61,6 +65,8 @@ const complete = run(
 	const normalSearch = await tools.get("web_search").execute("normal", { query: "vgpu docs" });
 	const fallbackSearch = await tools.get("web_search").execute("fallback", { query: "site:x.com fallback" });
 	const thrownSearch = await tools.get("web_search").execute("throw", { query: "site:x.com throw" });
+	const openaiEmptySearch = await tools.get("web_search").execute("openai-empty", { query: "site:x.com openai-empty" });
+	const openaiErrorSearch = await tools.get("web_search").execute("openai-error", { query: "site:x.com openai-error" });
 	const explicitSearch = await tools.get("web_search").execute("explicit", { query: "site:x.com vgpu.sh", provider: "exa" });
 	const abortController = new AbortController();
 	abortController.abort();
@@ -71,7 +77,7 @@ const complete = run(
 		abortPreserved = error instanceof Error && error.message === "mocked provider failure";
 	}
 	const result = await tools.get("web_fetch").execute("twitter", { url: "https://x.com/vgpu/status/123" });
-	console.log(JSON.stringify({ tools: [...tools.keys()], events, shortcuts, xProvider: xSearch.content[0].text, xDetails: xSearch.details, normalProvider: normalSearch.content[0].text, fallbackProvider: fallbackSearch.content[0].text, fallbackDetails: fallbackSearch.details, thrownProvider: thrownSearch.content[0].text, thrownDetails: thrownSearch.details, explicitProvider: explicitSearch.content[0].text, abortPreserved, text: result.content[0].text, details: result.details }));`,
+	console.log(JSON.stringify({ tools: [...tools.keys()], events, shortcuts, xProvider: xSearch.content[0].text, xDetails: xSearch.details, normalProvider: normalSearch.content[0].text, fallbackProvider: fallbackSearch.content[0].text, fallbackDetails: fallbackSearch.details, thrownProvider: thrownSearch.content[0].text, thrownDetails: thrownSearch.details, openaiEmptyProvider: openaiEmptySearch.content[0].text, openaiEmptyDetails: openaiEmptySearch.details, openaiErrorProvider: openaiErrorSearch.content[0].text, openaiErrorDetails: openaiErrorSearch.details, explicitProvider: explicitSearch.content[0].text, abortPreserved, text: result.content[0].text, details: result.details }));`,
 );
 assert.deepEqual(complete.tools, ["web_search", "web_fetch", "web_read"]);
 assert.deepEqual(complete.events, ["session_start"]);
@@ -93,6 +99,18 @@ assert.match(String(complete.thrownProvider), /^openai[\s\S]*provider=openai; fa
 assert.deepEqual(complete.thrownDetails, {
 	totalResults: 1,
 	primeProviderRoute: "openai",
+	primeFallbackUsed: true,
+});
+assert.match(String(complete.openaiEmptyProvider), /^duckduckgo[\s\S]*provider=duckduckgo; fallback=true/);
+assert.deepEqual(complete.openaiEmptyDetails, {
+	totalResults: 1,
+	primeProviderRoute: "duckduckgo",
+	primeFallbackUsed: true,
+});
+assert.match(String(complete.openaiErrorProvider), /^duckduckgo[\s\S]*provider=duckduckgo; fallback=true/);
+assert.deepEqual(complete.openaiErrorDetails, {
+	totalResults: 1,
+	primeProviderRoute: "duckduckgo",
 	primeFallbackUsed: true,
 });
 assert.equal(complete.explicitProvider, "exa");
