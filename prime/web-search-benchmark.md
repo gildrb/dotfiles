@@ -31,7 +31,7 @@ The generic fetch route extracted useful text from NVIDIA docs, GitHub releases,
 ## Selected route
 
 1. Use Exa MCP first for normal searches because it is fast, source-rich, and keyless.
-2. Route `site:x.com` and `site:twitter.com` queries directly to native OpenAI/Codex because Exa returns an empty successful response that does not trigger package fallback.
+2. Route `site:x.com` and `site:twitter.com` queries to keyless Parallel MCP, then retry through native OpenAI/Codex when Parallel returns no results or errors. A live regression returned official VGPU sources plus a direct X status where Exa was empty and DuckDuckGo failed.
 3. Use native OpenAI/Codex after Exa for unsupported, transient, quota, network, or invalid-response failures.
 4. Keep DuckDuckGo as the final package fallback and as the adapter's dependency-free degraded mode.
 5. Fetch public X status pages through Twitter's zero-key oEmbed endpoint; use the package's guarded HTTP/Jina route for other pages.

@@ -39,3 +39,5 @@ assert.equal(config.fetchRouting.allowRemoteHostedProviders, true, "Jina may rec
 assert.doesNotMatch(JSON.stringify(config), /(apiKey|token|secret|password)/i, "tracked config contains no credentials");
 assert.match(adapter, /PRIME_AGENT_CODING_AGENT_DIR/, "adapter maps Prime's config directory into Pi packages");
 assert.match(adapter, /nicobailon\/pi-web-access@[0-9a-f]{40}/, "adapter records upstream provenance");
+assert.match(adapter, /provider: "parallel-mcp"/, "X searches use the tested keyless Parallel MCP route");
+assert.match(adapter, /primeFallbackUsed/, "X search results disclose adapter fallback use");

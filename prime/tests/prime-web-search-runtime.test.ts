@@ -30,7 +30,11 @@ writeFileSync(
 	`export default function (pi) {
 		pi.on("session_start", () => {});
 		pi.registerShortcut("web-activity", {});
-		pi.registerTool({ name: "web_search", execute: async (_id, params) => ({ content: [{ type: "text", text: params.provider ?? "routed" }] }) });
+		pi.registerTool({ name: "web_search", execute: async (_id, params) => {
+			if (params.query.includes("throw") && params.provider === "parallel-mcp") throw new Error("mocked provider failure");
+			const empty = params.query.includes("fallback") && params.provider === "parallel-mcp";
+			return { content: [{ type: "text", text: params.provider ?? "routed" }], details: { totalResults: empty ? 0 : 1 } };
+		} });
 		pi.registerTool({ name: "web_fetch", execute: async () => ({ content: [{ type: "text", text: "generic" }] }) });
 		pi.registerTool({ name: "web_read", execute: async () => ({ content: [{ type: "text", text: "read" }] }) });
 	}`,
@@ -55,16 +59,44 @@ const complete = run(
 	};
 	const xSearch = await tools.get("web_search").execute("x", { query: "site:x.com vgpu.sh" });
 	const normalSearch = await tools.get("web_search").execute("normal", { query: "vgpu docs" });
+	const fallbackSearch = await tools.get("web_search").execute("fallback", { query: "site:x.com fallback" });
+	const thrownSearch = await tools.get("web_search").execute("throw", { query: "site:x.com throw" });
 	const explicitSearch = await tools.get("web_search").execute("explicit", { query: "site:x.com vgpu.sh", provider: "exa" });
+	const abortController = new AbortController();
+	abortController.abort();
+	let abortPreserved = false;
+	try {
+		await tools.get("web_search").execute("aborted", { query: "site:x.com throw" }, abortController.signal);
+	} catch (error) {
+		abortPreserved = error instanceof Error && error.message === "mocked provider failure";
+	}
 	const result = await tools.get("web_fetch").execute("twitter", { url: "https://x.com/vgpu/status/123" });
-	console.log(JSON.stringify({ tools: [...tools.keys()], events, shortcuts, xProvider: xSearch.content[0].text, normalProvider: normalSearch.content[0].text, explicitProvider: explicitSearch.content[0].text, text: result.content[0].text, details: result.details }));`,
+	console.log(JSON.stringify({ tools: [...tools.keys()], events, shortcuts, xProvider: xSearch.content[0].text, xDetails: xSearch.details, normalProvider: normalSearch.content[0].text, fallbackProvider: fallbackSearch.content[0].text, fallbackDetails: fallbackSearch.details, thrownProvider: thrownSearch.content[0].text, thrownDetails: thrownSearch.details, explicitProvider: explicitSearch.content[0].text, abortPreserved, text: result.content[0].text, details: result.details }));`,
 );
 assert.deepEqual(complete.tools, ["web_search", "web_fetch", "web_read"]);
 assert.deepEqual(complete.events, ["session_start"]);
 assert.deepEqual(complete.shortcuts, ["web-activity"]);
-assert.equal(complete.xProvider, "openai");
+assert.match(String(complete.xProvider), /^parallel-mcp[\s\S]*provider=parallel-mcp; fallback=false/);
+assert.deepEqual(complete.xDetails, {
+	totalResults: 1,
+	primeProviderRoute: "parallel-mcp",
+	primeFallbackUsed: false,
+});
 assert.equal(complete.normalProvider, "routed");
+assert.match(String(complete.fallbackProvider), /^openai[\s\S]*provider=openai; fallback=true/);
+assert.deepEqual(complete.fallbackDetails, {
+	totalResults: 1,
+	primeProviderRoute: "openai",
+	primeFallbackUsed: true,
+});
+assert.match(String(complete.thrownProvider), /^openai[\s\S]*provider=openai; fallback=true/);
+assert.deepEqual(complete.thrownDetails, {
+	totalResults: 1,
+	primeProviderRoute: "openai",
+	primeFallbackUsed: true,
+});
 assert.equal(complete.explicitProvider, "exa");
+assert.equal(complete.abortPreserved, true);
 assert.match(String(complete.text), /Verified WebGPU post/);
 assert.deepEqual(complete.details, {
 	url: "https://x.com/vgpu/status/123",

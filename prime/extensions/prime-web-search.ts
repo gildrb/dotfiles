@@ -15,7 +15,7 @@
  * (MIT), selected after repeated native Codex, Exa MCP, DuckDuckGo, and Bing
  * comparison runs. prime/web-search.json chooses zero-key Exa first for its
  * latency and source quality, then native OpenAI/Codex and DuckDuckGo. Site-specific X queries use
- * native OpenAI/Codex because the free Exa route returned empty results. Public X/Twitter status
+ * keyless Parallel MCP with native OpenAI/Codex retry because Exa returned empty results. Public X/Twitter status
  * fetches use Twitter's own zero-key oEmbed endpoint before generic extraction.
  */
 import { homedir } from "node:os";
@@ -207,19 +207,83 @@ function hasXSiteQuery(params: Record<string, unknown>): boolean {
 	return queries.some((value) => /site:(?:x\.com|twitter\.com)|(?:x\.com|twitter\.com)\//i.test(value));
 }
 
+function hasSearchResults(value: unknown): boolean {
+	if (typeof value !== "object" || value === null) return false;
+	const result = value as {
+		content?: Array<{ type?: string; text?: string }>;
+		details?: { totalResults?: unknown };
+	};
+	if (typeof result.details?.totalResults === "number") {
+		return result.details.totalResults > 0;
+	}
+	return result.content?.some(
+		(item) => item.type === "text" && typeof item.text === "string" && /https?:\/\//.test(item.text),
+	) ?? false;
+}
+
+function withSearchRoute(value: unknown, provider: string, fallbackUsed: boolean): unknown {
+	if (typeof value !== "object" || value === null) return value;
+	const result = value as {
+		content?: Array<{ type?: string; text?: string; [key: string]: unknown }>;
+		details?: Record<string, unknown>;
+	};
+	let annotated = false;
+	const content = result.content?.map((item) => {
+		if (annotated || item.type !== "text" || typeof item.text !== "string") return item;
+		annotated = true;
+		return {
+			...item,
+			text: `${item.text}\n\n[Prime search route: provider=${provider}; fallback=${fallbackUsed}]`,
+		};
+	});
+	return {
+		...result,
+		content,
+		details: {
+			...result.details,
+			primeProviderRoute: provider,
+			primeFallbackUsed: fallbackUsed,
+		},
+	};
+}
+
 function withPrimeReliability(definition: WebToolDefinition): WebToolDefinition {
 	if (typeof definition.execute !== "function") return definition;
 	const execute = definition.execute;
 	if (definition.name === "web_search") {
 		return {
 			...definition,
-			execute(toolCallId, params, signal, onUpdate, context) {
+			async execute(toolCallId, params, signal, onUpdate, context) {
 				const provider = params.provider;
-				const routedParams =
-					hasXSiteQuery(params) && (provider === undefined || provider === "auto")
-						? { ...params, provider: "openai" }
-						: params;
-				return execute(toolCallId, routedParams, signal, onUpdate, context);
+				if (
+					!hasXSiteQuery(params) ||
+					(provider !== undefined && provider !== "auto")
+				) {
+					return execute(toolCallId, params, signal, onUpdate, context);
+				}
+				try {
+					const parallel = await execute(
+						toolCallId,
+						{ ...params, provider: "parallel-mcp" },
+						signal,
+						onUpdate,
+						context,
+					);
+					if (hasSearchResults(parallel)) {
+						return withSearchRoute(parallel, "parallel-mcp", false);
+					}
+				} catch (error) {
+					if (signal?.aborted) throw error;
+					// Retry through the existing Prime/Codex authentication below.
+				}
+				const openai = await execute(
+					toolCallId,
+					{ ...params, provider: "openai" },
+					signal,
+					onUpdate,
+					context,
+				);
+				return withSearchRoute(openai, "openai", true);
 			},
 		};
 	}
