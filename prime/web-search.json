@@ -1,0 +1,65 @@
+{
+  "workflow": "none",
+  "autoOpenBrowser": false,
+  "searchRouting": {
+    "providers": [
+      "exa",
+      "openai",
+      "duckduckgo"
+    ],
+    "useCurrentModel": true,
+    "fallbackOn": [
+      "unsupported",
+      "transient",
+      "quota",
+      "network",
+      "invalid-response"
+    ]
+  },
+  "fetchRouting": {
+    "providers": [
+      "http",
+      "jina"
+    ],
+    "allowRemoteHostedProviders": true
+  },
+  "tools": {
+    "webSearch": {
+      "enabled": true
+    },
+    "sourceCheck": {
+      "enabled": false
+    },
+    "fetchContent": {
+      "enabled": true
+    },
+    "getSearchContent": {
+      "enabled": true
+    }
+  },
+  "commands": {
+    "websearch": {
+      "enabled": false
+    },
+    "curator": {
+      "enabled": false
+    },
+    "search": {
+      "enabled": false
+    },
+    "google-account": {
+      "enabled": false
+    }
+  },
+  "toolNames": {
+    "webSearch": "web_search",
+    "fetchContent": "web_fetch",
+    "getSearchContent": "web_read"
+  },
+  "allowBrowserCookies": false,
+  "githubClone": {
+    "enabled": true,
+    "maxRepoSizeMB": 350,
+    "cloneTimeoutSeconds": 30
+  }
+}
