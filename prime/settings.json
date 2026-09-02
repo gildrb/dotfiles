@@ -17,6 +17,9 @@
   "followUpMode": "one-at-a-time",
   "showHardwareCursor": false,
   "enableSkillCommands": true,
+  "bundledSkills": {
+    "websearch": false
+  },
   "images": {
     "blockImages": false
   },

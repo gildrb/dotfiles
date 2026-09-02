@@ -5,12 +5,14 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const settings = JSON.parse(readFileSync(join(here, "../settings.json"), "utf8")) as {
+	bundledSkills?: { websearch?: boolean };
 	packages?: Array<{ source: string; extensions: string[] }>;
 };
 const config = JSON.parse(readFileSync(join(here, "../web-search.json"), "utf8")) as Record<string, any>;
 const adapter = readFileSync(join(here, "../extensions/prime-web-search.ts"), "utf8");
 const entry = settings.packages?.find((candidate) => candidate.source.includes("pi-web-access"));
 
+assert.equal(settings.bundledSkills?.websearch, false, "the redundant keyed Serper skill stays disabled");
 assert.ok(entry, "settings installs pi-web-access");
 assert.match(
 	entry.source,
