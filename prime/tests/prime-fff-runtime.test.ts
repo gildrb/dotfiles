@@ -162,7 +162,8 @@ const text = async (tool: ToolDef, params: Record<string, unknown>): Promise<str
 	);
 	process.env.PI_CODING_AGENT_DIR = bridgeAgentDir;
 	const { pi, tools, handlers } = stubPi();
-	const primeFff = (await import(`${adapterUrl}?scenario=bridge`)).default as FffLoader;
+	// Reuse the loaded adapter: candidate roots resolve when it is invoked.
+	const primeFff = (await import(adapterUrl)).default as FffLoader;
 	await primeFff(pi);
 	assert.ok(tools.has("grep") && tools.has("find"), "bridge candidate registers grep+find");
 	assert.match(

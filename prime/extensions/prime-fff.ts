@@ -42,13 +42,6 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-const agentDir = process.env.PI_CODING_AGENT_DIR ?? `${homedir()}/.prime/agent`;
-
-const CANDIDATE_ENTRIES = [
-	`${agentDir}/git/github.com/gildrb/pi-fff-patched/src/index.ts`,
-	`${agentDir}/npm-global/lib/node_modules/@ff-labs/pi-fff/src/index.ts`,
-];
-
 // The override names; search tools wrapped for execute-time degradation.
 const SEARCH_TOOLS = new Set(["grep", "find", "multi_grep"]);
 
@@ -265,9 +258,14 @@ function withDegradedFallback(def: any): any {
 
 export default async function primeFff(pi: ExtensionAPI): Promise<void> {
 	process.env.PI_FFF_MODE ??= "override";
+	const agentDir = process.env.PI_CODING_AGENT_DIR ?? `${homedir()}/.prime/agent`;
+	const candidateEntries = [
+		`${agentDir}/git/github.com/gildrb/pi-fff-patched/src/index.ts`,
+		`${agentDir}/npm-global/lib/node_modules/@ff-labs/pi-fff/src/index.ts`,
+	];
 
 	let failure: unknown = new Error("no candidate entries");
-	for (const entry of CANDIDATE_ENTRIES) {
+	for (const entry of candidateEntries) {
 		// Record tool registrations first and replay them only on success, so a
 		// candidate that throws halfway cannot leave a half-registered extension.
 		const registered: any[] = [];
