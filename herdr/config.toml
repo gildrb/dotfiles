@@ -5,6 +5,9 @@ name = "terminal"
 
 [theme.custom]
 panel_bg = "#09090b"
+sidebar_bg = "#09090b"
+active_row_bg = "#141416"
+selection_bg = "#471d2b"
 surface0 = "#141416"
 surface1 = "#1c1c1f"
 surface_dim = "#0d0d0f"
