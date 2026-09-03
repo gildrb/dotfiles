@@ -16,9 +16,27 @@ symbolPreset: ascii
 composer:
   shape: pi
 statusLine:
-  preset: nerd
+  preset: custom
+  leftSegments:
+    - model
+    - path
+    - git
+  rightSegments:
+    - context_pct
+  segmentOptions:
+    model:
+      showThinkingLevel: false
+    path:
+      abbreviate: true
+      maxLength: 35
+      stripWorkPrefix: true
+    git:
+      showBranch: true
+      showStaged: false
+      showUnstaged: false
+      showUntracked: false
   separator: slash
-  sessionAccent: true
+  sessionAccent: false
   transparent: true
   compactThinkingLevel: true
 terminal:
@@ -27,10 +45,10 @@ tui:
   textSizing: false
   tight: true
 display:
-  shimmer: kitt
+  shimmer: classic
   cacheMissMarker: true
 plan:
   enabled: false
 goal:
   enabled: true
-  statusInFooter: true
+  statusInFooter: false
