@@ -1,19 +1,19 @@
 /**
- * Prime Agent adapter for the pinned pi-web-access package.
+ * Prime Agent adapter for the pi-web-access package.
  *
  * Prime uses ~/.prime/agent, while Pi extensions conventionally inspect
  * PI_CODING_AGENT_DIR. Set that boundary before importing the package so its
  * config, cache, and model-auth lookup stay inside Prime's managed directory.
  *
- * The package is installed declaratively with auto-loading disabled. This
- * adapter records every registration and replays it only after all three
- * required research tools exist, so a partial package load cannot leave a
- * broken session. A dependency-free DuckDuckGo search remains available when
- * both package locations are absent.
+ * PRIME_WEB_ACCESS_ENTRY lets the runtime provide a package-manager-built
+ * entry without putting its path in this config. Conventional local package
+ * locations remain portable fallbacks. This adapter records every registration
+ * and replays it only after all three required research tools exist, so a
+ * partial package load cannot leave a broken session. A dependency-free
+ * DuckDuckGo search remains available when all package locations are absent.
  *
- * Provenance: nicobailon/pi-web-access@711cc41313202e277a248b1cc45942b6dc8927f7
- * (MIT), selected after repeated native Codex, Exa MCP, DuckDuckGo, and Bing
- * comparison runs. prime/web-search.json chooses zero-key Exa first for its
+ * The package was selected after repeated native Codex, Exa MCP, DuckDuckGo,
+ * and Bing comparison runs. prime/web-search.json chooses zero-key Exa first for its
  * latency and source quality, then native OpenAI/Codex and DuckDuckGo. Site-specific X queries use
  * keyless Parallel MCP with native OpenAI/Codex retry because Exa returned empty results. Public X/Twitter status
  * fetches use Twitter's own zero-key oEmbed endpoint before generic extraction.
@@ -28,9 +28,10 @@ const agentDir =
 process.env.PI_CODING_AGENT_DIR = agentDir;
 
 const CANDIDATE_ENTRIES = [
+	process.env.PRIME_WEB_ACCESS_ENTRY,
 	`${agentDir}/git/github.com/nicobailon/pi-web-access/index.ts`,
 	`${agentDir}/npm-global/lib/node_modules/pi-web-access/index.ts`,
-];
+].filter((entry): entry is string => Boolean(entry));
 const REQUIRED_TOOLS = new Set(["web_search", "web_fetch", "web_read"]);
 const REGISTRATION_METHODS = new Set([
 	"on",
@@ -370,7 +371,7 @@ function registerFallbackSearch(pi: ExtensionAPI, reason: string): void {
 }
 
 export default async function primeWebSearch(pi: ExtensionAPI): Promise<void> {
-	let failure: unknown = new Error("no candidate package found");
+	let failure: unknown;
 	for (const entry of CANDIDATE_ENTRIES) {
 		const registrations: Registration[] = [];
 		const recorder = new Proxy(pi, {
@@ -384,10 +385,12 @@ export default async function primeWebSearch(pi: ExtensionAPI): Promise<void> {
 				return typeof value === "function" ? value.bind(target) : value;
 			},
 		});
+		let loaded = false;
 		try {
 			const module = (await import(entry)) as {
 				default: (api: ExtensionAPI) => void | Promise<void>;
 			};
+			loaded = true;
 			await module.default(recorder);
 			const names = new Set(
 				registrations
@@ -411,9 +414,11 @@ export default async function primeWebSearch(pi: ExtensionAPI): Promise<void> {
 			}
 			return;
 		} catch (error) {
-			failure = error;
+			// Preserve a failure from a package that loaded; later absent fallback
+			// paths carry less useful diagnostics and must not overwrite it.
+			if (loaded || failure === undefined) failure = error;
 		}
 	}
-	const reason = failure instanceof Error ? failure.message : String(failure);
+	const reason = failure instanceof Error ? failure.message : String(failure ?? "no candidate package found");
 	registerFallbackSearch(pi, reason);
 }

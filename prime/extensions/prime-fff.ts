@@ -1,5 +1,5 @@
 /**
- * prime-fff: resilient Prime-side binding for the pinned FFF search extension.
+ * prime-fff: resilient Prime-side binding for the FFF search extension.
  *
  * Prime exposes only the ipython tool, so FFF's "override" tool names
  * (grep/find/multi_grep) are free and match the names models already know;
@@ -9,8 +9,8 @@
  * tokens versus baseline by moving search off python subprocess round-trips.
  *
  * Reliability contract (Prime has NO builtin grep/find to fall back to):
- * 1. The package is loaded from generation-independent paths: the declarative
- *    git checkout first, the legacy npm-global copy as bridge. A broken
+ * 1. The package is loaded from an explicit runtime entry when provided, then
+ *    from conventional git-checkout and npm-global locations. A broken
  *    candidate never blocks the next one, and tool registration is recorded
  *    then replayed so a half-registered extension cannot mix states.
  * 2. If no candidate loads (fresh machine before package install, nuked
@@ -22,20 +22,9 @@
  *    search instead of failing the task. Agent-facing errors (bad patterns,
  *    wildcard guards) pass through untouched.
  *
- * The package is installed declaratively by the packages entry in
- * settings.json ({"extensions": []} so it does not auto-load a second time).
- * Git packages clone to ~/.prime/agent/git/<host>/<path> and run
- * `npm install` inside the checkout; npmCommand in settings.json therefore
- * exports npm_config_prefix instead of passing --prefix, so -g installs land
- * in ~/.prime/agent/npm-global while in-checkout installs stay local (the
- * Nix store global root is read-only).
- *
- * Provenance: gildrb/pi-fff-patched@8689459d1ea2ea80d6c38f5a32085204ef4926f2
- * = npm:@ff-labs/pi-fff@0.10.5
- * = git:github.com/dmtrKovalenko/fff@16730049c86e9f7fe987ab8df0c36b82450c8438
- * (tag v0.10.5) plus pagination and search-contract fixes: fuzzy grep cursors
- * resume the fuzzy stream, find pages use native item offsets, fuzzy fallback
- * retains constraints and strict case, and invalid cursors fail closed.
+ * PRIME_FFF_ENTRY is the integration boundary for package managers that build
+ * the dependency outside Prime's config directory. Local development remains
+ * portable through the conventional git-checkout and npm-global locations.
  */
 import { homedir } from "node:os";
 import { promises as fs } from "node:fs";
@@ -44,6 +33,12 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 // The override names; search tools wrapped for execute-time degradation.
 const SEARCH_TOOLS = new Set(["grep", "find", "multi_grep"]);
+const REGISTRATION_METHODS = new Set(["on", "registerCommand", "registerFlag", "registerTool"]);
+
+type Registration = {
+	method: "on" | "registerCommand" | "registerFlag" | "registerTool";
+	args: unknown[];
+};
 
 // ---------------------------------------------------------------------------
 // Degraded builtin search (no dependencies; used only when FFF is broken).
@@ -71,7 +66,7 @@ interface DegradedParams {
 }
 
 function degradedHeader(reason: string): string {
-	return `[prime-fff degraded: ${reason}. Builtin substring search — literal patterns only, no fuzzy ranking, no pagination. Fix: prime-agent package install git:github.com/gildrb/pi-fff-patched]`;
+	return `[prime-fff degraded: ${reason}. Builtin substring search — literal patterns only, no fuzzy ranking, no pagination. Provide PRIME_FFF_ENTRY or install the FFF package in a conventional local location.]`;
 }
 
 function excludeTerms(exclude: string | string[] | undefined): string[] {
@@ -211,7 +206,7 @@ function registerDegradedTools(pi: ExtensionAPI, reason: string): void {
 	pi.registerTool(
 		degradedTool("find", "Find files by path substring (degraded builtin)", degradedFind, 30),
 	);
-	const guidance = `prime-fff: FFF search failed to load (${reason}); degraded builtin grep/find are active. Fix: prime-agent package install git:github.com/gildrb/pi-fff-patched`;
+	const guidance = `prime-fff: FFF search failed to load (${reason}); degraded builtin grep/find are active. Provide PRIME_FFF_ENTRY or install the package locally.`;
 	pi.on("session_start", async (_event, ctx) => {
 		(ctx as { ui?: { notify?: (m: string, t: string) => void } })?.ui?.notify?.(guidance, "error");
 	});
@@ -260,34 +255,55 @@ export default async function primeFff(pi: ExtensionAPI): Promise<void> {
 	process.env.PI_FFF_MODE ??= "override";
 	const agentDir = process.env.PI_CODING_AGENT_DIR ?? `${homedir()}/.prime/agent`;
 	const candidateEntries = [
+		process.env.PRIME_FFF_ENTRY,
 		`${agentDir}/git/github.com/gildrb/pi-fff-patched/src/index.ts`,
 		`${agentDir}/npm-global/lib/node_modules/@ff-labs/pi-fff/src/index.ts`,
-	];
+	].filter((entry): entry is string => Boolean(entry));
 
-	let failure: unknown = new Error("no candidate entries");
+	let failure: unknown;
 	for (const entry of candidateEntries) {
-		// Record tool registrations first and replay them only on success, so a
-		// candidate that throws halfway cannot leave a half-registered extension.
-		const registered: any[] = [];
+		// Record the complete registration surface used by FFF. Reads and runtime
+		// actions still bind to the real API, but a failed candidate publishes
+		// nothing and cannot mix its flags, events, commands, or tools with fallback.
+		const registrations: Registration[] = [];
 		const recorder = new Proxy(pi, {
-			get(target, prop) {
-				if (prop === "registerTool") return (def: any) => registered.push(def);
-				const value = Reflect.get(target, prop);
+			get(target, property) {
+				if (typeof property === "string" && REGISTRATION_METHODS.has(property)) {
+					return (...args: unknown[]) => {
+						registrations.push({ method: property as Registration["method"], args });
+					};
+				}
+				const value = Reflect.get(target, property);
 				return typeof value === "function" ? value.bind(target) : value;
 			},
 		});
+		let loaded = false;
 		try {
 			const mod = (await import(entry)) as { default: (pi: ExtensionAPI) => void | Promise<void> };
+			loaded = true;
 			await mod.default(recorder);
 			// In override mode the session is blind without both search tools.
-			const names = new Set(registered.map((def) => def.name));
+			const names = new Set(
+				registrations
+					.filter((registration) => registration.method === "registerTool")
+					.map((registration) => (registration.args[0] as { name?: string } | undefined)?.name),
+			);
 			if (!names.has("grep") || !names.has("find")) {
 				throw new Error(`loaded ${entry} but it registered [${[...names].join(", ") || "none"}] instead of grep+find`);
 			}
-			for (const def of registered) pi.registerTool(withDegradedFallback(def));
+			for (const registration of registrations) {
+				const register = pi[registration.method] as (...args: unknown[]) => unknown;
+				const args =
+					registration.method === "registerTool" && registration.args[0]
+						? [withDegradedFallback(registration.args[0]), ...registration.args.slice(1)]
+						: registration.args;
+				Reflect.apply(register, pi, args);
+			}
 			return;
 		} catch (error) {
-			failure = error;
+			// A later absent conventional path must not hide why an existing
+			// explicit package failed after it loaded.
+			if (loaded || failure === undefined) failure = error;
 		}
 	}
 

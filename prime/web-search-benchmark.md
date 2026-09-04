@@ -36,4 +36,4 @@ The generic fetch route extracted useful text from NVIDIA docs, GitHub releases,
 4. Keep DuckDuckGo as the final package fallback and as the adapter's dependency-free degraded mode.
 5. Fetch public X status pages through Twitter's zero-key oEmbed endpoint; use the package's guarded HTTP/Jina route for other pages.
 
-The installed implementation is pinned to `nicobailon/pi-web-access@711cc41313202e277a248b1cc45942b6dc8927f7`.
+Nix pins and supplies the selected implementation. This document records behavior, not its installation path or revision.

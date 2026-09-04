@@ -19,6 +19,34 @@ function run(name: string, source: string): Record<string, unknown> {
 	return JSON.parse(child.stdout.trim()) as Record<string, unknown>;
 }
 
+const envPackage = join(root, "env-package.ts");
+writeFileSync(
+	envPackage,
+	`export default function (pi) {
+		pi.registerTool({ name: "web_search", execute: async () => ({ content: [{ type: "text", text: "from-env-package" }], details: { totalResults: 1 } }) });
+		pi.registerTool({ name: "web_fetch", execute: async () => ({ content: [{ type: "text", text: "fetch" }] }) });
+		pi.registerTool({ name: "web_read", execute: async () => ({ content: [{ type: "text", text: "read" }] }) });
+	}`,
+);
+const explicit = run(
+	"explicit-entry",
+	`process.env.PI_CODING_AGENT_DIR = ${JSON.stringify(join(root, "env-missing-agent"))};
+	process.env.PRIME_WEB_ACCESS_ENTRY = ${JSON.stringify(envPackage)};
+	const tools = new Map();
+	const pi = {
+		registerTool: (tool) => tools.set(tool.name, tool),
+		on: () => {},
+		registerShortcut: () => {},
+		registerCommand: () => {},
+	};
+	const adapter = (await import(${JSON.stringify(adapterUrl)})).default;
+	await adapter(pi);
+	const result = await tools.get("web_search").execute("test", { query: "example" });
+	console.log(JSON.stringify({ tools: [...tools.keys()], text: result.content[0].text }));`,
+);
+assert.deepEqual(explicit.tools, ["web_search", "web_fetch", "web_read"]);
+assert.equal(explicit.text, "from-env-package");
+
 const completeAgentDir = join(root, "complete-agent");
 const completePackageDir = join(
 	completeAgentDir,
@@ -46,6 +74,7 @@ writeFileSync(
 const complete = run(
 	"complete",
 	`process.env.PI_CODING_AGENT_DIR = ${JSON.stringify(completeAgentDir)};
+	process.env.PRIME_WEB_ACCESS_ENTRY = ${JSON.stringify(join(root, "missing-explicit-entry.ts"))};
 	const tools = new Map();
 	const events = [];
 	const shortcuts = [];
@@ -121,6 +150,45 @@ assert.deepEqual(complete.details, {
 	provider: "twitter-oembed",
 	contentLength: 34,
 });
+
+const partialPackage = join(root, "partial-package.ts");
+writeFileSync(
+	partialPackage,
+	`export default function (pi) {
+		pi.on("session_shutdown", () => {});
+		pi.registerShortcut("partial-shortcut", {});
+		pi.registerCommand("partial-command", {});
+		pi.registerTool({ name: "partial-tool", execute: async () => ({ content: [] }) });
+		throw new Error("meaningful web initialization failure");
+	}`,
+);
+const partial = run(
+	"partial-entry",
+	`process.env.PI_CODING_AGENT_DIR = ${JSON.stringify(join(root, "partial-missing-agent"))};
+	process.env.PRIME_WEB_ACCESS_ENTRY = ${JSON.stringify(partialPackage)};
+	const tools = new Map();
+	const events = [];
+	const shortcuts = [];
+	const commands = [];
+	let notice = "";
+	const pi = {
+		registerTool: (tool) => tools.set(tool.name, tool),
+		on: (event, handler) => events.push([event, handler]),
+		registerShortcut: (name) => shortcuts.push(name),
+		registerCommand: (name) => commands.push(name),
+	};
+	const adapter = (await import(${JSON.stringify(adapterUrl)})).default;
+	await adapter(pi);
+	const start = events.find(([event]) => event === "session_start");
+	await start[1]({}, { ui: { notify: (message) => { notice = message; } } });
+	console.log(JSON.stringify({ tools: [...tools.keys()], events: events.map(([event]) => event), shortcuts, commands, notice }));`,
+);
+assert.deepEqual(partial.tools, ["web_search"], "partial tools do not mix with fallback");
+assert.deepEqual(partial.events, ["session_start"], "partial events do not leak");
+assert.deepEqual(partial.shortcuts, [], "partial shortcuts do not leak");
+assert.deepEqual(partial.commands, [], "partial commands do not leak");
+assert.match(String(partial.notice), /meaningful web initialization failure/);
+assert.doesNotMatch(String(partial.notice), /Cannot find module/);
 
 const missingAgentDir = join(root, "missing-agent");
 const fallback = run(

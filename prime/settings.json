@@ -49,21 +49,5 @@
       "url": "https://mcp.figma.com/mcp",
       "oauth": true
     }
-  },
-  "packages": [
-    {
-      "source": "git:github.com/gildrb/pi-fff-patched@8689459d1ea2ea80d6c38f5a32085204ef4926f2",
-      "extensions": []
-    },
-    {
-      "source": "git:github.com/nicobailon/pi-web-access@711cc41313202e277a248b1cc45942b6dc8927f7",
-      "extensions": []
-    }
-  ],
-  "npmCommand": [
-    "sh",
-    "-c",
-    "export npm_config_prefix=\"$HOME/.prime/agent/npm-global\"; exec npm \"$@\"",
-    "npm"
-  ]
+  }
 }

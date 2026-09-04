@@ -98,6 +98,10 @@ stronger crimson fill. Terminal-only tools such as Hax and Nushell consume the m
 uses the semantic roles directly; Delta disables its divergent bundled syntax
 palette and uses the shared diff surfaces. htop uses its accessible Nord role map because it cannot load custom RGB colors.
 
+## Prime extension portability
+
+`prime/settings.json` is the live config and does not auto-provision packages. Nix supplies immutable extension entries through `PRIME_FFF_ENTRY` and `PRIME_WEB_ACCESS_ENTRY`. A non-Nix install must place those packages in the conventional Prime git or npm-global locations, or set the same entry variables. Without an installed package, the adapters deliberately use their dependency-free degraded search modes.
+
 ## Files
 
 ```text

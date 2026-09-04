@@ -6,20 +6,15 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const settings = JSON.parse(readFileSync(join(here, "../settings.json"), "utf8")) as {
 	bundledSkills?: { websearch?: boolean };
-	packages?: Array<{ source: string; extensions: string[] }>;
+	packages?: unknown;
+	npmCommand?: unknown;
 };
 const config = JSON.parse(readFileSync(join(here, "../web-search.json"), "utf8")) as Record<string, any>;
 const adapter = readFileSync(join(here, "../extensions/prime-web-search.ts"), "utf8");
-const entry = settings.packages?.find((candidate) => candidate.source.includes("pi-web-access"));
 
 assert.equal(settings.bundledSkills?.websearch, false, "the redundant keyed Serper skill stays disabled");
-assert.ok(entry, "settings installs pi-web-access");
-assert.match(
-	entry.source,
-	/^git:github\.com\/nicobailon\/pi-web-access@[0-9a-f]{40}$/,
-	"web research package is pinned to an exact upstream commit",
-);
-assert.deepEqual(entry.extensions, [], "the package cannot auto-load beside the Prime adapter");
+assert.equal(settings.packages, undefined, "live settings do not ask Prime to install packages");
+assert.equal(settings.npmCommand, undefined, "live settings do not carry package-manager policy");
 assert.deepEqual(
 	config.searchRouting,
 	{
@@ -40,7 +35,6 @@ assert.deepEqual(
 assert.equal(config.fetchRouting.allowRemoteHostedProviders, true, "Jina may recover public pages blocked to direct fetch");
 assert.doesNotMatch(JSON.stringify(config), /(apiKey|token|secret|password)/i, "tracked config contains no credentials");
 assert.match(adapter, /PRIME_AGENT_CODING_AGENT_DIR/, "adapter maps Prime's config directory into Pi packages");
-assert.match(adapter, /nicobailon\/pi-web-access@[0-9a-f]{40}/, "adapter records upstream provenance");
 assert.match(adapter, /provider: "parallel-mcp"/, "X searches use the tested keyless Parallel MCP route");
 assert.match(adapter, /provider: "openai"/, "X searches retry through native Codex");
 assert.match(adapter, /provider: "duckduckgo"/, "X searches keep a keyless final fallback");
