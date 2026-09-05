@@ -1,14 +1,28 @@
 # Hermes defaults
 
 `SOUL.md` is the automatically loaded identity and behavior policy for new CLI
-and gateway sessions. It includes the mandatory `i-have-adhd` response style and
-OptMem workflow inline. Their skill files also support explicit skill loading;
-a slash command is not needed to activate the defaults. Other skills remain
+and gateway sessions. It instructs the agent to apply the installed
+`$HERMES_HOME/skills/i-have-adhd/SKILL.md`, includes a short response-style summary,
+and carries the OptMem workflow inline. The full ADHD skill is not embedded in
+SOUL; loading and following it is a model instruction, not an enforced runtime
+hook. A slash command is not needed to request these defaults. Other skills remain
 opt-in. `config.json` owns reusable tool and provider policy; Nix supplies runtime
-paths, packages, secrets references, and the pinned dotfiles source.
+paths, packages, secrets references, and the pinned dotfiles source. Model choices,
+context/output budgets, provider model metadata, aliases, display, and terminal
+preferences belong only in `config.json`. Nix injects local service URLs and the
+runtime secret reader; it does not override those preferences.
 
-Discord is explicitly disabled, even if an old bot token remains configured.
-Signal reports “still working” every three minutes during long tasks, without per-tool messages. Telegram keeps its existing progress defaults.
+The current host supports `custom:qwen-local` and `custom:ollama-local`. Select a
+model provisioned on that host. Legacy aliases with provider `custom` use Ollama.
+Unsupported providers or unprovisioned models fail host validation rather than
+silently using a different endpoint.
+
+Telegram is the only managed messaging integration. Its existing progress defaults
+are unchanged. Before deploying this removal, follow the one-time retirement
+procedure in `gildrb/nix/OPERATIONS.md`: old Signal/Discord credentials and runtime
+configuration must be removed separately. This source change does not erase
+credentials, sessions, or runtime directories. Hermes auto-detects old credentials;
+removing settings alone is not an adapter allowlist.
 
 OptMem's first `memo wake` is a model instruction, not an enforced runtime hook.
 The configured terminal tool and managed `memo` command must be available. The

@@ -1,14 +1,58 @@
 {
-  "web": {
-    "backend": "firecrawl",
-    "search_backend": "firecrawl",
-    "extract_backend": "firecrawl",
-    "use_gateway": false
-  },
+  "_config_version": 39,
   "browser": {
     "cloud_provider": "local",
     "engine": "chrome",
     "headed": false
+  },
+  "custom_providers": [
+    {
+      "key_env": "QWEN_API_KEY",
+      "models": {
+        "qwen3.8-27b": {
+          "context_length": 65536
+        }
+      },
+      "name": "qwen-local"
+    },
+    {
+      "models": {
+        "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M": {
+          "context_length": 65536
+        },
+        "hf.co/bartowski/nvidia_NVIDIA-Nemotron-Nano-9B-v2-GGUF:Q4_K_M": {
+          "context_length": 65536
+        },
+        "qwen3:4b": {
+          "context_length": 40960
+        }
+      },
+      "name": "ollama-local"
+    }
+  ],
+  "display": {
+    "interface": "tui",
+    "skin": "death-note"
+  },
+  "model": {
+    "context_length": 65536,
+    "default": "qwen3.8-27b",
+    "max_tokens": 8192,
+    "provider": "custom:qwen-local"
+  },
+  "model_aliases": {
+    "fast": {
+      "model": "qwen3:4b",
+      "provider": "custom"
+    },
+    "liquid": {
+      "model": "hf.co/LiquidAI/LFM2.5-2.6B-GGUF:Q4_K_M",
+      "provider": "custom"
+    },
+    "qwen": {
+      "model": "qwen3.8-27b",
+      "provider": "custom:qwen-local"
+    }
   },
   "platform_toolsets": {
     "cli": [
@@ -17,17 +61,6 @@
       "web",
       "browser",
       "skills"
-    ],
-    "signal": [
-      "terminal",
-      "file",
-      "web",
-      "browser",
-      "skills",
-      "vision",
-      "memory",
-      "session_search",
-      "clarify"
     ],
     "telegram": [
       "terminal",
@@ -41,14 +74,13 @@
       "clarify"
     ]
   },
-  "display": {
-    "platforms": {
-      "signal": {
-        "long_running_notifications": true
-      }
-    }
+  "terminal": {
+    "backend": "local"
   },
-  "discord": {
-    "enabled": false
+  "web": {
+    "backend": "firecrawl",
+    "extract_backend": "firecrawl",
+    "search_backend": "firecrawl",
+    "use_gateway": false
   }
 }
