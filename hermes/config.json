@@ -1,0 +1,55 @@
+{
+  "web": {
+    "backend": "firecrawl",
+    "search_backend": "firecrawl",
+    "extract_backend": "firecrawl",
+    "use_gateway": false
+  },
+  "browser": {
+    "cloud_provider": "local",
+    "engine": "chrome",
+    "headed": false
+  },
+  "platform_toolsets": {
+    "cli": [
+      "terminal",
+      "file",
+      "web",
+      "browser",
+      "skills"
+    ],
+    "signal": [
+      "terminal",
+      "file",
+      "web",
+      "browser",
+      "skills",
+      "vision",
+      "memory",
+      "session_search",
+      "clarify"
+    ],
+    "telegram": [
+      "terminal",
+      "file",
+      "web",
+      "browser",
+      "skills",
+      "vision",
+      "memory",
+      "session_search",
+      "clarify"
+    ],
+    "discord": [
+      "terminal",
+      "file",
+      "web",
+      "browser",
+      "skills",
+      "vision",
+      "memory",
+      "session_search",
+      "clarify"
+    ]
+  }
+}
