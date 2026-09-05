@@ -39,17 +39,9 @@
       "memory",
       "session_search",
       "clarify"
-    ],
-    "discord": [
-      "terminal",
-      "file",
-      "web",
-      "browser",
-      "skills",
-      "vision",
-      "memory",
-      "session_search",
-      "clarify"
     ]
+  },
+  "discord": {
+    "enabled": false
   }
 }

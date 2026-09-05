@@ -7,6 +7,9 @@ a slash command is not needed to activate the defaults. Other skills remain
 opt-in. `config.json` owns reusable tool and provider policy; Nix supplies runtime
 paths, packages, secrets references, and the pinned dotfiles source.
 
+Discord is explicitly disabled, even if an old bot token remains configured.
+Signal and Telegram retain their existing configuration.
+
 OptMem's first `memo wake` is a model instruction, not an enforced runtime hook.
 The configured terminal tool and managed `memo` command must be available. The
 command selects the canonical memory store independently of the gateway's HOME.
