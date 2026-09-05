@@ -7,8 +7,8 @@ replacing those settings. Restart Autolith to apply it.
 Use the shared Death Note terminal palette (`../ghostty/themes/Death Note`).
 Autolith renders basic or indexed ANSI colors, not RGB. These styles therefore
 reuse the terminal palette rather than duplicate approximate hex colors:
-black `#09090b`, white `#e8e8e8`, red `#c01840`, bright red `#ff3d6e`,
-blue `#8196e0`, green `#3dba6e`, yellow `#e8a020`, bright black `#6e6e6e`.
+black `#09090b`, white `#ededed`, red `#ff6a6e`, bright red `#fe598f`,
+blue `#5fa5ff`, green `#10c955`, yellow `#ffb200`, bright black `#9a9a9a`.
 A different terminal palette produces different colors. Color-disabled output
 still follows Autolith's own renderer.
 
