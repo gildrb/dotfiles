@@ -41,6 +41,13 @@
       "clarify"
     ]
   },
+  "display": {
+    "platforms": {
+      "signal": {
+        "long_running_notifications": true
+      }
+    }
+  },
   "discord": {
     "enabled": false
   }

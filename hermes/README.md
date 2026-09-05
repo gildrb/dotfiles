@@ -8,7 +8,7 @@ opt-in. `config.json` owns reusable tool and provider policy; Nix supplies runti
 paths, packages, secrets references, and the pinned dotfiles source.
 
 Discord is explicitly disabled, even if an old bot token remains configured.
-Signal and Telegram retain their existing configuration.
+Signal reports “still working” every three minutes during long tasks, without per-tool messages. Telegram keeps its existing progress defaults.
 
 OptMem's first `memo wake` is a model instruction, not an enforced runtime hook.
 The configured terminal tool and managed `memo` command must be available. The
