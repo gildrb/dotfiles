@@ -82,5 +82,15 @@
     "extract_backend": "firecrawl",
     "search_backend": "firecrawl",
     "use_gateway": false
+  },
+  "plugins": {
+    "enabled": [
+      "optmem-startup"
+    ]
+  },
+  "hooks": {
+    "output_spill": {
+      "max_chars": 65536
+    }
   }
 }

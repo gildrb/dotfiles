@@ -1,0 +1,5 @@
+name: optmem-startup
+version: 1.0.0
+description: Load isolated OptMem before the first top-level response.
+provides_hooks:
+  - pre_llm_call
