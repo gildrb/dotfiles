@@ -1,6 +1,6 @@
 {
   "name": "Death Note",
-  "description": "Vercel syntax colors on accessible Death Note surfaces.",
+  "description": "Syntax colors on accessible Death Note surfaces.",
   "palette": {
     "ink": "#09090b",
     "paper": "#ededed",
