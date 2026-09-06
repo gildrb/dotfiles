@@ -1,5 +1,5 @@
 {
-  "onboardingShown": true,
+  "onboardingShown": false,
   "quietStartup": true,
   "telemetry": {
     "enabled": false,
@@ -35,11 +35,9 @@
   },
   "retry": {
     "enabled": true,
-    "maxRetries": 1,
+    "maxRetries": 3,
     "baseDelayMs": 1500,
     "provider": {
-      "timeoutMs": 180000,
-      "maxRetries": 0,
       "maxRetryDelayMs": 15000
     }
   },
