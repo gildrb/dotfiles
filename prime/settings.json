@@ -3,15 +3,15 @@
   "quietStartup": true,
   "telemetry": {
     "enabled": false,
-    "noticeShown": true
+    "noticeShown": false
   },
   "agentTraces": {
     "enabled": false
   },
   "autoRefine": {
-    "enabled": false
+    "enabled": true
   },
-  "rlmMaxDepth": 1,
+  "rlmMaxDepth": 2,
   "theme": "death-note",
   "steeringMode": "one-at-a-time",
   "followUpMode": "one-at-a-time",
