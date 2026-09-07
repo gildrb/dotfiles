@@ -1,0 +1,33 @@
+;;; Death Note semantic styles. ANSI colors come from the terminal palette.
+(in-package #:autolith)
+
+;; Keep defaults for roles already mapped to the shared palette. Replace the
+;; fixed indexed greens and gray status background, plus the magenta accents.
+(loop for (name arguments) in
+      '((:brand (:foreground :bright-red :bold t))
+        (:brand-gradient-1 (:foreground :red :bold t))
+        (:brand-gradient-2 (:foreground :red :bold t))
+        (:brand-gradient-3 (:foreground :bright-red :bold t))
+        (:brand-gradient-4 (:foreground :bright-red :bold t))
+        (:brand-gradient-5 (:foreground :white :bold t))
+        (:brand-gradient-6 (:foreground :bright-white :bold t))
+        (:recovery-gradient-1 (:foreground :white :bold t))
+        (:recovery-gradient-2 (:foreground :white :bold t))
+        (:recovery-gradient-3 (:foreground :bright-red :bold t))
+        (:recovery-gradient-4 (:foreground :bright-red :bold t))
+        (:recovery-gradient-5 (:foreground :red :bold t))
+        (:recovery-gradient-6 (:foreground :red :bold t))
+        (:child-name (:foreground :blue))
+        (:syntax-keyword (:foreground :bright-red))
+        (:syntax-heading (:foreground :bright-red :bold t))
+        (:status-plain (:foreground :white :background :black))
+        (:status-dim (:foreground :bright-black :background :black))
+        (:status-accent (:foreground :bright-red :background :black :bold t))
+        (:status-model (:foreground :blue :background :black :bold t))
+        (:status-effort (:foreground :bright-red :background :black :bold t))
+        (:status-branch (:foreground :green :background :black :bold t))
+        (:compaction-label (:foreground :yellow :background :black :bold t))
+        (:compaction-track (:foreground :bright-black :background :black))
+        (:compaction-head (:foreground :yellow :background :black :bold t)))
+      do (setf (cdr (assoc name *terminal-style-table*))
+               (apply #'make-style arguments)))
