@@ -1,21 +1,15 @@
 # Agent instructions
 
-- Prefer fast, direct, low-coupling changes.
-- Keep code simple. Do not add one-line wrapper functions.
-- Avoid duplication. Reuse existing modules and helpers; check for reusable behavior before adding new abstractions.
-- Use dependency inversion at boundaries: host files choose policy; modules expose reusable behavior.
-- Preserve user data and unrelated work. Never reset, clean, or overwrite user changes unless explicitly asked.
-- Read the project and relevant documentation before editing. Follow local instructions and established best practices.
-- Keep responses concise, technical, and direct. Avoid fluff, hype, and unnecessary preambles.
+Read the README.md first, then relevant documentation before editing anything. Do not write ANY tests. Check for reusable behavior before adding new abstractions. Do not add one-line wrapper functions. Never reset, clean, or overwrite user changes unless explicitly asked.
 
 ## Default output format
 
 Apply `~/.codex/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
 
-
 ## Memory
 
 Your memory is OptMem:
+
 - The tool is `~/.optmem/memo`
 - Your memories are in `~/.optmem/memory`
 
