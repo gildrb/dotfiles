@@ -46,6 +46,18 @@
       }
     }
   },
+  "mcp_servers": {
+    "fff": {
+      "command": "/run/current-system/sw/bin/nix",
+      "args": [
+        "run", "--offline", "--no-write-lock-file",
+        "path:/home/gilrodrigues/Repos/dotfiles/hermes/fff"
+      ],
+      "connect_timeout": 60,
+      "timeout": 120,
+      "sampling": { "enabled": false }
+    }
+  },
   "model": {
     "context_length": 65536,
     "default": "qwen3.8-27b",
