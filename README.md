@@ -1,5 +1,7 @@
 ## Herdr
 
+Herdr 0.9.0: `ui.pane_borders = "auto"` keeps split-only borders. `Ctrl+B Shift+C` reloads client presentation and selected server config. Save active work before accepting the one-time legacy server replacement; it stops pane processes. Detaching keeps panes running.
+
 Prefix: `Ctrl+B`, then the key below. `Ctrl+B Ctrl+B` sends `Ctrl+B` to the pane.
 
 | Key | Action | Key | Action |
