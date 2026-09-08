@@ -103,4 +103,7 @@ def pre_llm_call(*, is_first_turn=False, parent_session_id=None, **kwargs):
 
 
 def register(ctx):
+    # Kept in the already Nix-managed plugin directory; no memory-store coupling.
+    from .fff_policy import pre_tool_call
+    ctx.register_hook("pre_tool_call", pre_tool_call)
     ctx.register_hook("pre_llm_call", pre_llm_call)
