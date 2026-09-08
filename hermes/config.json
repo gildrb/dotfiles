@@ -32,7 +32,19 @@
   ],
   "display": {
     "interface": "tui",
-    "skin": "death-note"
+    "skin": "death-note",
+    "personality": "concise",
+    "show_reasoning": false,
+    "platforms": {
+      "telegram": {
+        "tool_progress": "off",
+        "interim_assistant_messages": false,
+        "long_running_notifications": true,
+        "busy_ack_detail": false,
+        "busy_steer_ack_enabled": false,
+        "cleanup_progress": true
+      }
+    }
   },
   "model": {
     "context_length": 65536,
@@ -56,22 +68,12 @@
   },
   "platform_toolsets": {
     "cli": [
-      "terminal",
-      "file",
-      "web",
-      "browser",
-      "skills"
+      "terminal", "file", "web", "browser", "skills",
+      "vision", "session_search", "clarify", "cronjob", "messaging"
     ],
     "telegram": [
-      "terminal",
-      "file",
-      "web",
-      "browser",
-      "skills",
-      "vision",
-      "memory",
-      "session_search",
-      "clarify"
+      "terminal", "file", "web", "browser", "skills",
+      "vision", "session_search", "clarify", "cronjob", "messaging"
     ]
   },
   "terminal": {
@@ -82,6 +84,12 @@
     "extract_backend": "firecrawl",
     "search_backend": "firecrawl",
     "use_gateway": false
+  },
+  "security": {
+    "redact_secrets": true
+  },
+  "privacy": {
+    "redact_pii": true
   },
   "plugins": {
     "enabled": [
