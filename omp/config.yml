@@ -16,7 +16,7 @@ symbolPreset: ascii
 composer:
   shape: pi
 statusLine:
-  preset: custom
+  preset: ascii
   leftSegments:
     - model
     - path
