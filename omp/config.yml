@@ -1,6 +1,10 @@
 theme:
   dark: death-note
   light: death-note
+skillful: false
+skills:
+  enabled: true
+  enableSkillCommands: true
 steeringMode: one-at-a-time
 followUpMode: one-at-a-time
 showHardwareCursor: true

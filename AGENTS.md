@@ -2,6 +2,10 @@
 
 Read the README.md first, then relevant documentation before editing anything. Never write any tests unless explicitly instructed. Never edit the README.md unless explicitly instructed. Never reset, clean, overwrite, commit or push user changes unless explicitly asked. Do not message with depth 0 siblings unless explicitly instructed by the user. Never bypass safety: no any/Any, unsafe casts/assertions, !, @ts-ignore, swallowed exceptions, ambiguous truthiness, shared mutable state/defaults, iteration mutation, float equality, or unvalidated boundary input. Keep strict checks on; use precise types. Check for reusable behavior before adding new abstractions. Do not add one-line wrapper functions.   
 
+## Skills
+
+Use skills only when the user explicitly names a skill or invokes `/skill:name` in chat, except for the default output-format skill below. Do not discover, read, invoke, or delegate any other skill merely because a task matches its description.
+
 ## Default output format
 
 Apply `~/.codex/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
