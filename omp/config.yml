@@ -79,9 +79,13 @@ computer:
 astGrep:
   enabled: true
 task:
-  eager: always
+  eager: preferred
   enableLsp: true
   showResolvedModelBadge: true
+  isolation:
+    enabled: true
+    apply: true
+    merge: patch
 python:
   kernelMode: session
 eval:
@@ -93,3 +97,12 @@ eval:
     enabled: true
   workpool:
     freshAgents: false
+edit:
+  mode: hashline
+lsp:
+  enabled: true
+  lazy: true
+  shared: true
+  diagnosticsOnWrite: true
+  diagnosticsOnEdit: true
+  diagnosticsDeduplicate: true
