@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key><string>Death Note</string>
+    <key>settings</key>
+    <array>
+        <dict>
+            <key>settings</key>
+            <dict>
+                <key>background</key><string>#09090b</string>
+                <key>foreground</key><string>#ededed</string>
+                <key>caret</key><string>#fe598f</string>
+                <key>selection</key><string>#471d2b</string>
+                <key>lineHighlight</key><string>#141416</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>comment</string>
+            <key>settings</key><dict><key>foreground</key><string>#a0a0a0</string><key>fontStyle</key><string>italic</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>punctuation</string>
+            <key>settings</key><dict><key>foreground</key><string>#ededed</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>keyword, storage, punctuation.definition.keyword</string>
+            <key>settings</key><dict><key>foreground</key><string>#fe598f</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>string, punctuation.definition.string</string>
+            <key>settings</key><dict><key>foreground</key><string>#10c955</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>entity.name.function, support.function, entity.name.constructor</string>
+            <key>settings</key><dict><key>foreground</key><string>#c674f9</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>variable, constant, support.constant, entity.name.tag, entity.other.attribute-name</string>
+            <key>settings</key><dict><key>foreground</key><string>#5fa5ff</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>entity.name.type, entity.name.class, entity.name.namespace, entity.name.module, support.type, support.class, storage.type</string>
+            <key>settings</key><dict><key>foreground</key><string>#52f0db</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>constant.numeric, constant.language, variable.parameter</string>
+            <key>settings</key><dict><key>foreground</key><string>#ffb200</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>invalid</string>
+            <key>settings</key><dict><key>foreground</key><string>#ff6a6e</string><key>background</key><string>#24151b</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.heading</string>
+            <key>settings</key><dict><key>foreground</key><string>#fe598f</string><key>fontStyle</key><string>bold</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.bold</string>
+            <key>settings</key><dict><key>fontStyle</key><string>bold</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.italic</string>
+            <key>settings</key><dict><key>fontStyle</key><string>italic</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.raw, markup.inserted</string>
+            <key>settings</key><dict><key>foreground</key><string>#10c955</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.changed</string>
+            <key>settings</key><dict><key>foreground</key><string>#ffb200</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.deleted</string>
+            <key>settings</key><dict><key>foreground</key><string>#ff6a6e</string></dict>
+        </dict>
+    </array>
+</dict>
+</plist>

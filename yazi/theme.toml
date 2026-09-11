@@ -1,0 +1,5 @@
+# Death Note; palette source: ../theme/death-note.json.
+# Yazi 26.5.6: keep behavior, keymaps, and layout at their upstream defaults.
+[flavor]
+dark = "death-note"
+light = "death-note"
