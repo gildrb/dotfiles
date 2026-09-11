@@ -1,9 +1,14 @@
 theme:
   dark: death-note
   light: death-note
-steeringMode: all
+steeringMode: one-at-a-time
 followUpMode: one-at-a-time
-showHardwareCursor: false
+showHardwareCursor: true
+defaultThinkingLevel: low
+textVerbosity: low
+doubleEscapeAction: tree
+retry:
+  usageReservePct: 15
 startup:
   quiet: true
   changelogMode: hidden
@@ -11,9 +16,12 @@ startup:
   setupWizard: false
 compaction:
   enabled: true
+  midTurnEnabled: true
+  asyncEnabled: true
+  autoContinue: true
 symbolPreset: ascii
 composer:
-  shape: pi
+  shape: borderless
 statusLine:
   preset: ascii
   leftSegments:
@@ -34,20 +42,54 @@ statusLine:
       showStaged: false
       showUnstaged: false
       showUntracked: false
-  separator: slash
-  sessionAccent: false
+  separator: ascii
+  sessionAccent: true
   transparent: true
   compactThinkingLevel: false
 terminal:
-  showProgress: false
+  showProgress: true
+  showImages: true
 tui:
   textSizing: false
   tight: true
+  renderMermaid: true
+  hyperlinks: auto
 display:
-  shimmer: classic
+  shimmer: kitt
+  smoothStreaming: true
+  hideToolActivity: false
+  showTokenUsage: true
+  collapseCompacted: true
   cacheMissMarker: true
 plan:
   enabled: false
 goal:
   enabled: true
-  statusInFooter: false
+  statusInFooter: true
+images:
+  autoResize: true
+  blockImages: false
+  describeForTextModels: true
+bashInterceptor:
+  enabled: true
+security:
+  enabled: true
+computer:
+  enabled: true
+astGrep:
+  enabled: true
+task:
+  eager: always
+  enableLsp: true
+  showResolvedModelBadge: true
+python:
+  kernelMode: session
+eval:
+  py: true
+  js: true
+  tools:
+    enabled: true
+  autoBackground:
+    enabled: true
+  workpool:
+    freshAgents: false
