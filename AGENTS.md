@@ -1,6 +1,6 @@
 # Agent instructions
 
-Read the README.md first, then relevant documentation before editing anything. Do not write ANY tests. Check for reusable behavior before adding new abstractions. Do not add one-line wrapper functions. Never reset, clean, or overwrite user changes unless explicitly asked.
+Read the README.md first, then relevant documentation before editing anything. Never write any tests unless explicitly instructed. Never reset, clean, overwrite, commit or push user changes unless explicitly asked. Do not message with depth 0 siblings unless explicitly instructed by the user. Never bypass safety: no any/Any, unsafe casts/assertions, !, @ts-ignore, swallowed exceptions, ambiguous truthiness, shared mutable state/defaults, iteration mutation, float equality, or unvalidated boundary input. Keep strict checks on; use precise types. Check for reusable behavior before adding new abstractions. Do not add one-line wrapper functions.   
 
 ## Default output format
 
