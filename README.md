@@ -36,13 +36,3 @@ Leader: `Space`.
 | `Space cs` / `Space cl` | Symbols / LSP references | `[h` / `]h` | Previous / next Git hunk |
 | `Space hp` / `Space hs` | Preview / stage Git hunk | `Space hr` / `Space hb` | Reset / blame Git hunk |
 | `f` / `n` / `g` (start screen) | Files / new file / grep | `r` / `l` / `q` (start screen) | Recent / plugins / quit |
-
-## OMP
-
-Settings live in `omp/config.yml`. Hashline edits and LSP are enabled, including LSP in subagents. Delegation is preferred, without a forced first-turn reminder for small edits.
-
-Use separate file owners for shared-workspace agents. Isolation is opt-in; successful isolated changes are integrated as patches, not branch merges.
-
-Retained eval kernels and automatic compaction support long sessions; kernel variables do not survive process restarts. Keep durable working data in files.
-
-On OMP 18.1.10, explicit LSP checks detected type errors that automatic post-edit diagnostics missed. Request diagnostics before declaring changed code clean.
