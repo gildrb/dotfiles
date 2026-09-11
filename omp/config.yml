@@ -1,7 +1,6 @@
 theme:
   dark: death-note
   light: death-note
-defaultThinkingLevel: xhigh
 steeringMode: all
 followUpMode: one-at-a-time
 showHardwareCursor: false
@@ -25,7 +24,7 @@ statusLine:
     - context_pct
   segmentOptions:
     model:
-      showThinkingLevel: false
+      showThinkingLevel: true
     path:
       abbreviate: true
       maxLength: 35
@@ -38,7 +37,7 @@ statusLine:
   separator: slash
   sessionAccent: false
   transparent: true
-  compactThinkingLevel: true
+  compactThinkingLevel: false
 terminal:
   showProgress: false
 tui:
