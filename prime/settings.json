@@ -1,38 +1,52 @@
 {
   "onboardingShown": false,
   "quietStartup": true,
-  "telemetry": {
-    "enabled": false,
-    "noticeShown": false
-  },
-  "agentTraces": {
-    "enabled": false
-  },
-  "autoRefine": {
-    "enabled": true
-  },
   "rlmMaxDepth": 2,
   "theme": "death-note",
   "steeringMode": "one-at-a-time",
   "followUpMode": "one-at-a-time",
-  "showHardwareCursor": false,
+  "showHardwareCursor": true,
   "enableSkillCommands": true,
+
+  "telemetry": {
+    "enabled": false,
+    "noticeShown": false
+  },
+
+  "agentTraces": {
+    "enabled": false
+  },
+
+  "autoRefine": {
+    "enabled": true
+  },
+
+  "markdown": {
+    "mermaid": "final"
+  },
+
   "bundledSkills": {
     "websearch": false
   },
+
   "images": {
-    "blockImages": false
+    "blockImages": false,
+    "autoResize": true
   },
+
   "terminal": {
     "showImages": true,
+    "clearOnShrink": true,
     "fullscreen": true
   },
+
   "compaction": {
     "enabled": true,
     "reserveTokens": 16384,
     "keepRecentTokens": 20000,
     "agentCallable": false
   },
+
   "retry": {
     "enabled": true,
     "maxRetries": 3,
@@ -41,6 +55,7 @@
       "maxRetryDelayMs": 15000
     }
   },
+
   "mcpServers": {
     "figma": {
       "type": "http",
