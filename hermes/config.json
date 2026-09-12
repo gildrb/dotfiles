@@ -13,7 +13,7 @@
           "context_length": 24576
         }
       },
-      "name": "qwen-local"
+      "name": "local"
     }
   ],
   "display": {
@@ -48,16 +48,16 @@
     "context_length": 24576,
     "default": "qwen3.8-27b",
     "max_tokens": 8192,
-    "provider": "custom:qwen-local"
+    "provider": "custom:local"
   },
   "model_aliases": {
     "fast": {
       "model": "qwen3.8-27b",
-      "provider": "custom:qwen-local"
+      "provider": "custom:local"
     },
     "qwen": {
       "model": "qwen3.8-27b",
-      "provider": "custom:qwen-local"
+      "provider": "custom:local"
     }
   },
   "platform_toolsets": {
