@@ -10,7 +10,7 @@
       "key_env": "QWEN_API_KEY",
       "models": {
         "qwen3.8-27b": {
-          "context_length": 24576
+          "context_length": 65536
         }
       },
       "name": "local"
@@ -45,7 +45,7 @@
     }
   },
   "model": {
-    "context_length": 24576,
+    "context_length": 65536,
     "default": "qwen3.8-27b",
     "max_tokens": 8192,
     "provider": "custom:local"
