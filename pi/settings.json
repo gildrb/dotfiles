@@ -1,5 +1,7 @@
 {
   "lastChangelogVersion": "0.85.1",
+  "defaultProvider": "openrouter",
+  "defaultModel": "z-ai/glm-5.3-flash",
   "theme": "death-note",
   "showCacheMissNotices": true,
   "quietStartup": true,
