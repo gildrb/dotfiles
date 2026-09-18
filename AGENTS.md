@@ -1,6 +1,14 @@
 # Agent instructions
 
-Read the README.md first, then relevant documentation before editing anything. Never write any tests unless explicitly instructed. Never edit the README.md unless explicitly instructed. Never reset, clean, overwrite, commit or push user changes unless explicitly asked. Do not message with depth 0 siblings unless explicitly instructed by the user. Never bypass safety: no any/Any, unsafe casts/assertions, !, @ts-ignore, swallowed exceptions, ambiguous truthiness, shared mutable state/defaults, iteration mutation, float equality, or unvalidated boundary input. Keep strict checks on; use precise types. Check for reusable behavior before adding new abstractions. Do not add one-line wrapper functions.   
+Read `README.md` first, then relevant docs before editing. Never write tests or edit `README.md` unless explicitly asked. Never reset, clean, overwrite, commit, or push user changes unless explicitly asked. Inspect definitions, callers, types, invariants, and existing abstractions before changing code; never infer APIs or behavior from names. No `any`/`Any`, unsafe type casts/assertions, non-null assertions, `@ts-ignore`, swallowed errors, ambiguous truthiness, mutable defaults/shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion/fallbacks, or unvalidated boundary input. Keep strict checks on; use precise types and exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, and security boundaries. Check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, and injection where relevant. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results merely to pass. Report failures and unverified work.
+
+Subagent exemptions apply only to OptMem; all other instructions remain binding.
+
+When using Bend:
+- Run `bend guide` to learn it
+- Use `LAWS.bend` to keep important rules
+- Run `bend PROOF.bend` before committing
+- Parallelize the code whenever possible
 
 ## Skills
 
