@@ -1,22 +1,24 @@
 /**
- * Unstuck: stall watchdog for Prime Agent sessions.
+ * Unstuck: stall + zombie watchdog for Prime Agent sessions.
  *
- * Sessions freeze when a model holds its turn open on one blocking tool call
- * (unbounded bash, hung GPU/docker command, dead provider stream) with no
- * visible progress. This extension makes silence measurable and recoverable:
+ * Two failure classes are covered:
  *
- * - Every bash call gets a timeout floor and cap, so no command runs unbounded.
- * - In-flight tools are tracked; output updates count as liveness.
- * - After a silent warn window the user is notified; after the abort window
- *   the tool is aborted (process tree killed) and a recovery message with the
- *   captured output tail is steered into the session, instructing the model to
- *   restart the work nonblocking instead of re-awaiting it inline.
- * - Provider streams silent past their window are aborted once per turn with
- *   the same recovery protocol.
- * - Events append to ~/.cache/unstuck/log.jsonl for postmortems.
+ * 1. STALL - a tool call (unbounded bash, hung GPU/docker command) or provider
+ *    stream goes silent while the turn is open. Bash calls get a timeout
+ *    floor/cap at dispatch; silent tools warn then abort with a steered
+ *    recovery message carrying the captured output tail; provider streams
+ *    silent past their window abort once per turn.
  *
- * Configure with env vars (UNSTUCK_*) or the /unstuck command; "/unstuck off"
- * disables enforcement for the session when a long silent run is intended.
+ * 2. ZOMBIE - the model request is aborted or wedged but the session's busy
+ *    flag stays set: no tool executions, no message updates, nothing drains
+ *    (observed in production: a session ignored its queue for two hours
+ *    until an external steer revived it). Event-driven ladders cannot see
+ *    this, so a wall-clock ladder acts regardless of turn bookkeeping: after
+ *    the zombie window with zero events on a non-idle session, notify,
+ *    inject a wake-up message, and abort to clear the wedged turn.
+ *
+ * Events append to ~/.cache/unstuck/log.jsonl. Configure with UNSTUCK_* env
+ * vars or /unstuck; "/unstuck off" disables enforcement for the session.
  */
 import { appendFile, mkdir } from "node:fs/promises";
 import { homedir } from "node:os";
@@ -37,6 +39,8 @@ type Settings = {
 	warnMs: number;
 	abortMs: number;
 	providerStallMs: number;
+	zombieWarnMs: number;
+	zombieActMs: number;
 	bashDefaultSec: number;
 	bashMaxSec: number;
 };
@@ -54,7 +58,7 @@ type InFlight = {
 
 type LedgerEntry = {
 	ts: string;
-	kind: "warn" | "abort" | "provider-stall" | "config";
+	kind: "warn" | "abort" | "provider-stall" | "zombie-warn" | "zombie-act" | "config";
 	session: string;
 	tool?: string;
 	label?: string;
@@ -82,6 +86,8 @@ function defaultSettings(): Settings {
 		warnMs: envInt("UNSTUCK_WARN_MS", 180_000, 30_000, 3_600_000),
 		abortMs: envInt("UNSTUCK_ABORT_MS", 900_000, 60_000, 7_200_000),
 		providerStallMs: envInt("UNSTUCK_PROVIDER_MS", 900_000, 60_000, 7_200_000),
+		zombieWarnMs: envInt("UNSTUCK_ZOMBIE_WARN_MS", 600_000, 120_000, 7_200_000),
+		zombieActMs: envInt("UNSTUCK_ZOMBIE_ACT_MS", 1_200_000, 180_000, 7_200_000),
 		bashDefaultSec: envInt("UNSTUCK_BASH_SEC", 900, 5, 86_400),
 		bashMaxSec: envInt("UNSTUCK_BASH_MAX", 3_600, 60, 86_400),
 	};
@@ -138,7 +144,10 @@ export default function (pi: ExtensionAPI): void {
 	let ledgerFailed = false;
 	let turnActive = false;
 	let providerEscalated = false;
+	let zombieWarned = false;
+	let zombieActed = false;
 	let lastProgressAt = Date.now();
+	let lastAnyEventAt = Date.now();
 	let lastStatus = "";
 	let abortCount = 0;
 
@@ -163,7 +172,7 @@ export default function (pi: ExtensionAPI): void {
 
 	function sessionLabel(): string {
 		const file = ctx?.sessionManager.getSessionFile();
-		if (file !== undefined && file !== null) {
+		if (typeof file === "string" && file.length > 0) {
 			return file;
 		}
 		return "<ephemeral>";
@@ -270,6 +279,48 @@ export default function (pi: ExtensionAPI): void {
 		});
 	}
 
+	function zombieWarn(silentForMs: number): void {
+		zombieWarned = true;
+		notify(
+			`unstuck: ZOMBIE suspicion - zero events for ${formatDuration(silentForMs)} on a non-idle session`,
+			"warning",
+		);
+		writeLedger({
+			ts: new Date().toISOString(),
+			kind: "zombie-warn",
+			session: sessionLabel(),
+			silenceMs: silentForMs,
+			note: "wall-clock ladder: no events of any kind while session reports busy",
+		});
+	}
+
+	function zombieAct(silentForMs: number): void {
+		zombieActed = true;
+		abortCount += 1;
+		notify(
+			`unstuck: ZOMBIE recovery - no events for ${formatDuration(silentForMs)}; aborting wedged turn and steering a wake-up`,
+			"error",
+		);
+		writeLedger({
+			ts: new Date().toISOString(),
+			kind: "zombie-act",
+			session: sessionLabel(),
+			silenceMs: silentForMs,
+			note: "abort clears the stuck busy flag; steer message revives queue processing",
+		});
+		const report = [
+			"[unstuck] ZOMBIE RECOVERY: this session emitted no events for " +
+				`${formatDuration(silentForMs)} while reporting busy (likely an aborted or wedged model request).`,
+			"The turn was aborted to clear the busy state. Resume now:",
+			"1) Re-read the newest inbound child/user messages that queued during the gap.",
+			"2) Verify external side effects before continuing (builds, GPU windows, endpoint state).",
+			"3) Consume any bash completion follow-ups that piled up.",
+		].join("\n");
+		void steerRecovery(report).then(() => {
+			ctx?.abort();
+		});
+	}
+
 	function tick(): void {
 		if (timerBroken || ctx === undefined) {
 			return;
@@ -296,14 +347,25 @@ export default function (pi: ExtensionAPI): void {
 				abortTool(action.entry);
 			}
 		}
+		const idle = ctx.isIdle();
 		if (
 			turnActive &&
 			inFlight.size === 0 &&
 			!providerEscalated &&
 			now - lastProgressAt >= settings.providerStallMs &&
-			!ctx.isIdle()
+			!idle
 		) {
 			abortProviderStall();
+		}
+		// Zombie ladder: wall-clock, independent of turn bookkeeping. Any
+		// event resets it; only a wedged non-idle session can trip it.
+		const eventSilenceMs = now - lastAnyEventAt;
+		if (!idle) {
+			if (!zombieActed && eventSilenceMs >= settings.zombieActMs) {
+				zombieAct(eventSilenceMs);
+			} else if (!zombieWarned && eventSilenceMs >= settings.zombieWarnMs) {
+				zombieWarn(eventSilenceMs);
+			}
 		}
 		let status: string;
 		if (inFlight.size === 0) {
@@ -347,38 +409,57 @@ export default function (pi: ExtensionAPI): void {
 		}
 	}
 
+	function noteEvent(sessionCtx: ExtensionContext): void {
+		ctx = sessionCtx;
+		lastAnyEventAt = Date.now();
+	}
+
 	pi.on("session_start", (_event, sessionCtx) => {
 		ctx = sessionCtx;
 		lastProgressAt = Date.now();
+		lastAnyEventAt = Date.now();
 		startTimer();
 		setStatus("unstuck: ready");
 	});
 
-	pi.on("session_shutdown", () => {
+	pi.on("session_shutdown", (_event, sessionCtx) => {
+		noteEvent(sessionCtx);
 		stopTimer();
 		ctx = undefined;
 		inFlight.clear();
 		setStatus("");
 	});
 
-	pi.on("turn_start", () => {
+	pi.on("turn_start", (_event, sessionCtx) => {
+		noteEvent(sessionCtx);
 		turnActive = true;
 		providerEscalated = false;
+		zombieWarned = false;
+		zombieActed = false;
 		lastProgressAt = Date.now();
 	});
 
-	pi.on("turn_end", () => {
+	pi.on("turn_end", (_event, sessionCtx) => {
+		noteEvent(sessionCtx);
 		turnActive = false;
 		lastProgressAt = Date.now();
 	});
 
+	pi.on("message_start", (_event, sessionCtx) => {
+		noteEvent(sessionCtx);
+	});
+
 	pi.on("message_update", (_event, sessionCtx) => {
-		ctx = sessionCtx;
+		noteEvent(sessionCtx);
 		lastProgressAt = Date.now();
 	});
 
+	pi.on("message_end", (_event, sessionCtx) => {
+		noteEvent(sessionCtx);
+	});
+
 	pi.on("tool_call", (event, sessionCtx) => {
-		ctx = sessionCtx;
+		noteEvent(sessionCtx);
 		if (!settings.enabled || !isToolCallEventType("bash", event)) {
 			return;
 		}
@@ -390,7 +471,7 @@ export default function (pi: ExtensionAPI): void {
 	});
 
 	pi.on("tool_execution_start", (event, sessionCtx) => {
-		ctx = sessionCtx;
+		noteEvent(sessionCtx);
 		lastProgressAt = Date.now();
 		inFlight.set(event.toolCallId, {
 			toolCallId: event.toolCallId,
@@ -405,7 +486,7 @@ export default function (pi: ExtensionAPI): void {
 	});
 
 	pi.on("tool_execution_update", (event, sessionCtx) => {
-		ctx = sessionCtx;
+		noteEvent(sessionCtx);
 		const entry = inFlight.get(event.toolCallId);
 		if (entry === undefined) {
 			return;
@@ -418,14 +499,15 @@ export default function (pi: ExtensionAPI): void {
 	});
 
 	pi.on("tool_execution_end", (event, sessionCtx) => {
-		ctx = sessionCtx;
+		noteEvent(sessionCtx);
 		inFlight.delete(event.toolCallId);
 		lastProgressAt = Date.now();
 	});
 
 	pi.registerCommand("unstuck", {
-		description: "Show or tune the stall watchdog (off|on|warn N|abort N|provider N|bash N|max N, seconds/ms)",
+		description: "Show or tune the stall+zombie watchdog (off|on|warn N|abort N|provider N|zombie N|bash N|max N, seconds)",
 		handler: async (args, commandCtx) => {
+			noteEvent(commandCtx);
 			const parts = args.trim().split(/\s+/).filter((part) => part.length > 0);
 			if (parts.length === 0) {
 				const ages = Array.from(inFlight.values()).map(
@@ -434,7 +516,8 @@ export default function (pi: ExtensionAPI): void {
 				);
 				const summary = [
 					`unstuck: ${settings.enabled ? "enabled" : "disabled"}; aborts this session: ${abortCount}`,
-					`warn ${Math.round(settings.warnMs / 1000)}s, abort ${Math.round(settings.abortMs / 1000)}s, provider ${Math.round(settings.providerStallMs / 1000)}s, bash timeout ${settings.bashDefaultSec}s (max ${settings.bashMaxSec}s)`,
+					`warn ${Math.round(settings.warnMs / 1000)}s, abort ${Math.round(settings.abortMs / 1000)}s, provider ${Math.round(settings.providerStallMs / 1000)}s, zombie warn/act ${Math.round(settings.zombieWarnMs / 1000)}/${Math.round(settings.zombieActMs / 1000)}s, bash timeout ${settings.bashDefaultSec}s (max ${settings.bashMaxSec}s)`,
+					`event silence: ${formatDuration(Date.now() - lastAnyEventAt)}`,
 					ages.length > 0 ? `in flight: ${ages.join("; ")}` : "no tools in flight",
 				];
 				commandCtx.ui.notify(summary.join("\n"), "info");
@@ -484,6 +567,27 @@ export default function (pi: ExtensionAPI): void {
 						return;
 					}
 					break;
+				case "zombie": {
+					if (valueText === undefined) {
+						commandCtx.ui.notify("unstuck: zombie takes 'warn N' or 'act N'", "error");
+						return;
+					}
+					const [which, n] = args.trim().split(/\s+/).slice(1);
+					const parsed = Number.parseInt(n ?? "", 10);
+					if (!Number.isFinite(parsed) || parsed < 2 || parsed > 7200) {
+						commandCtx.ui.notify("unstuck: zombie window out of range (2..7200 minutes? use seconds)", "error");
+						return;
+					}
+					if (which === "warn") {
+						settings.zombieWarnMs = parsed * 1000;
+					} else if (which === "act") {
+						settings.zombieActMs = parsed * 1000;
+					} else {
+						commandCtx.ui.notify("unstuck: zombie takes 'warn N' or 'act N'", "error");
+						return;
+					}
+					break;
+				}
 				case "bash":
 					if (!applyNumber(settings.bashDefaultSec, (parsed) => { settings.bashDefaultSec = parsed; }, 5, 86400)) {
 						return;
@@ -509,7 +613,7 @@ export default function (pi: ExtensionAPI): void {
 				note: args,
 			});
 			commandCtx.ui.notify(
-				`unstuck: ${settings.enabled ? "enabled" : "disabled"}; warn ${Math.round(settings.warnMs / 1000)}s abort ${Math.round(settings.abortMs / 1000)}s provider ${Math.round(settings.providerStallMs / 1000)}s bash ${settings.bashDefaultSec}s max ${settings.bashMaxSec}s`,
+				`unstuck: ${settings.enabled ? "enabled" : "disabled"}; warn ${Math.round(settings.warnMs / 1000)}s abort ${Math.round(settings.abortMs / 1000)}s provider ${Math.round(settings.providerStallMs / 1000)}s zombie ${Math.round(settings.zombieWarnMs / 1000)}/${Math.round(settings.zombieActMs / 1000)}s bash ${settings.bashDefaultSec}s max ${settings.bashMaxSec}s`,
 				"info",
 			);
 		},
