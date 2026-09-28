@@ -109,14 +109,11 @@ return {
       local mason_servers = vim.tbl_keys(languages.servers)
 
       mason_servers = vim.tbl_filter(function(server)
-        return server ~= "clangd" and server ~= "nushell"
+        return server ~= "clangd" and server ~= "nixd" and server ~= "nushell"
       end, mason_servers)
 
-      if vim.fn.executable("nil") == 1 then
-        mason_servers = vim.tbl_filter(function(server)
-          return server ~= "nil_ls"
-        end, mason_servers)
-        vim.lsp.enable("nil_ls")
+      if vim.fn.executable("nixd") == 1 then
+        vim.lsp.enable("nixd")
       end
 
       if vim.fn.executable("nu") == 1 then
@@ -129,7 +126,7 @@ return {
 
       require("mason-lspconfig").setup({
         ensure_installed = mason_servers,
-        automatic_enable = { exclude = { "clangd", "nushell" } },
+        automatic_enable = { exclude = { "clangd", "nixd", "nushell" } },
       })
 
       vim.lsp.enable("clangd")

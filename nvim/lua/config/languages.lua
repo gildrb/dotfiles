@@ -22,6 +22,9 @@ local clangd_query_driver = table.concat({
   "/etc/profiles/per-user/*/bin/gcc*",
   "/etc/profiles/per-user/*/bin/g++*",
 }, ",")
+
+-- nixd completes options from the machine configuration flake in ~/nix.
+local nix_flake = string.format('(builtins.getFlake "%s")', vim.fs.normalize("~/nix"))
 M.parsers = {
   "bash",
   "c",
@@ -75,7 +78,20 @@ M.servers = {
     },
   },
   marksman = {},
-  nil_ls = {},
+  nixd = {
+    settings = {
+      nixd = {
+        nixpkgs = { expr = "import " .. nix_flake .. ".inputs.nixpkgs { }" },
+        options = {
+          nixos = { expr = nix_flake .. ".nixosConfigurations.server.options" },
+          home_manager = {
+            expr = nix_flake .. ".nixosConfigurations.server.options.home-manager.users.type.getSubOptions [ ]",
+          },
+          nix_darwin = { expr = nix_flake .. ".darwinConfigurations.macbook.options" },
+        },
+      },
+    },
+  },
   nushell = {},
   pyright = {},
   rust_analyzer = {},
