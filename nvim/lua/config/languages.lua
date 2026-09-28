@@ -39,7 +39,6 @@ M.parsers = {
   "html",
   "javascript",
   "json",
-  "jsonc",
   "lua",
   "luadoc",
   "markdown",
@@ -93,21 +92,18 @@ M.servers = {
     },
   },
   nushell = {},
-  pyright = {},
+  oxlint = {},
+  ruff = {
+    -- ty owns hover; Ruff's only documents noqa codes.
+    on_attach = function(client)
+      client.server_capabilities.hoverProvider = false
+    end,
+  },
   rust_analyzer = {},
   taplo = {},
-  ts_ls = {},
+  tsc = {},
+  ty = {},
   yamlls = {},
-}
-
-M.tools = {
-  "nixfmt",
-  "prettierd",
-  "ruff",
-  "shellcheck",
-  "shfmt",
-  "stylua",
-  "tree-sitter-cli",
 }
 
 M.formatters_by_ft = {

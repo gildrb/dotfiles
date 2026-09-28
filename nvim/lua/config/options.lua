@@ -45,9 +45,11 @@ opt.fillchars = {
 
 vim.diagnostic.config({
   severity_sort = true,
-  signs = true,
+  -- Hints (unused code, related spans) stay as faded text and in floats, as in
+  -- VS Code; linters report the same findings as warnings.
+  signs = { severity = { min = vim.diagnostic.severity.INFO } },
   underline = true,
   update_in_insert = false,
-  virtual_text = { spacing = 3, prefix = ">" },
+  virtual_text = { spacing = 3, prefix = ">", severity = { min = vim.diagnostic.severity.INFO } },
   float = { border = "rounded", source = true },
 })

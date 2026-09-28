@@ -55,19 +55,11 @@ return {
     config = function()
       local treesitter = require("nvim-treesitter")
       treesitter.setup({})
+      vim.treesitter.language.register("json", "jsonc")
 
-      local function install_parsers()
-        if vim.fn.executable("tree-sitter") == 1 then
-          treesitter.install(languages.parsers)
-        end
+      if vim.fn.executable("tree-sitter") == 1 then
+        treesitter.install(languages.parsers)
       end
-
-      install_parsers()
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "MasonToolsUpdateCompleted",
-        desc = "Install configured Tree-sitter parsers after Mason is ready",
-        callback = install_parsers,
-      })
       vim.api.nvim_create_autocmd("FileType", {
         desc = "Enable language-aware Tree-sitter highlighting",
         callback = function(event)
@@ -78,19 +70,16 @@ return {
     end,
   },
   {
-    "mason-org/mason.nvim",
-    cmd = "Mason",
-    opts = {
-      ui = {
-        border = "rounded",
-        icons = { package_installed = "[x]", package_pending = "[...]", package_uninstalled = "[ ]" },
-      },
-    },
-  },
-  {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = { "saghen/blink.cmp" },
+    config = function()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+      for server, options in pairs(languages.servers) do
+        vim.lsp.config(server, vim.tbl_deep_extend("force", { capabilities = capabilities }, options))
+        vim.lsp.enable(server)
+      end
+    end,
     keys = {
       { "gd", vim.lsp.buf.definition, desc = "Go to definition" },
       { "gr", "<cmd>FzfLua lsp_references<cr>", desc = "References" },
@@ -98,49 +87,6 @@ return {
       { "K", vim.lsp.buf.hover, desc = "Hover documentation" },
       { "<leader>ca", vim.lsp.buf.code_action, mode = { "n", "v" }, desc = "Code action" },
       { "<leader>cr", vim.lsp.buf.rename, desc = "Rename symbol" },
-    },
-  },
-  {
-    "mason-org/mason-lspconfig.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = { "mason-org/mason.nvim", "neovim/nvim-lspconfig" },
-    config = function()
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
-      local mason_servers = vim.tbl_keys(languages.servers)
-
-      mason_servers = vim.tbl_filter(function(server)
-        return server ~= "clangd" and server ~= "nixd" and server ~= "nushell"
-      end, mason_servers)
-
-      if vim.fn.executable("nixd") == 1 then
-        vim.lsp.enable("nixd")
-      end
-
-      if vim.fn.executable("nu") == 1 then
-        vim.lsp.enable("nushell")
-      end
-
-      for server, options in pairs(languages.servers) do
-        vim.lsp.config(server, vim.tbl_deep_extend("force", { capabilities = capabilities }, options))
-      end
-
-      require("mason-lspconfig").setup({
-        ensure_installed = mason_servers,
-        automatic_enable = { exclude = { "clangd", "nixd", "nushell" } },
-      })
-
-      vim.lsp.enable("clangd")
-    end,
-  },
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    event = { "BufReadPost", "BufNewFile" },
-    dependencies = { "mason-org/mason.nvim", "mason-org/mason-lspconfig.nvim" },
-    opts = {
-      ensure_installed = languages.tools,
-      run_on_start = true,
-      start_delay = 1000,
-      debounce_hours = 168,
     },
   },
 }
