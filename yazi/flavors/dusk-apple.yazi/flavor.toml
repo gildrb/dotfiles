@@ -1,0 +1,118 @@
+# Dusk Apple — canonical colors from theme/dusk-apple.json.
+# Schema and keys follow Yazi v26.5.6's theme-dark.toml.
+# Unspecified symbols and icons retain Yazi's defaults.
+
+[app]
+overall = { bg = "#09090b" }
+
+[mgr]
+cwd = { fg = "#7cefd9" }
+find_keyword = { fg = "#ffcc85", bold = true, italic = true, underline = true }
+find_position = { fg = "#7cefd9", bg = "#09090b", bold = true }
+symlink_target = { fg = "#d9d0c6", italic = true }
+marker_copied = { fg = "#95e7a6", bg = "#95e7a6" }
+marker_cut = { fg = "#ffc3bd", bg = "#ffc3bd" }
+marker_marked = { fg = "#7cefd9", bg = "#7cefd9" }
+marker_selected = { fg = "#ffcc85", bg = "#ffcc85" }
+count_copied = { fg = "#09090b", bg = "#95e7a6", bold = true }
+count_cut = { fg = "#09090b", bg = "#ffc3bd", bold = true }
+count_selected = { fg = "#09090b", bg = "#ffcc85", bold = true }
+border_style = { fg = "#965ce4" }
+
+[tabs]
+active = { fg = "#09090b", bg = "#965ce4", bold = true }
+inactive = { fg = "#d6d1cb", bg = "#141416" }
+
+[mode]
+normal_main = { fg = "#09090b", bg = "#965ce4", bold = true }
+normal_alt = { fg = "#e9e4de", bg = "#1c1c1f" }
+select_main = { fg = "#09090b", bg = "#ffcc85", bold = true }
+select_alt = { fg = "#ffcc85", bg = "#1c1c1f" }
+unset_main = { fg = "#09090b", bg = "#ffc3bd", bold = true }
+unset_alt = { fg = "#ffc3bd", bg = "#291210" }
+
+[indicator]
+parent = { fg = "#e9e4de", bg = "#1c1c1f", reversed = false }
+current = { fg = "#e9e4de", bg = "#251f33", bold = true, reversed = false }
+preview = { fg = "#e9e4de", bg = "#251f33", underline = true }
+
+[status]
+overall = { fg = "#e9e4de", bg = "#0d0d0f" }
+perm_sep = { fg = "#9b9690" }
+perm_type = { fg = "#d9cffd" }
+perm_read = { fg = "#ffcc85" }
+perm_write = { fg = "#965ce4" }
+perm_exec = { fg = "#95e7a6" }
+progress_label = { fg = "#e9e4de", bold = true }
+progress_normal = { fg = "#95e7a6", bg = "#0a1d0f" }
+progress_error = { fg = "#ffc3bd", bg = "#291210" }
+
+[which]
+mask = { bg = "#141416" }
+cand = { fg = "#7cefd9" }
+rest = { fg = "#d9d0c6" }
+desc = { fg = "#e9e4de" }
+separator_style = { fg = "#965ce4" }
+
+[confirm]
+border = { fg = "#965ce4" }
+title = { fg = "#965ce4", bold = true }
+body = { fg = "#e9e4de" }
+list = { fg = "#d6d1cb" }
+btn_yes = { fg = "#e9e4de", bg = "#251f33", bold = true, reversed = false }
+btn_no = { fg = "#d6d1cb", bg = "#141416" }
+
+[spot]
+border = { fg = "#965ce4" }
+title = { fg = "#965ce4", bold = true }
+tbl_col = { fg = "#7cefd9" }
+tbl_cell = { fg = "#e9e4de", bg = "#251f33", reversed = false }
+
+[notify]
+title_info = { fg = "#a3dcfd" }
+title_warn = { fg = "#ffcc85" }
+title_error = { fg = "#ffc3bd" }
+
+[pick]
+border = { fg = "#965ce4" }
+active = { fg = "#e9e4de", bg = "#251f33", bold = true }
+inactive = { fg = "#d6d1cb" }
+
+[input]
+border = { fg = "#965ce4" }
+title = { fg = "#965ce4", bold = true }
+value = { fg = "#e9e4de" }
+selected = { fg = "#e9e4de", bg = "#251f33", reversed = false }
+
+[cmp]
+border = { fg = "#965ce4" }
+active = { fg = "#e9e4de", bg = "#251f33", reversed = false }
+inactive = { fg = "#d6d1cb" }
+
+[tasks]
+border = { fg = "#965ce4" }
+title = { fg = "#965ce4", bold = true }
+hovered = { fg = "#e9e4de", bg = "#251f33", bold = true }
+
+[help]
+on = { fg = "#7cefd9" }
+run = { fg = "#7cefd9" }
+desc = { fg = "#e9e4de" }
+hovered = { fg = "#e9e4de", bg = "#251f33", bold = true, reversed = false }
+footer = { fg = "#d6d1cb", bg = "#141416" }
+
+[filetype]
+rules = [
+    { url = "*", is = "orphan", fg = "#ffc3bd", bg = "#291210" },
+    { url = "*", is = "dummy", fg = "#ffc3bd", bg = "#291210" },
+    { url = "*/", is = "dummy", fg = "#ffc3bd", bg = "#291210" },
+    { mime = "vfs/{absent,stale}", fg = "#d9d0c6" },
+    { mime = "image/*", fg = "#ffcc85" },
+    { mime = "{audio,video}/*", fg = "#7cefd9" },
+    { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#965ce4" },
+    { mime = "application/{pdf,doc,rtf,epub*,msword,vnd.openxmlformats-officedocument.*,vnd.oasis.opendocument.*}", fg = "#d9cffd" },
+    { url = "*", is = "exec", fg = "#95e7a6" },
+    { url = "*", is = "link", fg = "#7cefd9" },
+    { url = "*/", fg = "#a3dcfd" },
+    { url = "*", fg = "#e9e4de" },
+]

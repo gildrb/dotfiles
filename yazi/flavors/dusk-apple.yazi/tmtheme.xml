@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key><string>Dusk Apple</string>
+    <key>settings</key>
+    <array>
+        <dict>
+            <key>settings</key>
+            <dict>
+                <key>background</key><string>#09090b</string>
+                <key>foreground</key><string>#e9e4de</string>
+                <key>caret</key><string>#965ce4</string>
+                <key>selection</key><string>#251f33</string>
+                <key>lineHighlight</key><string>#18181c</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>comment</string>
+            <key>settings</key><dict><key>foreground</key><string>#d9d0c6</string><key>fontStyle</key><string>italic</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>punctuation</string>
+            <key>settings</key><dict><key>foreground</key><string>#d6d1cb</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>keyword, storage, punctuation.definition.keyword</string>
+            <key>settings</key><dict><key>foreground</key><string>#ffcc91</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>keyword.operator</string>
+            <key>settings</key><dict><key>foreground</key><string>#d6d1cb</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>string, punctuation.definition.string</string>
+            <key>settings</key><dict><key>foreground</key><string>#c7dda3</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>entity.name.function, support.function</string>
+            <key>settings</key><dict><key>foreground</key><string>#7cefd9</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>variable</string>
+            <key>settings</key><dict><key>foreground</key><string>#e9e4de</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>variable.other.property, variable.other.member, support.type.property-name, entity.name.tag, entity.other.attribute-name</string>
+            <key>settings</key><dict><key>foreground</key><string>#e3ded8</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>constant, support.constant, constant.language</string>
+            <key>settings</key><dict><key>foreground</key><string>#a3e1ff</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>entity.name.type, entity.name.class, entity.name.namespace, entity.name.module, support.type, support.class, storage.type, entity.name.constructor</string>
+            <key>settings</key><dict><key>foreground</key><string>#d9cffd</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>constant.numeric</string>
+            <key>settings</key><dict><key>foreground</key><string>#a3e1ff</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>variable.parameter</string>
+            <key>settings</key><dict><key>foreground</key><string>#e9e4de</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>support.function.builtin, variable.language</string>
+            <key>settings</key><dict><key>foreground</key><string>#e1dafe</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>invalid</string>
+            <key>settings</key><dict><key>foreground</key><string>#ffc3bd</string><key>background</key><string>#141416</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.heading</string>
+            <key>settings</key><dict><key>foreground</key><string>#965ce4</string><key>fontStyle</key><string>bold</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.bold</string>
+            <key>settings</key><dict><key>fontStyle</key><string>bold</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.italic</string>
+            <key>settings</key><dict><key>fontStyle</key><string>italic</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.raw</string>
+            <key>settings</key><dict><key>foreground</key><string>#c7dda3</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.inserted</string>
+            <key>settings</key><dict><key>foreground</key><string>#95e7a6</string><key>background</key><string>#0a1d0f</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.changed</string>
+            <key>settings</key><dict><key>foreground</key><string>#ffcc85</string></dict>
+        </dict>
+        <dict>
+            <key>scope</key><string>markup.deleted</string>
+            <key>settings</key><dict><key>foreground</key><string>#ffc3bd</string><key>background</key><string>#291210</string></dict>
+        </dict>
+    </array>
+</dict>
+</plist>

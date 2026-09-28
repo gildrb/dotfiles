@@ -51,15 +51,15 @@
 	<key>menuBarMetricSpacing</key>
 	<string>compact</string>
 	<key>menuBarUsageBarCriticalColor</key>
-	<string>#ff6a6e</string>
+	<string>#ffc3bd</string>
 	<key>menuBarUsageBarElevatedColor</key>
-	<string>#ffb200</string>
+	<string>#ffcc85</string>
 	<key>menuBarUsageBarHighThreshold</key>
 	<integer>90</integer>
 	<key>menuBarUsageBarMediumThreshold</key>
 	<integer>70</integer>
 	<key>menuBarUsageBarNormalColor</key>
-	<string>#52f0db</string>
+	<string>#7cefd9</string>
 	<key>monitorAlertBatteryPercent</key>
 	<integer>15</integer>
 	<key>monitorAlertCPUTemperatureThreshold</key>

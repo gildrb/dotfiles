@@ -35,8 +35,9 @@ require("lazy").setup({
   lockfile = lockfile,
   spec = { { import = "plugins" } },
   defaults = { lazy = true, version = false },
-  install = { colorscheme = { "death-note" } },
+  install = { colorscheme = { "dusk-apple" } },
   checker = { enabled = false },
+  rocks = { enabled = false },
   change_detection = { notify = false },
   ui = { border = "rounded" },
   performance = {
@@ -53,4 +54,4 @@ require("lazy").setup({
   },
 })
 
-vim.cmd.colorscheme("death-note")
+vim.cmd.colorscheme("dusk-apple")

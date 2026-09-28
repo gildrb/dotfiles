@@ -28,7 +28,11 @@
     "info": "#a3dcfd",
     "surfaceDim": "#0d0d0f",
     "surface0": "#141416",
-    "surface1": "#1c1c1f"
+    "surface1": "#1c1c1f",
+    "addedSurface": "#0a1d0f",
+    "addedStrongSurface": "#103219",
+    "removedSurface": "#291210",
+    "removedStrongSurface": "#431d1a"
   },
   "syntax": {
     "default": "paper",
@@ -53,7 +57,11 @@
     "panel": "ink",
     "dim": "surfaceDim",
     "raised": "surface0",
-    "elevated": "surface1"
+    "elevated": "surface1",
+    "added": "addedSurface",
+    "addedStrong": "addedStrongSurface",
+    "removed": "removedSurface",
+    "removedStrong": "removedStrongSurface"
   },
   "ui": {
     "background": "ink",

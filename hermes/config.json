@@ -18,7 +18,7 @@
   ],
   "display": {
     "interface": "tui",
-    "skin": "death-note",
+    "skin": "dusk-apple",
     "personality": "concise",
     "show_reasoning": false,
     "platforms": {

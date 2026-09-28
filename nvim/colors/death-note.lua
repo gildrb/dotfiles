@@ -1,1 +1,0 @@
-require("death-note").load()
