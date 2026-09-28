@@ -8,4 +8,4 @@
  :models-endpoint "http://127.0.0.1:18020/v1/models"
  :models '((:name "qwen3.8-27b"
             :description "Hermes default Qwen3.8-27B"
-            :context-window 65536)))
+            :context-window 262144)))
