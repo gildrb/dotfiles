@@ -24,7 +24,7 @@ local clangd_query_driver = table.concat({
 }, ",")
 
 -- nixd completes options from the machine configuration flake in ~/nix.
-local nix_flake = string.format('(builtins.getFlake "%s")', vim.fs.normalize("~/nix"))
+local nix_flake = string.format('(builtins.getFlake "git+file://%s")', vim.fs.normalize("~/nix"))
 M.parsers = {
   "bash",
   "c",
