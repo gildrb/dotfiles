@@ -1,6 +1,6 @@
 {
   "name": "Dusk Apple",
-  "description": "Warm syntax colors on Death Note surfaces. Code tokens APCA Lc >= 78 on ink.",
+  "description": "Warm syntax colors on near-black surfaces. Code tokens APCA Lc >= 78 on ink.",
   "palette": {
     "ink": "#09090b",
     "paper": "#e9e4de",
