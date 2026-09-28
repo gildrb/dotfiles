@@ -35,7 +35,7 @@
     "muted": "comment",
     "dim": "gutter",
     "text": "paper",
-    "thinkingText": "comment",
+    "thinkingText": "gutter",
     "selectedBg": "selection",
     "userMessageBg": "",
     "userMessageText": "paper",

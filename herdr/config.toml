@@ -79,12 +79,17 @@ prompt_new_workspace_name = false
 pane_borders = "auto"
 pane_gaps = false
 hide_tab_bar_when_single_tab = false
+sidebar_start_collapsed = true
+sidebar_collapsed_mode = "compact"
 
 [ui.sound]
 enabled = false
 
 [ui.toast]
-delivery = "herdr"
+delivery = "off"
+
+[ui.toast.clipboard]
+enabled = false
 
 [session]
 resume_agents_on_restore = true

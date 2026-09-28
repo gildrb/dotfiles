@@ -13,7 +13,7 @@ colors:
   ui_error: "#ffc3bd"
   ui_warn: "#ffcc85"
   ui_tool: "#7cefd9"
-  ui_thinking: "#d9d0c6"
+  ui_thinking: "#9b9690"
   diff_added: "#0a1d0f"
   diff_removed: "#291210"
   diff_added_word: "#aef1bb"
