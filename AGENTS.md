@@ -10,6 +10,14 @@ When using Bend:
 - Run `bend PROOF.bend` before committing
 - Parallelize the code whenever possible
 
+## Writing docs
+
+README and docs only when explicitly asked. Then write for people who don't read:
+- Strict, factual, shortest possible. No prose, no filler.
+- Tables and one-line bullets. Numbers with units and conditions.
+- Lead with comparisons and proofs: claim → evidence → result, linked.
+- Model: the [bend README](https://github.com/bendlang/bend).
+
 ## Skills
 
 Use skills only when the user explicitly names a skill or invokes `/skill:name` in chat, except for the default output-format skill below. Do not discover, read, invoke, or delegate any other skill merely because a task matches its description.
