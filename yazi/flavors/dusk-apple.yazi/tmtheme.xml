@@ -10,8 +10,8 @@
             <dict>
                 <key>background</key><string>#09090b</string>
                 <key>foreground</key><string>#e9e4de</string>
-                <key>caret</key><string>#965ce4</string>
-                <key>selection</key><string>#251f33</string>
+                <key>caret</key><string>#c4a77d</string>
+                <key>selection</key><string>#28231c</string>
                 <key>lineHighlight</key><string>#18181c</string>
             </dict>
         </dict>
@@ -73,7 +73,7 @@
         </dict>
         <dict>
             <key>scope</key><string>markup.heading</string>
-            <key>settings</key><dict><key>foreground</key><string>#965ce4</string><key>fontStyle</key><string>bold</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#c4a77d</string><key>fontStyle</key><string>bold</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>markup.bold</string>
