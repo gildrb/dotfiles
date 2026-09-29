@@ -59,6 +59,8 @@ return {
 
       if vim.fn.executable("tree-sitter") == 1 then
         treesitter.install(languages.parsers)
+        -- Rebuild parsers older than the plugin's queries (query/parser drift errors).
+        treesitter.update(languages.parsers)
       end
       vim.api.nvim_create_autocmd("FileType", {
         desc = "Enable language-aware Tree-sitter highlighting",
