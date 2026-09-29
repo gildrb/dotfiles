@@ -41,6 +41,8 @@ require("lazy").setup({
   change_detection = { notify = false },
   ui = { border = "rounded" },
   performance = {
+    -- Nix store files all have mtime 1, so vim.loader serves stale bytecode.
+    cache = { enabled = false },
     rtp = {
       disabled_plugins = {
         "gzip",
