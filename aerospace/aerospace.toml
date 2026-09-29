@@ -6,18 +6,18 @@ after-startup-command = [
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 accordion-padding = 24
-default-root-container-layout = 'accordion'
+default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
 automatically-unhide-macos-hidden-apps = true
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 [gaps]
-inner.horizontal = 0
-inner.vertical = 0
-outer.left = 0
-outer.bottom = 0
+inner.horizontal = 6
+inner.vertical = 6
+outer.left = 6
+outer.bottom = 6
 outer.top = 0
-outer.right = 0
+outer.right = 6
 
 [mode.main.binding]
 ctrl-cmd-1 = 'workspace 1'
