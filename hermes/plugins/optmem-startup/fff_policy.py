@@ -9,7 +9,7 @@ from pathlib import PurePosixPath
 
 MESSAGE = ("FFF_REQUIRED: filesystem content and filename searches must use "
            "mcp__fff__grep, mcp__fff__multi_grep or mcp__fff__find_files with an "
-           "absolute root. Load their schemas with tool_describe if needed. "
+           "absolute root. Discover deferred tools with tool_search if needed. "
            "Do not fall back to another search engine if FFF fails; report the error. "
            "Direct file reads, web search and session/memory search are separate.")
 SEARCH_TOOLS = frozenset({"search_files", "grep", "file_search", "find_files"})

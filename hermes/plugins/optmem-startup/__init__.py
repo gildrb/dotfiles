@@ -47,8 +47,8 @@ def wake_page(argv, deadline, budget):
                 pass
 
 
-def pre_llm_call(*, is_first_turn=False, parent_session_id=None, **kwargs):
-    if not is_first_turn or parent_session_id:
+def pre_llm_call(*, is_first_turn=False, parent_session_id=None, platform=None, **kwargs):
+    if not is_first_turn or parent_session_id or platform == "subagent":
         return None
     try:
         from hermes_constants import get_hermes_home

@@ -10,7 +10,7 @@
       "key_env": "QWEN_API_KEY",
       "models": {
         "qwen3.8-27b": {
-          "context_length": 262144
+          "context_length": 131072
         }
       },
       "name": "local"
@@ -34,18 +34,13 @@
   },
   "mcp_servers": {
     "fff": {
-      "command": "/run/current-system/sw/bin/nix",
-      "args": [
-        "run", "--offline", "--no-write-lock-file",
-        "path:/home/gilrodrigues/Repos/dotfiles/hermes/fff"
-      ],
       "connect_timeout": 60,
       "timeout": 120,
       "sampling": { "enabled": false }
     }
   },
   "model": {
-    "context_length": 262144,
+    "context_length": 131072,
     "default": "qwen3.8-27b",
     "max_tokens": 8192,
     "provider": "custom:local"
@@ -80,6 +75,7 @@
     "use_gateway": false
   },
   "security": {
+    "allow_lazy_installs": false,
     "redact_secrets": true
   },
   "privacy": {
@@ -88,6 +84,11 @@
   "plugins": {
     "enabled": [
       "optmem-startup"
+    ]
+  },
+  "skills": {
+    "auto_load": [
+      "i-have-adhd"
     ]
   },
   "hooks": {

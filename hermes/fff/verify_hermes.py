@@ -1,17 +1,22 @@
-"""Run with Hermes's Python: verify staged config without editing live state."""
+"""Run with Hermes's Python and the hermes-fff executable to verify discovery."""
 import json
+import sys
 from pathlib import Path
 from unittest.mock import patch
 
-from tools import mcp_tool
+from tools import mcp_tool_config
+from tools.mcp_tool_discovery import discover_mcp_tools
+from tools.mcp_tool_lifecycle import shutdown_mcp_servers
 from tools.registry import registry
 
 
 def main():
     config = json.loads((Path(__file__).resolve().parents[1] / "config.json").read_text())
-    with patch.object(mcp_tool, "_load_mcp_config", return_value=config["mcp_servers"]):
+    servers = config["mcp_servers"]
+    servers["fff"] = {**servers["fff"], "command": sys.argv[1], "args": []}
+    with patch.object(mcp_tool_config, "_load_mcp_config", return_value=servers):
         try:
-            names = mcp_tool.discover_mcp_tools()
+            names = discover_mcp_tools()
             expected = {"mcp__fff__find_files", "mcp__fff__grep", "mcp__fff__multi_grep"}
             assert set(names) == expected, names
             print("Hermes discovered:", ", ".join(sorted(names)))
@@ -24,7 +29,7 @@ def main():
             assert "mcp_servers" in str(response) and "config.json" in str(response), response
             print("PASS: native Hermes discovery and real FFF search")
         finally:
-            mcp_tool.shutdown_mcp_servers()
+            shutdown_mcp_servers()
 
 
 if __name__ == "__main__":
