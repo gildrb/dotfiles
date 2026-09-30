@@ -26,8 +26,8 @@ class PolicyTest(unittest.TestCase):
 
     def test_shell_searches(self):
         for command in ["rg needle .", "/bin/grep -R needle /tmp", "find . -name '*.py'",
-                        "fd config", "ls -la", "git grep needle", "env LC_ALL=C rg x .",
-                        "printf x | grep x", "bash -lc 'rg x .'", 'sh -c "find ."',
+                        "fd config", "sudo -u root rg x", "git grep needle", "env LC_ALL=C rg x .",
+                        "ls | xargs grep x", "bash -lc 'rg x .'", 'sh -c "find ."',
                         "python3 -c 'import os; print(list(os.walk(\".\")))'",
                         "rg 'unterminated"]:
             with self.subTest(command=command):
@@ -39,6 +39,7 @@ class PolicyTest(unittest.TestCase):
                            ("session_search", {"query": "test"}),
                            ("terminal", {"command": '"$HERMES_MEMO" recall test'}),
                            ("terminal", {"command": "git status --short"}),
+                           ("terminal", {"command": "ls -la /tmp && which mise && mise ls | grep hermes"}),
                            ("terminal", {"command": "python3 -m unittest -v test_policy"}),
                            ("mcp__fff__grep", {"root": "/tmp", "query": "test"}),
                            ("mcp__fff__multi_grep", {}), ("mcp__fff__find_files", {})]:
