@@ -1,6 +1,6 @@
 # Agent instructions
 
-Read `README.md` first, then relevant docs before editing. Never write tests or edit `README.md` unless explicitly asked. Never reset, clean, overwrite, commit, or push user changes unless explicitly asked. Inspect definitions, callers, types, invariants, and existing abstractions before changing code; never infer APIs or behavior from names. No `any`/`Any`, unsafe type casts/assertions, non-null assertions, `@ts-ignore`, swallowed errors, ambiguous truthiness, mutable defaults/shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion/fallbacks, or unvalidated boundary input. Keep strict checks on; use precise types and exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, and security boundaries. Check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, and injection where relevant. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results merely to pass. Report failures and unverified work.
+Read `README.md` first, then relevant docs before editing. Never write tests or edit `README.md` unless explicitly asked. Never reset, clean, overwrite, commit, or push user changes unless explicitly asked. Inspect definitions, callers, types, invariants, and existing abstractions before changing code; never infer APIs or behavior from names. No type-system escape hatches (unchecked casts, suppressed type errors), swallowed errors, ambiguous truthiness, mutable defaults/shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion/fallbacks, or unvalidated boundary input. Keep strict checks on; use precise types and exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, and security boundaries. Check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, and injection where relevant. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results merely to pass. Report failures and unverified work.
 
 Subagent exemptions apply only to OptMem; all other instructions remain binding.
 
@@ -9,6 +9,12 @@ When using Bend:
 - Use `LAWS.bend` to keep important rules
 - Run `bend PROOF.bend` before committing
 - Parallelize the code whenever possible
+
+When using TypeScript:
+- No `any`, `as`, `!`, or `@ts-ignore`; narrow `unknown` at boundaries
+- Use `type`, not `interface`; model data as tagged unions (`{$: "Tag", ...}`)
+- End every `switch` on a tag with `const _: never = x`
+- Run `oxlint --type-aware` and `tsc --noEmit` before committing
 
 ## Writing docs
 
