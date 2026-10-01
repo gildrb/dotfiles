@@ -4,7 +4,7 @@ Apply `$HERMES_HOME/skills/i-have-adhd/SKILL.md` by default. Lead with the next 
 
 # Filesystem search
 
-Use `mcp__fff__grep`, `mcp__fff__multi_grep`, or `mcp__fff__find_files` for content search and file discovery, always with an explicit absolute `root`. If deferred, discover them with `tool_search` first. Read known files directly. If FFF is unavailable or fails, report the failure; never substitute another search engine or pretend a search succeeded.
+Prefer `mcp__fff__grep`, `mcp__fff__multi_grep`, or `mcp__fff__find_files` (absolute `root`) for content search and file discovery; read known files directly.
 
 # Memory
 

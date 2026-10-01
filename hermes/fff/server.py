@@ -19,6 +19,30 @@ MAX_ROOTS = 4
 TIMEOUT = 90
 
 
+def strict_schema(node):
+    """Rewrite upstream optional fields to plain JSON Schema 2020-12 types.
+
+    FFF declares optional fields as ``type: [X, "null"]`` with Rust numeric
+    formats such as ``double``. Hermes rewrites that union to OpenAPI
+    ``nullable``, and strict OpenAI-compatible servers reject both keywords.
+    Optionality already lives in ``required``, so the null branch and the
+    non-standard numeric format are dropped.
+    """
+    if isinstance(node, list):
+        return [strict_schema(item) for item in node]
+    if not isinstance(node, dict):
+        return node
+    out = {key: strict_schema(value) for key, value in node.items()}
+    kinds = out.get("type")
+    if isinstance(kinds, list) and "null" in kinds:
+        rest = [kind for kind in kinds if kind != "null"]
+        if len(rest) == 1:
+            out["type"] = rest[0]
+    if out.get("type") in ("number", "integer"):
+        out.pop("format", None)
+    return out
+
+
 class Backend:
     def __init__(self, root):
         self.process = subprocess.Popen(
@@ -103,7 +127,7 @@ class Router:
             finally:
                 backend.close()
         for tool in self.tools:
-            schema = tool["inputSchema"]
+            schema = tool["inputSchema"] = strict_schema(tool["inputSchema"])
             schema["properties"]["root"] = {
                 "type": "string",
                 "description": "Absolute directory to search. FFF may expand to its Git repository root. Reuse the same root and cursor for pagination.",

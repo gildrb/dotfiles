@@ -9,7 +9,10 @@ This is a pinned upstream binary, not a from-source FFF build.
 
 Hermes discovers three stable tools: `mcp__fff__grep`, `mcp__fff__multi_grep`, and
 `mcp__fff__find_files`. The stdlib-only `server.py` adapter preserves upstream
-tool schemas and search results, adding a required absolute `root` argument.
+search results and tool schemas, except that optional `[type, "null"]` fields
+become plain types and numeric `format` hints are dropped (Hermes turns the null
+union into OpenAPI `nullable`, which the strict local server rejects). It adds a
+required absolute `root` argument.
 It lazily keeps at most four FFF processes (LRU), one per resolved root, rather
 than creating duplicate MCP tool sets per repository. Processes retain warm
 indexes, watch changes, cache up to 2048 file contents each, and release idle
@@ -28,10 +31,9 @@ batch independent OR searches with `multi_grep`.
   no measured prompt-cache improvement or RLM implementation in this change.
 
 FFF is intended for every grep/content-search and file-discovery task. Known
-file reads still use `read_file`. This integration adds the FFF tools, but does
-not remove Hermes's existing search tools or technically force model selection.
-The attempted protected `SOUL.md` policy edit was denied after an approval
-timeout and was NOT applied. Enforcing FFF-only policy remains pending approval.
+file reads still use `read_file`. This integration adds the FFF tools alongside
+Hermes's existing search tools; nothing blocks or rewrites other tool calls.
+A one-line `SOUL.md` preference steers the model toward FFF.
 
 ## Install and activate
 
@@ -85,38 +87,9 @@ coroutine warning during a verification run; discovery and search succeeded.
 The interpreter store path above is an environment-specific test command, not
 a deployment dependency. Re-resolve it from the Hermes wrapper after upgrades.
 
-## Search enforcement
-
-The Nix-managed `optmem-startup` plugin also registers an independent
-`pre_tool_call` guard from `fff_policy.py`. This packaging reuses the existing
-managed plugin deployment; the guard does not read or write OptMem state and
-runs independently of wake success. No model call is needed for enforcement.
-
-The guard rejects `search_files` and common filesystem-search tool aliases,
-and terminal calls containing grep/rg/ag/ack, find/fd/locate, ls/tree, git grep,
-git ls-files/ls-tree, and common explicit Python traversal expressions. The
-error instructs the model to use FFF with an absolute root. FFF failure must
-be reported, not used to justify another engine. Direct file reads, web and
-session/memory searches, ordinary builds and administrative commands remain
-available. Schemas stay stable; rejected searches cost a retry rather than
-being silently translated with potentially different semantics.
-
-This is enforcement for standard tool paths, NOT an arbitrary-code sandbox.
-A general-purpose terminal/browser can execute disguised search code; native
-Hermes plugin-load/hook exceptions also fail open. Shell detection is
-conservative and may reject a command merely mentioning a search executable
-as an argument. Absolute guarantees require a restricted execution capability
-or a core fail-closed dispatcher, not this plugin. Do not describe this as
-100% enforcement against every possible bypass.
-
-Run `test_policy.py` with the same installed Hermes Python as above. It uses
-an isolated temporary profile, actual plugin discovery and the native hook
-dispatcher to verify rejection and allowed operations. Nix activation refreshes
-the plugin; restart the gateway and start a fresh CLI session afterward.
-
 ## Rollback
 
-Remove the `pre_tool_call` registration and its manifest entry before removing
-FFF. Then remove `mcp_servers.fff` from `hermes/config.json`, commit/push, and
+Remove `mcp_servers.fff` from `hermes/config.json` and the FFF line from
+`SOUL.md`, commit/push, and
 reapply the managed Nix configuration. Remove the GC-root symlink only when
 FFF is no longer needed. No OptMem store or other profile is changed.

@@ -1,6 +1,5 @@
 name: optmem-startup
 version: 1.1.0
-description: Load isolated OptMem and enforce FFF for standard filesystem search tools.
+description: Load isolated OptMem on the first top-level turn.
 provides_hooks:
   - pre_llm_call
-  - pre_tool_call

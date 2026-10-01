@@ -1,21 +1,56 @@
 {
-  "_config_version": 39,
+  "_config_version": 49,
+  "agent": {
+    "reasoning_effort": "xhigh",
+    "max_turns": 150,
+    "auto_recovery_cycles": 8,
+    "execution_guidance": false,
+    "tool_use_enforcement": false,
+    "environment_probe": false
+  },
+  "approvals": {
+    "mode": "manual",
+    "destructive_slash_confirm": false
+  },
+  "auxiliary": {
+    "transient_retries": 6,
+    "background_review": {
+      "enabled": false
+    },
+    "compression": {
+      "timeout": 600
+    },
+    "title_generation": {
+      "model_upgrade_enabled": false
+    }
+  },
   "browser": {
     "cloud_provider": "local",
     "engine": "chrome",
     "headed": false
   },
+  "compression": {
+    "enabled": true,
+    "threshold": 0.75
+  },
   "custom_providers": [
     {
+      "extra_body": {
+        "max_tokens": 32768
+      },
       "key_env": "QWEN_API_KEY",
       "models": {
         "qwen3.8-27b": {
-          "context_length": 131072
+          "context_length": 262144,
+          "supports_vision": false
         }
       },
       "name": "local"
     }
   ],
+  "database": {
+    "synchronous": "NORMAL"
+  },
   "display": {
     "interface": "tui",
     "skin": "dusk-apple",
@@ -40,9 +75,9 @@
     }
   },
   "model": {
-    "context_length": 131072,
+    "context_length": 262144,
     "default": "qwen3.8-27b",
-    "max_tokens": 8192,
+    "key_env": "QWEN_API_KEY",
     "provider": "custom:local"
   },
   "model_aliases": {
@@ -58,15 +93,23 @@
   "platform_toolsets": {
     "cli": [
       "terminal", "file", "web", "browser", "skills",
-      "vision", "session_search", "clarify", "cronjob", "messaging"
+      "session_search", "clarify", "cronjob"
+    ],
+    "cron": [
+      "terminal", "file", "web", "browser", "skills", "session_search"
     ],
     "telegram": [
       "terminal", "file", "web", "browser", "skills",
-      "vision", "session_search", "clarify", "cronjob", "messaging"
+      "session_search", "clarify", "cronjob"
     ]
   },
   "terminal": {
     "backend": "local"
+  },
+  "tools": {
+    "tool_search": {
+      "enabled": "off"
+    }
   },
   "web": {
     "backend": "firecrawl",
