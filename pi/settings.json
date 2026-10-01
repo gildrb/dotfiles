@@ -27,7 +27,7 @@
   "packages": [
     "git:github.com/Michaelliv/pi-goal@3f100be5434454d3388755a119d01caca9127c16",
     "git:github.com/Michaelliv/pi-ask-user-question@eaa38c32a3641be80667e79d9c91d3d25668343f",
-    "git:github.com/YuGiMob/pi-hashline-edit-pro@7cc0d4c5232310de43a684d7f6c18f25882b4c2f",
+    "git:github.com/YuGiMob/pi-hashline-edit-pro@0690b5a8d6cf703ac849ea248b1b8e3d7dc93c0b",
     "npm:pi-lens@4.3.0",
     "npm:@ff-labs/pi-fff@0.11.0"
   ]
