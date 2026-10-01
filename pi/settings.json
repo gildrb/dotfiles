@@ -1,5 +1,4 @@
 {
-  "lastChangelogVersion": "0.85.1",
   "defaultProvider": "openrouter",
   "defaultModel": "z-ai/glm-5.3-flash",
   "theme": "dusk-apple",
@@ -29,8 +28,7 @@
     "git:github.com/Michaelliv/pi-goal@3f100be5434454d3388755a119d01caca9127c16",
     "git:github.com/Michaelliv/pi-ask-user-question@eaa38c32a3641be80667e79d9c91d3d25668343f",
     "git:github.com/YuGiMob/pi-hashline-edit-pro@7cc0d4c5232310de43a684d7f6c18f25882b4c2f",
-    "npm:pi-lens@4.2.0",
-    "npm:@ff-labs/pi-fff@0.10.6",
-    "npm:pi-mcp-adapter@2.34.0"
+    "npm:pi-lens@4.3.0",
+    "npm:@ff-labs/pi-fff@0.11.0"
   ]
 }
