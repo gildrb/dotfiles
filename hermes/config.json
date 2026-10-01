@@ -1,7 +1,6 @@
 {
   "_config_version": 49,
   "agent": {
-    "reasoning_effort": "xhigh",
     "max_turns": 150,
     "auto_recovery_cycles": 8,
     "execution_guidance": false,
