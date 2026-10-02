@@ -16,13 +16,11 @@ When using TypeScript:
 - End every `switch` on a tag with `const _: never = x`
 - Run `oxlint --type-aware` and `tsc --noEmit` before committing
 
-## Writing docs
+## Writing
 
-README and docs only when explicitly asked. Then write for people who don't read:
-- Strict, factual, shortest possible. No prose, no filler.
-- Tables and one-line bullets. Numbers with units and conditions.
-- Lead with comparisons and proofs: claim → evidence → result, linked.
-- Model: the [bend README](https://github.com/bendlang/bend).
+README and docs only when explicitly asked. Write for people who don't read:
+- ASD-STE100. No prose, no filler.
+- Model: the [Bend README.md](https://github.com/bendlang/bend).
 
 ## Skills
 
