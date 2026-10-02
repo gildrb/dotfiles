@@ -28,7 +28,7 @@ Use skills only when the user explicitly names a skill or invokes `/skill:name` 
 
 ## Default output format
 
-Apply `~/.codex/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
+Apply `~/.agents/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
 
 ## Memory
 
