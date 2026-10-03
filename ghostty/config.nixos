@@ -1,6 +1,6 @@
 theme = Dusk Apple
 
-font-family = Ioskeley Mono
+font-family = CommitMono
 font-size = 15
 # Keep the same appearance on Linux. Native Ghostty terminfo is installed
 # with the per-user ghostty profile.

@@ -4,7 +4,7 @@ keybind = cmd+t=unbind
 keybind = cmd+n=unbind
 keybind = shift+cmd+t=unbind
 
-font-family = Ioskeley Mono
+font-family = CommitMono
 font-size = 15
 # Native Ghostty terminfo. Hephaistos resolves xterm-ghostty over SSH via the
 # per-user ghostty profile, so full-screen programs keep true-color support.
