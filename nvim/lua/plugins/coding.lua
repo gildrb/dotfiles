@@ -81,6 +81,7 @@ return {
         vim.lsp.config(server, vim.tbl_deep_extend("force", { capabilities = capabilities }, options))
         vim.lsp.enable(server)
       end
+      vim.lsp.inlay_hint.enable(true)
     end,
     keys = {
       { "gd", vim.lsp.buf.definition, desc = "Go to definition" },
@@ -89,6 +90,13 @@ return {
       { "K", vim.lsp.buf.hover, desc = "Hover documentation" },
       { "<leader>ca", vim.lsp.buf.code_action, mode = { "n", "v" }, desc = "Code action" },
       { "<leader>cr", vim.lsp.buf.rename, desc = "Rename symbol" },
+      {
+        "<leader>ch",
+        function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+        end,
+        desc = "Toggle type hints",
+      },
     },
   },
 }

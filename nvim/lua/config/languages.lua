@@ -25,6 +25,15 @@ local clangd_query_driver = table.concat({
 
 -- nixd completes options from the machine configuration flake in ~/nix.
 local nix_flake = string.format('(builtins.getFlake "git+file://%s")', vim.fs.normalize("~/nix"))
+-- Type hints (inlay hints) as VS Code shows them; literal arguments only.
+local typescript_inlay_hints = {
+  parameterNames = { enabled = "literals" },
+  parameterTypes = { enabled = true },
+  variableTypes = { enabled = true },
+  propertyDeclarationTypes = { enabled = true },
+  functionLikeReturnTypes = { enabled = true },
+  enumMemberValues = { enabled = true },
+}
 M.parsers = {
   "bash",
   "c",
@@ -73,6 +82,7 @@ M.servers = {
       Lua = {
         diagnostics = { globals = { "vim" } },
         workspace = { checkThirdParty = false },
+        hint = { enable = true },
       },
     },
   },
@@ -101,7 +111,12 @@ M.servers = {
   },
   rust_analyzer = {},
   taplo = {},
-  tsc = {},
+  tsc = {
+    settings = {
+      typescript = { inlayHints = typescript_inlay_hints },
+      javascript = { inlayHints = typescript_inlay_hints },
+    },
+  },
   ty = {},
   yamlls = {},
 }

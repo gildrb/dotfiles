@@ -35,8 +35,10 @@ return {
         group = group,
         desc = "Show the file tree beside the first window",
         callback = function()
-          api.tree.open({ find_file = true })
-          vim.cmd("noautocmd wincmd p")
+          if not api.tree.is_visible() then
+            api.tree.open({ find_file = true })
+            vim.cmd("noautocmd wincmd p")
+          end
         end,
       })
 
@@ -64,6 +66,53 @@ return {
       { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "Toggle file tree" },
       { "<leader>e", "<cmd>NvimTreeFindFile<cr>", desc = "Reveal current file" },
     },
+  },
+  {
+    "folke/persistence.nvim",
+    lazy = false,
+    opts = {},
+    config = function(_, opts)
+      local persistence = require("persistence")
+      persistence.setup(opts)
+      local tree = require("nvim-tree.api").tree
+      local group = vim.api.nvim_create_augroup("gildrb_session", { clear = true })
+
+      vim.api.nvim_create_autocmd("VimEnter", {
+        group = group,
+        desc = "Reopen the files of the last session in this folder",
+        callback = function()
+          local argc = vim.fn.argc()
+          if argc == 0 or (argc == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1) then
+            -- After startup: loaded during VimEnter, the first file misses its FileType.
+            vim.schedule(persistence.load)
+          else
+            -- `nvim file` (or the Git commit editor) must not replace the project session.
+            persistence.stop()
+          end
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "PersistenceSavePre",
+        desc = "Keep the file tree out of the saved session",
+        callback = function()
+          tree.close()
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("User", {
+        group = group,
+        pattern = "PersistenceLoadPost",
+        desc = "Show the file tree beside the restored files",
+        callback = function()
+          if not tree.is_visible() then
+            tree.open({ find_file = true })
+            vim.cmd("noautocmd wincmd p")
+          end
+        end,
+      })
+    end,
   },
   {
     "ibhagwan/fzf-lua",
