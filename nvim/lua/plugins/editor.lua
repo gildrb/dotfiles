@@ -136,4 +136,20 @@ return {
     event = "VeryLazy",
     opts = {},
   },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      icons = { mappings = false },
+      win = { border = "rounded" },
+      spec = {
+        { "<leader>b", group = "buffer" },
+        { "<leader>c", group = "code" },
+        { "<leader>f", group = "find" },
+        { "<leader>g", group = "git" },
+        { "<leader>h", group = "hunk" },
+        { "<leader>x", group = "diagnostics" },
+      },
+    },
+  },
 }
