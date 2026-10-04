@@ -81,7 +81,6 @@ return {
         vim.lsp.config(server, vim.tbl_deep_extend("force", { capabilities = capabilities }, options))
         vim.lsp.enable(server)
       end
-      vim.lsp.inlay_hint.enable(true)
     end,
     keys = {
       { "gd", vim.lsp.buf.definition, desc = "Go to definition" },

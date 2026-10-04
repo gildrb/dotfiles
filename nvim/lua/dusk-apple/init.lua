@@ -135,6 +135,7 @@ function M.load()
   set("DiagnosticUnderlineOk", { undercurl = true, sp = p.ok })
   set("DiagnosticDeprecated", { strikethrough = true, sp = p.gutter })
   set("DiagnosticUnnecessary", { fg = p.gutter })
+  set("LspInlayHint", { fg = p.gutter, italic = true })
 
   M.treesitter()
   M.semantic_tokens()
