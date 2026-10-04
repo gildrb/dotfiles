@@ -55,9 +55,15 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("VimEnter", {
   group = group,
-  desc = "Show the lightweight start guide",
+  desc = "Show the lightweight start guide, also for a directory argument",
   callback = function()
-    if vim.fn.argc() ~= 0 or vim.api.nvim_buf_get_name(0) ~= "" or vim.bo.modified then
+    local directory = vim.fn.argc() == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1
+    if directory then
+      local directory_buffer = vim.api.nvim_get_current_buf()
+      vim.cmd.cd(vim.fn.fnameescape(vim.fn.argv(0)))
+      vim.cmd.enew()
+      vim.api.nvim_buf_delete(directory_buffer, { force = true })
+    elseif vim.fn.argc() ~= 0 or vim.api.nvim_buf_get_name(0) ~= "" or vim.bo.modified then
       return
     end
 

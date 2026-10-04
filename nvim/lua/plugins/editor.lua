@@ -1,7 +1,7 @@
 return {
   {
     "nvim-tree/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
+    lazy = false,
     opts = {
       view = { side = "left", width = 32, preserve_window_proportions = true },
       renderer = {
@@ -21,9 +21,45 @@ return {
         },
       },
       filters = { dotfiles = false },
+      -- The start guide (config/autocmds.lua) takes a directory argument instead.
+      hijack_directories = { enable = false },
       git = { enable = true, ignore = false },
       update_focused_file = { enable = true },
     },
+    config = function(_, opts)
+      require("nvim-tree").setup(opts)
+      local api = require("nvim-tree.api")
+      local group = vim.api.nvim_create_augroup("gildrb_nvim_tree", { clear = true })
+
+      vim.api.nvim_create_autocmd("VimEnter", {
+        group = group,
+        desc = "Show the file tree beside the first window",
+        callback = function()
+          api.tree.open({ find_file = true })
+          vim.cmd("noautocmd wincmd p")
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("QuitPre", {
+        group = group,
+        desc = "Close the file tree with the last editor window",
+        callback = function()
+          if vim.bo.filetype == "NvimTree" then
+            return
+          end
+          local editors = 0
+          for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            if vim.api.nvim_win_get_config(win).relative == "" and vim.bo[buf].filetype ~= "NvimTree" then
+              editors = editors + 1
+            end
+          end
+          if editors == 1 then
+            api.tree.close_in_this_tab()
+          end
+        end,
+      })
+    end,
     keys = {
       { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "Toggle file tree" },
       { "<leader>e", "<cmd>NvimTreeFindFile<cr>", desc = "Reveal current file" },
