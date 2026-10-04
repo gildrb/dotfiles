@@ -8,13 +8,101 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "TermLeave" }, {
+local watchers = {}
+local pending = {}
+
+local function check(buffer)
+  -- :checktime is not allowed in the command-line window; BufEnter checks after it closes.
+  if vim.fn.getcmdwintype() ~= "" then
+    return
+  end
+  if buffer then
+    vim.cmd.checktime(buffer)
+  else
+    vim.cmd.checktime()
+  end
+end
+
+local function unwatch(buffer)
+  local watcher = watchers[buffer]
+  if watcher then
+    watcher:stop()
+    watcher:close()
+    watchers[buffer] = nil
+  end
+end
+
+local function watch(buffer)
+  unwatch(buffer)
+  local path = vim.api.nvim_buf_get_name(buffer)
+  if vim.bo[buffer].buftype ~= "" or path == "" or vim.fn.filereadable(path) ~= 1 then
+    return
+  end
+
+  local watcher, create_error = vim.uv.new_fs_event()
+  if not watcher then
+    vim.notify("Cannot watch " .. path .. ": " .. create_error, vim.log.levels.WARN)
+    return
+  end
+  local ok, start_error = watcher:start(
+    path,
+    {},
+    vim.schedule_wrap(function(event_error, _, events)
+      if event_error then
+        vim.notify("Stopped watching " .. path .. ": " .. event_error, vim.log.levels.WARN)
+        unwatch(buffer)
+        return
+      end
+      -- One save can fire several events; check once, after the writer is done.
+      local first = pending[buffer] == nil
+      pending[buffer] = pending[buffer] == true or events.rename == true
+      if not first then
+        return
+      end
+      vim.defer_fn(function()
+        local replaced = pending[buffer]
+        pending[buffer] = nil
+        if not vim.api.nvim_buf_is_valid(buffer) then
+          unwatch(buffer)
+          return
+        end
+        -- Atomic saves replace the file; watch the new one at the same path.
+        if replaced then
+          watch(buffer)
+        end
+        check(buffer)
+      end, 100)
+    end)
+  )
+  if not ok then
+    watcher:close()
+    vim.notify("Cannot watch " .. path .. ": " .. start_error, vim.log.levels.WARN)
+    return
+  end
+  watchers[buffer] = watcher
+end
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "BufFilePost" }, {
   group = group,
-  desc = "Reload files changed outside Neovim",
+  desc = "Reload a file as soon as it changes on disk",
+  callback = function(event)
+    watch(event.buf)
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufUnload", {
+  group = group,
+  desc = "Stop watching an unloaded file",
+  callback = function(event)
+    unwatch(event.buf)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  group = group,
+  desc = "Check for outside changes the watcher cannot see (network mounts)",
   callback = function()
-    if vim.fn.getcmdwintype() == "" and vim.fn.mode() ~= "c" then
-      vim.cmd.checktime()
-    end
+    check()
   end,
 })
 
