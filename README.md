@@ -1,3 +1,23 @@
+## AeroSpace
+
+Modifier: `Ctrl+Cmd`. Default layout: accordion. Windows stack at full size; new windows and tabs do not resize other windows. Finder and System Settings float. Ghostty opens on workspace 1, Zed on workspace 2.
+
+| Key | Action | Key | Action |
+| --- | --- | --- | --- |
+| `h` / `l` | Previous / next window (wide screen) | `k` / `j` | Previous / next window (tall screen) |
+| `Shift+h/j/k/l` | Move window left / down / up / right | `x` | Close window |
+| `\` / `-` | Tiles side by side / top and bottom | `,` | Accordion; again: toggle direction |
+| `=` | Equal sizes | `r`, then `h/l/j/k`, `Esc` | Resize mode |
+| `f` | Fullscreen | `t` | Float / tile window |
+| `1–9` | Workspace 1–9 | `Shift+1–9` | Move window to workspace 1–9 |
+| `u` / `i` | Previous / next workspace | `Tab` | Last workspace |
+| `o` | Next monitor | `Shift+o` | Move window to next monitor |
+| `Shift+c` | Reload config | `Cmd+Tab` (macOS, no `Ctrl`) | Raise app window |
+
+Two windows side by side: move other windows to another workspace (`Shift+1–9`), then `\`. In tiles, Ghostty tabs can split the screen; use accordion for Ghostty.
+
+Restart after a layout change (nushell): `launchctl kickstart -k $"gui/(id -u)/org.nixos.macos-aerospace"`.
+
 ## Herdr
 
 Prefix: `Ctrl+B`, then the key below. `Ctrl+B Ctrl+B` sends `Ctrl+B` to the pane.
