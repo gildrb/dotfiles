@@ -1,6 +1,6 @@
 ## AeroSpace
 
-Modifier: `Ctrl+Cmd`. Default layout: accordion. Windows stack at full size; new windows and tabs do not resize other windows. Finder and System Settings float. Ghostty opens on workspace 1, Zed on workspace 2.
+Modifier: `Ctrl+Cmd`. Default layout: accordion. Windows stack at full size; new windows and tabs do not resize other windows. Finder and System Settings float.
 
 | Key | Action | Key | Action |
 | --- | --- | --- | --- |
@@ -13,10 +13,6 @@ Modifier: `Ctrl+Cmd`. Default layout: accordion. Windows stack at full size; new
 | `u` / `i` | Previous / next workspace | `Tab` | Last workspace |
 | `o` | Next monitor | `Shift+o` | Move window to next monitor |
 | `Shift+c` | Reload config | `Cmd+Tab` (macOS, no `Ctrl`) | Raise app window |
-
-Two windows side by side: move other windows to another workspace (`Shift+1–9`), then `\`. In tiles, Ghostty tabs can split the screen; use accordion for Ghostty.
-
-Restart after a layout change (nushell): `launchctl kickstart -k $"gui/(id -u)/org.nixos.macos-aerospace"`.
 
 ## Herdr
 
