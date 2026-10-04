@@ -8,6 +8,24 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "TermLeave" }, {
+  group = group,
+  desc = "Reload files changed outside Neovim",
+  callback = function()
+    if vim.fn.getcmdwintype() == "" and vim.fn.mode() ~= "c" then
+      vim.cmd.checktime()
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  group = group,
+  desc = "Report a file reloaded from disk",
+  callback = function(event)
+    vim.notify("Reloaded " .. vim.fn.fnamemodify(event.file, ":~:."), vim.log.levels.INFO)
+  end,
+})
+
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = group,
   desc = "Return to the last edit position",
