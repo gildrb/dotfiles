@@ -66,6 +66,19 @@ M.parsers = {
   "yaml",
 }
 
+-- Indent per language: each language's own formatter style. Tab inserts one
+-- level. Other filetypes use 2 spaces (options.lua). A project .editorconfig
+-- overrides this table.
+M.indent = {
+  bend = { width = 2 }, -- bend2-fmt-lsp
+  go = { width = 4, tabs = true }, -- gofmt
+  kotlin = { width = 4 }, -- Kotlin coding conventions
+  php = { width = 4 }, -- PSR-12
+  python = { width = 4 }, -- PEP 8, ruff format
+  rust = { width = 4 }, -- rustfmt
+  zig = { width = 4 }, -- zig fmt
+}
+
 M.servers = {
   -- Formatting only (Nix package). conform falls back to it on save.
   bend2_fmt_lsp = {

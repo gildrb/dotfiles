@@ -8,6 +8,21 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+local indent = require("config.languages").indent
+vim.api.nvim_create_autocmd("FileType", {
+  group = group,
+  pattern = vim.tbl_keys(indent),
+  desc = "Indent as the language's formatter does",
+  callback = function(event)
+    local style = indent[event.match]
+    local buffer = vim.bo[event.buf]
+    buffer.expandtab = style.tabs ~= true
+    buffer.tabstop = style.width
+    buffer.shiftwidth = style.width
+    buffer.softtabstop = -1
+  end,
+})
+
 local watchers = {}
 local pending = {}
 

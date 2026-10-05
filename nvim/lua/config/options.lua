@@ -18,8 +18,10 @@ opt.splitbelow = true
 opt.scrolloff = 8
 opt.sidescrolloff = 8
 
+-- Default indent: 2 spaces. languages.lua sets other languages.
 opt.tabstop = 2
 opt.shiftwidth = 2
+opt.softtabstop = -1 -- Tab and Backspace move one shiftwidth
 opt.expandtab = true
 opt.smartindent = true
 opt.wrap = false
