@@ -52,3 +52,6 @@ vim.diagnostic.config({
   virtual_text = { spacing = 3, prefix = ">" },
   float = { border = "rounded", source = true },
 })
+
+-- Neovim has no Bend filetype; bend2-fmt-lsp attaches to "bend".
+vim.filetype.add({ extension = { bend = "bend" } })

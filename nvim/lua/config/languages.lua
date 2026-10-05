@@ -67,6 +67,12 @@ M.parsers = {
 }
 
 M.servers = {
+  -- Formatting only (Nix package). conform falls back to it on save.
+  bend2_fmt_lsp = {
+    cmd = { "bend2-fmt-lsp", "--stdio" },
+    filetypes = { "bend" },
+    root_markers = { ".git" },
+  },
   bashls = {},
   clangd = {
     cmd = {
