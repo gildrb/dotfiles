@@ -30,6 +30,12 @@ Use skills only when the user explicitly names a skill or invokes `/skill:name` 
 
 Apply `~/.agents/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
 
+## Commands for the user
+
+The user's shell is Nushell on every machine, herdr panes included. Commands the user runs:
+- Nushell syntax: `;` between commands (it stops at the first failing command, like `&&`), `$env.NAME`, `with-env { NAME: value } { cmd }`, `^cmd` for an external shadowed by a built-in. No `&&`, `export`, `$(...)`, `VAR=value cmd` or `2>/dev/null`.
+- One line per code block, joined with `;` or pipes. Never wrap a command across lines: pasted line breaks turn into stray symbols. Several independent commands: separate code blocks.
+
 ## Memory
 
 Your memory is OptMem:
