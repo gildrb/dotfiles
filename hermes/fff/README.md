@@ -79,7 +79,7 @@ real search of this repository. It does not edit live config or call an LLM.
 On this machine:
 
 ```sh
-HOME=/mnt/ssd/storage/agents/hermes /nix/store/1b949s4np3zwilh77d1rvbw65rjg185p-hermes-agent-env/bin/python3 /home/gilrodrigues/Repos/dotfiles/hermes/fff/verify_hermes.py
+HOME=/srv/agents/hermes /nix/store/1b949s4np3zwilh77d1rvbw65rjg185p-hermes-agent-env/bin/python3 /home/gilrodrigues/Repos/dotfiles/hermes/fff/verify_hermes.py
 ```
 
 The installed Hermes client emitted an upstream unawaited `_watch_stdio_children`
