@@ -9,14 +9,6 @@ default-root-container-orientation = 'auto'
 automatically-unhide-macos-hidden-apps = true
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-[gaps]
-inner.horizontal = 6
-inner.vertical = 6
-outer.left = 6
-outer.bottom = 6
-outer.top = 0
-outer.right = 6
-
 [mode.main.binding]
 ctrl-cmd-1 = 'workspace 1'
 ctrl-cmd-2 = 'workspace 2'
@@ -57,18 +49,10 @@ ctrl-cmd-f = 'fullscreen'
 ctrl-cmd-t = 'layout floating tiling'
 ctrl-cmd-equal = 'balance-sizes'
 ctrl-cmd-x = 'close'
-ctrl-cmd-r = 'mode resize'
+ctrl-cmd-leftSquareBracket = 'resize smart -60'
+ctrl-cmd-rightSquareBracket = 'resize smart +60'
 ctrl-cmd-shift-c = 'reload-config'
 ctrl-cmd-semicolon = 'mode service'
-
-[mode.resize.binding]
-h = 'resize width -60'
-l = 'resize width +60'
-j = 'resize height +60'
-k = 'resize height -60'
-equal = 'balance-sizes'
-esc = 'mode main'
-enter = 'mode main'
 
 [mode.service.binding]
 r = ['flatten-workspace-tree', 'layout tiles', 'mode main']
