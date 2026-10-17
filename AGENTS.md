@@ -4,7 +4,7 @@ Read `README.md` first, then relevant docs before editing. Never write tests or 
 
 Subagent exemptions apply only to OptMem; all other instructions remain binding.
 
-Do not spawn isolated (worktree) subagents in repos with large ignored build dirs (Rust `target/`, `node_modules/`). Each isolated copy keeps a reflink of those dirs in `~/.omp/wt` and holds the disk space after the parent rebuilds. Use non-isolated subagents and one shared build dir.
+Do not spawn isolated (worktree) subagents in repos with large build output (Rust, `node_modules/`). Each isolated copy in `~/.omp/wt` copies `node_modules/` and builds Rust from scratch: cargo keys its build files (`~/.cache/cargo-build`) by workspace path. Use non-isolated subagents and one shared build dir.
 
 When using Bend:
 - Run `bend guide` to learn it
