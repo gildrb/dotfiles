@@ -4,6 +4,8 @@ Read `README.md` first, then relevant docs before editing. Never write tests or 
 
 Subagent exemptions apply only to OptMem; all other instructions remain binding.
 
+Do not spawn isolated (worktree) subagents in repos with large ignored build dirs (Rust `target/`, `node_modules/`). Each isolated copy keeps a reflink of those dirs in `~/.omp/wt` and holds the disk space after the parent rebuilds. Use non-isolated subagents and one shared build dir.
+
 When using Bend:
 - Run `bend guide` to learn it
 - Use `LAWS.bend` to keep important rules
