@@ -1,0 +1,41 @@
+{
+  "bindings": {
+    "deckBrowser": {
+      "buttonA": "S",
+      "buttonMenu": "S",
+      "rightShoulder": "Ctrl+Z"
+    },
+    "overview": {
+      "buttonA": "S",
+      "buttonMenu": "S",
+      "buttonOptions": "D",
+      "rightShoulder": "Ctrl+Z"
+    },
+    "question": {
+      "buttonA": " ",
+      "buttonB": " ",
+      "buttonX": " ",
+      "buttonY": " ",
+      "dpad.up": " ",
+      "dpad.down": " ",
+      "dpad.left": " ",
+      "dpad.right": " ",
+      "leftShoulder": "R",
+      "rightShoulder": "Ctrl+Z",
+      "buttonOptions": "D"
+    },
+    "answer": {
+      "buttonY": "1",
+      "buttonX": "2",
+      "buttonB": "3",
+      "buttonA": "4",
+      "dpad.left": "1",
+      "dpad.down": "2",
+      "dpad.right": "3",
+      "dpad.up": "4",
+      "leftShoulder": "R",
+      "rightShoulder": "Ctrl+Z",
+      "buttonOptions": "D"
+    }
+  }
+}

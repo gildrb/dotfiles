@@ -1,3 +1,19 @@
+## Anki gamepad
+
+Add-on `anki/gamepad`. Any controller macOS sees (8BitDo, Switch Pro, Xbox, DualSense). Acts only while the Anki main window is active. Buttons send Anki shortcuts per screen; edit `anki/gamepad/config.json`. Button names are the printed labels: `buttonA` = A.
+
+| Button | Decks / Overview | Question | Answer |
+| --- | --- | --- | --- |
+| `A` | Study | Show answer | Easy |
+| `B` | | Show answer | Good |
+| `X` | | Show answer | Hard |
+| `Y` | | Show answer | Again |
+| D-pad left / down / right / up | | Show answer | Again / Hard / Good / Easy |
+| `L` | | Replay audio | Replay audio |
+| `R` | Undo | Undo | Undo |
+| `+` | Study | | |
+| `−` | Decks (Overview) | Decks | Decks |
+
 ## AeroSpace
 
 Modifier: `Ctrl+Cmd`. Default layout: accordion. Windows stack at full size; new windows and tabs do not resize other windows. Finder and System Settings float.
