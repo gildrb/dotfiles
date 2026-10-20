@@ -1,6 +1,6 @@
 # Agent instructions
 
-Read `README.md` first, then relevant docs before editing. Never write tests or edit `README.md` unless explicitly asked. Never reset, clean, overwrite, commit, or push user changes unless explicitly asked. Inspect definitions, callers, types, invariants, and existing abstractions before changing code; never infer APIs or behavior from names. No type-system escape hatches (unchecked casts, suppressed type errors), swallowed errors, ambiguous truthiness, mutable defaults/shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion/fallbacks, or unvalidated boundary input. Keep strict checks on; use precise types and exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, and security boundaries. Check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, and injection where relevant. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results merely to pass. Report failures and unverified work.
+Read `README.md` first, then relevant docs before editing. Never write tests unless explicitly asked. Never reset, clean, overwrite user changes unless explicitly asked. Inspect definitions, callers, types, invariants, and existing abstractions before changing code; never infer APIs or behavior from names. No type-system escape hatches (unchecked casts, suppressed type errors), swallowed errors, ambiguous truthiness, mutable defaults/shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion/fallbacks, or unvalidated boundary input. Keep strict checks on; use precise types and exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, and security boundaries. Check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, and injection where relevant. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results merely to pass. Report failures and unverified work.
 
 Subagent exemptions apply only to OptMem; all other instructions remain binding.
 
@@ -20,23 +20,21 @@ When using TypeScript:
 
 ## Writing
 
-README and docs only when explicitly asked. Write for people who don't read:
-- ASD-STE100. No prose, no filler.
-- Model: the [Bend README.md](https://github.com/bendlang/bend).
-
-## Skills
-
-Use skills only when the user explicitly names a skill or invokes `/skill:name` in chat, except for the default output-format skill below. Do not discover, read, invoke, or delegate any other skill merely because a task matches its description.
+Write for people who do not read:
+- ASD-STE100: No prose, no filler
+- Never let any ambiguity pass
+- Reduce text to a minimum
+- Model: the [Bend README.md](https://github.com/bendlang/bend)
 
 ## Default output format
 
 Apply `~/.agents/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
 
-## Commands for the user
+## Shell commands
 
-The user's shell is Nushell on every machine, herdr panes included. Commands the user runs:
-- Nushell syntax: `;` between commands (it stops at the first failing command, like `&&`), `$env.NAME`, `with-env { NAME: value } { cmd }`, `^cmd` for an external shadowed by a built-in. No `&&`, `export`, `$(...)`, `VAR=value cmd` or `2>/dev/null`.
-- One line per code block, joined with `;` or pipes. Never wrap a command across lines: pasted line breaks turn into stray symbols. Several independent commands: separate code blocks.
+Nushell on every machine, herdr panes included. Commands the user runs:
+- Nushell syntax: `;` between commands (it stops at the first failing command, like `&&`), `$env.NAME`, `with-env { NAME: value } { cmd }`, `^cmd` for an external shadowed by a built-in. No `&&`, `export`, `$(...)`, `VAR=value cmd` or `2>/dev/null`
+- One line per code block, joined with `;` or pipes. Never wrap a command across lines: pasted line breaks turn into stray symbols. Several independent commands: separate code blocks
 
 ## Memory
 
