@@ -49,6 +49,12 @@
     "thinking": "medium"
   },
 
+  "gateway": {
+    "signal": {
+      "model": "elpis-fast/qwen3.8-27b"
+    }
+  },
+
   "retry": {
     "enabled": true,
     "maxRetries": 3,
