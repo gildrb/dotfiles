@@ -21,6 +21,10 @@
     "enabled": false
   },
 
+  "warnings": {
+    "anthropicExtraUsage": false
+  },
+
   "autoRefine": {
     "enabled": true
   },
