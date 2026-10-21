@@ -12,15 +12,6 @@
     "elpis-fast": 4
   },
 
-  "telemetry": {
-    "enabled": false,
-    "noticeShown": false
-  },
-
-  "agentTraces": {
-    "enabled": false
-  },
-
   "warnings": {
     "anthropicExtraUsage": false
   },
