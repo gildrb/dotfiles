@@ -32,7 +32,7 @@
   "terminal": {
     "showImages": true,
     "clearOnShrink": true,
-    "fullscreen": false
+    "fullscreen": true
   },
 
   "chatDetail": "details",
