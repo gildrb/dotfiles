@@ -9,6 +9,7 @@ When using Bend:
 - Use `LAWS.bend` to keep important rules
 - Run `bend PROOF.bend` before committing
 - Parallelize the code whenever possible
+- Layout as Victor Taelin's Bend Bank; one sitting = 1,000 lines. Past it: proofs in `proof/<law>.bend` + `proof/base.bend`, laws in `laws/<area>.bend` (area = the code module the laws call; proofs then `proof/<area>/<law>.bend`); `LAWS.bend` and `PROOF.bend` import only. Code in its own folder; test drivers outside it
 
 When using TypeScript:
 - No `any`, `as`, `!`, or `@ts-ignore`; narrow `unknown` at boundaries
