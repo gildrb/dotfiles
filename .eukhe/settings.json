@@ -1,5 +1,5 @@
 {
-  "onboardingShown": false,
+  "onboardingShown": true,
   "quietStartup": true,
   "rlmMaxDepth": 2,
   "theme": "amber",

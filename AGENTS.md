@@ -21,7 +21,7 @@ When using TypeScript:
 Model: the [eukhe README](https://github.com/gildrb/eukhe/blob/main/README.md). Write every README and doc like it.
 
 - Reader: a person with the problem. Not a maintainer. Write only what that person needs to judge, install and use the thing
-- Order: one-line definition; `PROBLEM:` and `SOLUTION:`; Install; Use; one short section per feature; References table; Limitations; Attribution; License
+- Order: one-line definition; Install; Use; one short section per feature; References table; Limitations; Attribution; License
 - Leave out: release process, CI, development setup, internal design, fork diffs, history. Put needed detail in `docs/` and link it from the References table
 - ASD-STE100: short sentences, one fact each, active voice, present tense. No prose, no filler, no marketing
 - No ambiguity: exact commands, paths, numbers, platforms
