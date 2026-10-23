@@ -1,7 +1,9 @@
 onboarding = false
 
+# Every token below is set, so the base theme only fills tokens herdr adds later.
+# "terminal" would take the host terminal's ANSI palette instead of these colors.
 [theme]
-name = "terminal"
+name = "catppuccin"
 
 [theme.custom]
 panel_bg = "#000000"

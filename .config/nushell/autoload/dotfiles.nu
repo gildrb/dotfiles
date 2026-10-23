@@ -70,3 +70,41 @@ $env.config.color_config = {
     binary_ascii_other: "#ffbf72"
     binary_non_ascii: "#fade01"
 }
+
+# File names in `ls` and other tools. The NixOS default (dircolors) uses ANSI
+# colors, which take the host terminal's palette; these are Amber truecolor.
+let amber_ls = {
+    text: "38;2;255;199;87"
+    bright: "38;2;255;224;167"
+    func: "38;2;255;220;150"
+    punct: "38;2;255;169;20"
+    muted: "38;2;250;160;3"
+    gutter: "38;2;255;123;37"
+    string: "38;2;251;218;68"
+    error: "38;2;255;147;129"
+}
+let archives = [tar tgz zip 7z gz bz2 xz zst rar deb rpm jar iso dmg]
+let media = [png jpg jpeg gif webp svg avif heic mp4 mkv mov webm mp3 flac wav ogg m4a pdf]
+$env.LS_COLORS = ([
+    "rs=0"
+    $"no=($amber_ls.text)"
+    $"fi=($amber_ls.text)"
+    $"di=1;($amber_ls.func)"
+    $"ln=($amber_ls.punct)"
+    $"or=($amber_ls.error)"
+    $"mi=($amber_ls.error)"
+    $"ex=1;($amber_ls.bright)"
+    $"pi=($amber_ls.muted)"
+    $"so=($amber_ls.muted)"
+    $"do=($amber_ls.muted)"
+    $"bd=($amber_ls.muted)"
+    $"cd=($amber_ls.muted)"
+    $"su=1;($amber_ls.gutter)"
+    $"sg=1;($amber_ls.gutter)"
+    $"tw=1;($amber_ls.func)"
+    $"ow=1;($amber_ls.func)"
+    $"st=1;($amber_ls.func)"
+]
+| append ($archives | each {|extension| $"*.($extension)=($amber_ls.gutter)" })
+| append ($media | each {|extension| $"*.($extension)=($amber_ls.string)" })
+| str join ":")
