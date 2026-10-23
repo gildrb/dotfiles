@@ -1,70 +1,55 @@
+local function find_files()
+  require("fff").find_files()
+end
+
+local function live_grep()
+  require("fff").live_grep()
+end
+
 return {
   {
-    "nvim-tree/nvim-tree.lua",
+    -- Files are a buffer: edit names, then :w applies creates, renames and deletes.
+    "stevearc/oil.nvim",
     lazy = false,
     opts = {
-      view = { side = "left", width = 32, preserve_window_proportions = true },
-      renderer = {
-        group_empty = true,
-        highlight_git = "name",
-        indent_markers = { enable = true },
-        icons = {
-          show = {
-            file = false,
-            folder = false,
-            folder_arrow = false,
-            git = false,
-            modified = false,
-            diagnostics = false,
-            bookmarks = false,
-          },
-        },
-      },
-      filters = { dotfiles = false },
-      -- The start guide (config/autocmds.lua) takes a directory argument instead.
-      hijack_directories = { enable = false },
-      git = { enable = true, ignore = false },
-      update_focused_file = { enable = true },
+      default_file_explorer = true,
+      delete_to_trash = true,
+      skip_confirm_for_simple_edits = false,
+      watch_for_changes = true,
+      view_options = { show_hidden = true, case_insensitive = true },
+      -- LSP servers update imports on rename; oil saves the buffers they change.
+      lsp_file_methods = { autosave_changes = true },
+      columns = {},
     },
-    config = function(_, opts)
-      require("nvim-tree").setup(opts)
-      local api = require("nvim-tree.api")
-      local group = vim.api.nvim_create_augroup("gildrb_nvim_tree", { clear = true })
-
-      vim.api.nvim_create_autocmd("VimEnter", {
-        group = group,
-        desc = "Show the file tree beside the first window",
-        callback = function()
-          if not api.tree.is_visible() then
-            api.tree.open({ find_file = true })
-            vim.cmd("noautocmd wincmd p")
-          end
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("QuitPre", {
-        group = group,
-        desc = "Close the file tree with the last editor window",
-        callback = function()
-          if vim.bo.filetype == "NvimTree" then
-            return
-          end
-          local editors = 0
-          for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-            local buf = vim.api.nvim_win_get_buf(win)
-            if vim.api.nvim_win_get_config(win).relative == "" and vim.bo[buf].filetype ~= "NvimTree" then
-              editors = editors + 1
-            end
-          end
-          if editors == 1 then
-            api.tree.close_in_this_tab()
-          end
-        end,
-      })
-    end,
     keys = {
-      { "<C-n>", "<cmd>NvimTreeToggle<cr>", desc = "Toggle file tree" },
-      { "<leader>e", "<cmd>NvimTreeFindFile<cr>", desc = "Reveal current file" },
+      { "-", "<cmd>Oil<cr>", desc = "Open the folder of this file" },
+      { "<leader>e", "<cmd>Oil<cr>", desc = "Open the folder of this file" },
+    },
+  },
+  {
+    "dmtrKovalenko/fff",
+    -- Built from the pinned commit (lazy-lock.json) and Cargo.lock: no unverified download.
+    build = "cargo build --release --locked -p fff-nvim",
+    -- The plugin initialises itself on first use.
+    lazy = false,
+    opts = {
+      lazy_sync = true,
+      wrap_around = true,
+      layout = { prompt_position = "top" },
+      grep = { trim_whitespace = true },
+    },
+    keys = {
+      { "<leader>ff", find_files, desc = "Find files" },
+      { "<leader><leader>", find_files, desc = "Find files" },
+      { "<leader>fg", live_grep, desc = "Find text" },
+      {
+        "<leader>fw",
+        function()
+          require("fff").live_grep_under_cursor()
+        end,
+        mode = { "n", "x" },
+        desc = "Find word or selection",
+      },
     },
   },
   {
@@ -74,47 +59,60 @@ return {
     config = function(_, opts)
       local persistence = require("persistence")
       persistence.setup(opts)
-      local tree = require("nvim-tree.api").tree
       local group = vim.api.nvim_create_augroup("gildrb_session", { clear = true })
 
       vim.api.nvim_create_autocmd("VimEnter", {
         group = group,
-        desc = "Reopen the files of the last session in this folder",
+        desc = "nvim . restores the session of this folder; nvim <folder> finds a file",
         callback = function()
-          local argc = vim.fn.argc()
-          if argc == 0 or (argc == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1) then
-            -- After startup: loaded during VimEnter, the first file misses its FileType.
-            vim.schedule(persistence.load)
-          else
-            -- `nvim file` (or the Git commit editor) must not replace the project session.
-            persistence.stop()
+          if vim.fn.argc() == 0 then
+            return
           end
-        end,
-      })
+          -- Set in init.lua before oil renames the folder argument.
+          local folder = vim.g.start_folder
+          if folder == nil then
+            -- `nvim file` (or the Git commit editor) must not replace the folder session.
+            persistence.stop()
+            return
+          end
 
-      vim.api.nvim_create_autocmd("User", {
-        group = group,
-        pattern = "PersistenceSavePre",
-        desc = "Keep the file tree out of the saved session",
-        callback = function()
-          tree.close()
+          local folder_buffer = vim.api.nvim_get_current_buf()
+          vim.fn.chdir(folder.path)
+          vim.cmd.enew()
+          vim.api.nvim_buf_delete(folder_buffer, { force = true })
+          -- After startup: loaded during VimEnter, the first file misses its FileType.
+          vim.schedule(function()
+            if folder.dot and vim.fn.filereadable(persistence.current()) == 1 then
+              persistence.load()
+            else
+              find_files()
+            end
+          end)
         end,
       })
 
       vim.api.nvim_create_autocmd("User", {
         group = group,
         pattern = "PersistenceLoadPost",
-        desc = "Show the file tree beside the restored files",
+        desc = "Drop restored buffers whose file was renamed or deleted",
         callback = function()
-          if not tree.is_visible() then
-            tree.open({ find_file = true })
-            vim.cmd("noautocmd wincmd p")
+          for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
+            local path = vim.api.nvim_buf_get_name(buffer)
+            if
+              vim.bo[buffer].buftype == ""
+              and path ~= ""
+              and not vim.bo[buffer].modified
+              and vim.uv.fs_stat(path) == nil
+            then
+              vim.api.nvim_buf_delete(buffer, {})
+            end
           end
         end,
       })
     end,
   },
   {
+    -- Pickers fff does not cover: buffers, recent files across folders, help, LSP lists.
     "ibhagwan/fzf-lua",
     cmd = "FzfLua",
     opts = {
@@ -127,12 +125,9 @@ return {
         preview = { layout = "flex" },
       },
       fzf_opts = { ["--layout"] = "reverse", ["--info"] = "inline-right" },
-      files = { file_icons = false, git_icons = false, hidden = true },
-      grep = { rg_glob = true, glob_flag = "--iglob" },
+      files = { file_icons = false, git_icons = false },
     },
     keys = {
-      { "<leader>ff", "<cmd>FzfLua files<cr>", desc = "Find files" },
-      { "<leader>fg", "<cmd>FzfLua live_grep<cr>", desc = "Live grep" },
       { "<leader>fb", "<cmd>FzfLua buffers<cr>", desc = "Buffers" },
       { "<leader>fr", "<cmd>FzfLua oldfiles<cr>", desc = "Recent files" },
       { "<leader>fh", "<cmd>FzfLua help_tags<cr>", desc = "Help" },

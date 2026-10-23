@@ -1,1 +1,0 @@
-require("dusk-apple").load()

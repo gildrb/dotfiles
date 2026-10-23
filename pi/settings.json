@@ -1,7 +1,7 @@
 {
   "defaultProvider": "openrouter",
   "defaultModel": "z-ai/glm-5.3-flash",
-  "theme": "dusk-apple",
+  "theme": "amber",
   "showCacheMissNotices": true,
   "quietStartup": true,
   "images": {

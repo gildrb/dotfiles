@@ -13,6 +13,7 @@ map("v", "<A-k>", ":move '<-2<cr>gv=gv", { desc = "Move selection up" })
 
 map("v", "<", "<gv", { desc = "Indent left" })
 map("v", ">", ">gv", { desc = "Indent right" })
+map({ "n", "i", "x" }, "<C-s>", "<cmd>write<cr>", { desc = "Write file" })
 map("n", "<leader>w", "<cmd>write<cr>", { desc = "Write file" })
 map("n", "<leader>q", "<cmd>confirm quit<cr>", { desc = "Quit window" })
 map("n", "<leader>Q", "<cmd>confirm qall<cr>", { desc = "Quit Neovim" })

@@ -9,7 +9,9 @@ opt.colorcolumn = "100"
 opt.mouse = "a"
 opt.clipboard = "unnamedplus"
 opt.undofile = true
-opt.confirm = true
+-- No 'confirm': :'<,'>w then fails with E140 instead of offering to overwrite the file with the selection.
+-- Autosave (config/autocmds.lua) keeps files on disk current; swap files only add recovery prompts.
+opt.swapfile = false
 opt.updatetime = 200
 opt.timeoutlen = 400
 

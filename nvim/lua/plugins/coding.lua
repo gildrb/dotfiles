@@ -22,7 +22,13 @@ return {
     cmd = { "ConformInfo" },
     opts = {
       default_format_opts = { lsp_format = "fallback" },
-      format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
+      -- Explicit saves format; autosave (config/autocmds.lua) writes the text as typed.
+      format_on_save = function(buffer)
+        if vim.b[buffer].autosaving == true then
+          return nil
+        end
+        return { timeout_ms = 1000, lsp_format = "fallback" }
+      end,
       formatters_by_ft = languages.formatters_by_ft,
     },
     keys = {

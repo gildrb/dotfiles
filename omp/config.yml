@@ -1,6 +1,6 @@
 theme:
-  dark: dusk-apple
-  light: dusk-apple
+  dark: amber
+  light: amber
 skillful: false
 skills:
   enabled: true

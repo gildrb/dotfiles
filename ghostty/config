@@ -1,4 +1,4 @@
-theme = Dusk Apple
+theme = Amber
 macos-option-as-alt = false
 keybind = cmd+t=unbind
 keybind = cmd+n=unbind

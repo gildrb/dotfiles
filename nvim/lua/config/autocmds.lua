@@ -23,101 +23,78 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-local watchers = {}
-local pending = {}
-
-local function check(buffer)
-  -- :checktime is not allowed in the command-line window; BufEnter checks after it closes.
-  if vim.fn.getcmdwintype() ~= "" then
-    return
-  end
-  if buffer then
-    vim.cmd.checktime(buffer)
-  else
-    vim.cmd.checktime()
-  end
-end
-
-local function unwatch(buffer)
-  local watcher = watchers[buffer]
-  if watcher then
-    watcher:stop()
-    watcher:close()
-    watchers[buffer] = nil
-  end
-end
-
-local function watch(buffer)
-  unwatch(buffer)
+local function autosave(buffer)
   local path = vim.api.nvim_buf_get_name(buffer)
-  if vim.bo[buffer].buftype ~= "" or path == "" or vim.fn.filereadable(path) ~= 1 then
+  local options = vim.bo[buffer]
+  if not options.modified or options.buftype ~= "" or path == "" or options.readonly or not options.modifiable then
     return
   end
-
-  local watcher, create_error = vim.uv.new_fs_event()
-  if not watcher then
-    vim.notify("Cannot watch " .. path .. ": " .. create_error, vim.log.levels.WARN)
+  -- A file renamed or deleted outside Neovim stays gone; :w recreates it on purpose.
+  if vim.b[buffer].autosave_new ~= true and vim.uv.fs_stat(path) == nil then
+    if vim.b[buffer].autosave_warned ~= true then
+      vim.b[buffer].autosave_warned = true
+      vim.notify(
+        vim.fn.fnamemodify(path, ":~:.") .. " is gone from disk. Not saved. :w writes it again.",
+        vim.log.levels.WARN
+      )
+    end
     return
   end
-  local ok, start_error = watcher:start(
-    path,
-    {},
-    vim.schedule_wrap(function(event_error, _, events)
-      if event_error then
-        vim.notify("Stopped watching " .. path .. ": " .. event_error, vim.log.levels.WARN)
-        unwatch(buffer)
-        return
-      end
-      -- One save can fire several events; check once, after the writer is done.
-      local first = pending[buffer] == nil
-      pending[buffer] = pending[buffer] == true or events.rename == true
-      if not first then
-        return
-      end
-      vim.defer_fn(function()
-        local replaced = pending[buffer]
-        pending[buffer] = nil
-        if not vim.api.nvim_buf_is_valid(buffer) then
-          unwatch(buffer)
-          return
-        end
-        -- Atomic saves replace the file; watch the new one at the same path.
-        if replaced then
-          watch(buffer)
-        end
-        check(buffer)
-      end, 100)
-    end)
-  )
+  vim.b[buffer].autosaving = true
+  local ok, message = pcall(vim.api.nvim_buf_call, buffer, function()
+    vim.cmd("silent update")
+  end)
+  vim.b[buffer].autosaving = false
   if not ok then
-    watcher:close()
-    vim.notify("Cannot watch " .. path .. ": " .. start_error, vim.log.levels.WARN)
-    return
+    vim.notify("Autosave failed for " .. vim.fn.fnamemodify(path, ":~:.") .. ": " .. message, vim.log.levels.ERROR)
   end
-  watchers[buffer] = watcher
 end
 
-vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost", "BufFilePost" }, {
+vim.api.nvim_create_autocmd("BufNewFile", {
   group = group,
-  desc = "Reload a file as soon as it changes on disk",
+  desc = "Allow autosave to create a new file",
   callback = function(event)
-    watch(event.buf)
+    vim.b[event.buf].autosave_new = true
   end,
 })
 
-vim.api.nvim_create_autocmd("BufUnload", {
+vim.api.nvim_create_autocmd("BufWritePost", {
   group = group,
-  desc = "Stop watching an unloaded file",
+  desc = "The file exists on disk now",
   callback = function(event)
-    unwatch(event.buf)
+    vim.b[event.buf].autosave_new = false
+    vim.b[event.buf].autosave_warned = false
   end,
 })
 
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+vim.api.nvim_create_autocmd({ "InsertLeave", "TextChanged" }, {
   group = group,
-  desc = "Check for outside changes the watcher cannot see (network mounts)",
+  desc = "Save the current file after each change",
+  callback = function(event)
+    autosave(event.buf)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "VimLeavePre" }, {
+  group = group,
+  desc = "Save every changed file when leaving it or Neovim",
   callback = function()
-    check()
+    for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(buffer) then
+        autosave(buffer)
+      end
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+  group = group,
+  desc = "Reload files changed outside Neovim",
+  callback = function()
+    -- :checktime is not allowed in the command-line window.
+    if vim.fn.getcmdwintype() == "" then
+      vim.cmd.checktime()
+    end
   end,
 })
 
@@ -176,15 +153,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("VimEnter", {
   group = group,
-  desc = "Show the lightweight start guide, also for a directory argument",
+  desc = "Show the start menu for a bare nvim",
   callback = function()
-    local directory = vim.fn.argc() == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1
-    if directory then
-      local directory_buffer = vim.api.nvim_get_current_buf()
-      vim.cmd.cd(vim.fn.fnameescape(vim.fn.argv(0)))
-      vim.cmd.enew()
-      vim.api.nvim_buf_delete(directory_buffer, { force = true })
-    elseif vim.fn.argc() ~= 0 or vim.api.nvim_buf_get_name(0) ~= "" or vim.bo.modified then
+    -- `nvim <folder>` finds a file or restores the session (plugins/editor.lua).
+    if vim.fn.argc() ~= 0 or vim.api.nvim_buf_get_name(0) ~= "" or vim.bo.modified then
       return
     end
 
@@ -192,6 +164,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     local lines = {
       "Find file       f",
       "New file        n",
+      "Files           e",
       "Find text       g",
       "Recent files    r",
       "Plugin manager  l",
@@ -204,7 +177,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.bo[buffer].modifiable = true
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, lines)
     vim.bo[buffer].modifiable = false
-    vim.bo[buffer].filetype = "dusk-apple-dashboard"
+    vim.bo[buffer].filetype = "amber-dashboard"
     vim.wo.number = false
     vim.wo.relativenumber = false
     vim.wo.cursorline = false
@@ -212,9 +185,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.wo.colorcolumn = ""
 
     local actions = {
-      f = "<cmd>FzfLua files<cr>",
+      f = "<cmd>lua require('fff').find_files()<cr>",
       n = "<cmd>enew<cr>",
-      g = "<cmd>FzfLua live_grep<cr>",
+      e = "<cmd>Oil<cr>",
+      g = "<cmd>lua require('fff').live_grep()<cr>",
       r = "<cmd>FzfLua oldfiles<cr>",
       l = "<cmd>Lazy<cr>",
       q = "<cmd>qa<cr>",

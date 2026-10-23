@@ -52,14 +52,22 @@ Prefix: `Ctrl+B`, then the key below. `Ctrl+B Ctrl+B` sends `Ctrl+B` to the pane
 
 Leader: `Space`.
 
+- Files save by themselves: after each change, when you leave a file, and when Neovim loses focus. Explicit saves (`Ctrl+S`, `Space w`, `:w`) also format the file.
+- Autosave does not recreate a file that was renamed or deleted outside Neovim. `:w` writes it again on purpose.
+- `:'<,'>w` fails with `E140`. It does not overwrite the file with the selection.
+- To rename, create, or delete files: press `-`, edit the names in the folder buffer, then save. Open buffers follow the rename.
+- `nvim .` restores the last session of this folder. `nvim <folder>` opens the file finder. `nvim` shows the start menu.
+- File finder and text search: [fff](https://github.com/dmtrKovalenko/fff). Lazy builds it from source with `cargo`, about 5 minutes on first install.
+
 | Key | Action | Key | Action |
 | --- | --- | --- | --- |
 | `{count}j` / `{count}k` | Down / up by line count | `Ctrl+F` / `Ctrl+B` | Page down / up |
 | `Ctrl+h/j/k/l` | Focus left / down / up / right window | `Alt+j/k` | Move line / selection down / up |
 | `<` / `>` (visual) | Indent; retain selection | `Esc` | Clear search highlighting |
-| `Space w` | Save | `Space q` / `Space Q` | Close window / quit Neovim |
+| `Ctrl+S` / `Space w` | Save and format | `Space q` / `Space Q` | Close window / quit Neovim |
 | `Space bd` | Delete buffer | `Esc Esc` (terminal) | Normal mode |
-| `Ctrl+n` / `Space e` | File tree / reveal current file | `Space ff` / `Space fg` | Find files / live grep |
+| `-` / `Space e` | Folder of this file (oil) | `Space ff` / `Space Space` / `Space fg` | Find files / find files / find text |
+| `Space fw` | Find word or selection | | |
 | `Space fb` / `Space fr` | Buffers / recent files | `Space /` | Search current buffer |
 | `Space fh` / `Space fk` / `Space fc` | Help / keymaps / commands | `Space gc` / `Space gs` | Git commits / status |
 | `gd` / `gr` / `gI` | Definition / references / implementations | `K` | Hover documentation |
@@ -67,4 +75,21 @@ Leader: `Space`.
 | `[d` / `]d` | Previous / next diagnostic | `Space xx` / `Space xX` | All / buffer diagnostics |
 | `Space cs` / `Space cl` | Symbols / LSP references | `[h` / `]h` | Previous / next Git hunk |
 | `Space hp` / `Space hs` | Preview / stage Git hunk | `Space hr` / `Space hb` | Reset / blame Git hunk |
-| `f` / `n` / `g` (start screen) | Files / new file / grep | `r` / `l` / `q` (start screen) | Recent / plugins / quit |
+| `f` / `n` / `e` / `g` (start menu) | Find file / new file / folder / find text | `r` / `l` / `q` (start menu) | Recent / plugins / quit |
+
+## Theme
+
+Amber: amber on black, orange line numbers, cyan on navy selection. Source: `theme/amber.json`. Every app theme in this repository uses its colors.
+
+| Role | Color | APCA Lc on black |
+| --- | --- | --- |
+| Text | `#ffc757` | 78 |
+| Headings, functions | `#ffe0a7` / `#ffdc96` | 90 / 88 |
+| Strings | `#fbda44` | 85 |
+| Keywords (bold), types | `#ffc091` / `#ffbf72` | 76 / 75 |
+| Punctuation, borders | `#ffa914` | 66 |
+| Comments, muted text, thinking | `#faa003` | 62 |
+| Line numbers | `#ff7b25` | 52 |
+| Selection | cyan `#60e3e2` on navy `#000066` | 76 |
+| Error / warning / success | `#ff9381` / `#fade01` / `#05d83d` | 60 / 87 / 66 |
+| Cursor (Ghostty) | green `#05d83d` | 66 |

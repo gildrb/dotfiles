@@ -52,7 +52,7 @@
   },
   "display": {
     "interface": "tui",
-    "skin": "dusk-apple",
+    "skin": "amber",
     "personality": "concise",
     "show_reasoning": false,
     "platforms": {

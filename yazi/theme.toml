@@ -1,5 +1,5 @@
-# Dusk Apple; palette source: ../theme/dusk-apple.json.
+# Amber; palette source: ../theme/amber.json.
 # Yazi 26.5.6: keep behavior, keymaps, and layout at their upstream defaults.
 [flavor]
-dark = "dusk-apple"
-light = "dusk-apple"
+dark = "amber"
+light = "amber"

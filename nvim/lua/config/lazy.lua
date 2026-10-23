@@ -35,8 +35,10 @@ require("lazy").setup({
   lockfile = lockfile,
   spec = { { import = "plugins" } },
   defaults = { lazy = true, version = false },
-  install = { colorscheme = { "dusk-apple" } },
+  install = { colorscheme = { "amber" } },
   checker = { enabled = false },
+  -- Also limits build commands: fff compiles from source in about 5 minutes.
+  git = { timeout = 900 },
   rocks = { enabled = false },
   change_detection = { notify = false },
   ui = { border = "rounded" },
@@ -56,4 +58,4 @@ require("lazy").setup({
   },
 })
 
-vim.cmd.colorscheme("dusk-apple")
+vim.cmd.colorscheme("amber")

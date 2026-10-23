@@ -1,5 +1,5 @@
 local M = {}
-local p = require("dusk-apple.palette")
+local p = require("amber.palette")
 
 local function set(group, options)
   vim.api.nvim_set_hl(0, group, options)
@@ -20,9 +20,9 @@ function M.load()
 
   vim.opt.background = "dark"
   vim.opt.termguicolors = true
-  vim.g.colors_name = "dusk-apple"
+  vim.g.colors_name = "amber"
 
-  local background = vim.g.dusk_apple_transparent == false and p.ink or "NONE"
+  local background = vim.g.amber_transparent == false and p.ink or "NONE"
 
   set("Normal", { fg = p.paper, bg = background })
   set("NormalNC", { fg = p.punct, bg = background })
@@ -45,18 +45,20 @@ function M.load()
   set("LineNrBelow", { fg = p.gutter, bg = background })
   set("CursorLine", { bg = p.cursorline })
   set("CursorColumn", { bg = p.cursorline })
-  set("CursorLineNr", { fg = p.accent, bg = background, bold = true })
+  -- The current line number is a solid block.
+  set("CursorLineNr", { fg = p.ink, bg = p.paperStrong, bold = true })
   set("CursorLineSign", { fg = p.accent, bg = background })
   set("CursorLineFold", { fg = p.accent, bg = background })
   set("ColorColumn", { bg = background })
-  set("Visual", { fg = p.paper, bg = p.selection })
-  set("VisualNOS", { fg = p.paper, bg = p.selection })
+  -- Cyan text on navy selection.
+  set("Visual", { fg = p.info, bg = p.selection })
+  set("VisualNOS", { fg = p.info, bg = p.selection })
   set("Search", { fg = p.ink, bg = p.warn })
   set("IncSearch", { fg = p.ink, bg = p.accent })
   link("CurSearch", "IncSearch")
   set("Substitute", { fg = p.ink, bg = p.accent, bold = true })
   set("MatchParen", { fg = p.accent, bold = true, underline = true })
-  set("Directory", { fg = p.info, bold = true })
+  set("Directory", { fg = p.func, bold = true })
   set("Title", { fg = p.accent, bold = true })
   set("Question", { fg = p.ok })
   set("MoreMsg", { fg = p.ok })
@@ -175,11 +177,11 @@ function M.load()
   M.plugins(background)
   M.terminal()
 
-  local group = vim.api.nvim_create_augroup("dusk_apple_theme", { clear = true })
+  local group = vim.api.nvim_create_augroup("amber_theme", { clear = true })
   vim.api.nvim_create_autocmd("User", {
     group = group,
     pattern = "LazyLoad",
-    desc = "Keep lazy-loaded plugins inside the Dusk Apple palette",
+    desc = "Keep lazy-loaded plugins inside the Amber palette",
     callback = function()
       vim.schedule(function()
         M.plugins(background)
@@ -336,21 +338,14 @@ function M.plugins(background)
     set(group, { fg = foreground or p.paper, bg = background })
   end
 
-  surface("NvimTreeNormal", p.punct)
-  surface("NvimTreeNormalNC", p.comment)
-  surface("NvimTreeEndOfBuffer", p.ink)
-  set("NvimTreeRootFolder", { fg = p.accent, bold = true })
-  set("NvimTreeFolderName", { fg = p.info })
-  set("NvimTreeFolderIcon", { fg = p.info })
-  set("NvimTreeOpenedFolderName", { fg = p.info, bold = true })
-  set("NvimTreeIndentMarker", { fg = p.guide })
-  surface("NvimTreeWinSeparator", p.accent)
-  set("NvimTreeGitDirty", { fg = p.warn })
-  set("NvimTreeGitNew", { fg = p.ok })
-  set("NvimTreeGitDeleted", { fg = p.error })
-  set("NvimTreeSpecialFile", { fg = p.type })
-  set("NvimTreeSymlink", { fg = p.func })
-  set("NvimTreeWindowPicker", { fg = p.accent, bg = background, bold = true })
+  set("OilDir", { fg = p.func, bold = true })
+  set("OilFile", { fg = p.paper })
+  set("OilLink", { fg = p.punct })
+  set("OilCreate", { fg = p.ok })
+  set("OilDelete", { fg = p.error })
+  set("OilMove", { fg = p.warn })
+  set("OilCopy", { fg = p.info })
+  set("OilChange", { fg = p.warn })
 
   surface("FzfLuaNormal")
   surface("FzfLuaBorder", p.accent)
