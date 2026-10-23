@@ -16,14 +16,14 @@ When using TypeScript:
 
 ## Writing
 
-Model: the [eukhe README](https://github.com/gildrb/eukhe/blob/main/README.md). Write every README and doc like it.
+Harden every text: keep only what the reader needs to act, as dense as possible. Agents and people read dense text.
 
-- Reader: a person with the problem. Not a maintainer. Write only what that person needs to judge, install and use the thing
-- Order: one-line definition; Install; Use; one short section per feature; References table; Limitations; Attribution; License
-- Leave out: release process, CI, development setup, internal design, fork diffs, history. Put needed detail in `docs/` and link it from the References table
-- ASD-STE100: short sentences, one fact each, active voice, present tense. No prose, no filler, no marketing
-- No ambiguity: exact commands, paths, numbers, platforms
-- Lists and tables, not paragraphs. One command per line, with a short `#` comment
+- Cut: framing labels, persuasion, flattery, anecdotes, history, restated rules. Provenance and licenses: `THIRD_PARTY_NOTICES.md` only
+- Each fact once. Lists and tables, not paragraphs. A real example over an explanation
+- ASD-STE100: short sentences, active voice, present tense
+- Exact commands, paths, numbers, platforms. One command per line, with a short `#` comment
+- README: definition; Install; Use; one section per feature; References table; Limitations; Attribution; License. Release, CI, development setup, internals: `docs/`
+- Skills and agent instructions: rules, commands, examples; count the tokens
 - No `·` or other dots as separators
 
 ## Default output format
