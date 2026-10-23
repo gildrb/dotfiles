@@ -1,23 +1,18 @@
 theme = Amber
-macos-option-as-alt = false
-keybind = cmd+t=unbind
-keybind = cmd+n=unbind
-keybind = shift+cmd+t=unbind
 
 font-family = CommitMono
 font-size = 15
-# Native Ghostty terminfo. Hephaistos resolves xterm-ghostty over SSH via the
-# per-user ghostty profile, so full-screen programs keep true-color support.
+# Native Ghostty terminfo, installed with the per-user ghostty profile. Over SSH
+# the server resolves xterm-ghostty the same way, so full-screen programs keep
+# true-color support.
 term = xterm-ghostty
 background-opacity = 0.95
 background-blur = true
 background-opacity-cells = true
 keybind = cmd+w=close_surface
 keybind = shift+cmd+t=new_tab
-
 keybind = shift+cmd+n=new_window
 keybind = shift+cmd+w=close_tab:this
-keybind = performable:cmd+v=paste_from_clipboard
 keybind = ctrl+digit_1=csi:49;5u
 keybind = ctrl+digit_2=csi:50;5u
 keybind = ctrl+digit_3=csi:51;5u
@@ -36,3 +31,6 @@ keybind = ctrl+6=csi:54;5u
 keybind = ctrl+7=csi:55;5u
 keybind = ctrl+8=csi:56;5u
 keybind = ctrl+9=csi:57;5u
+
+# Home Manager links `os` to `macos` or `linux` in this folder.
+config-file = os

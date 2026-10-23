@@ -3,9 +3,7 @@
 result
 result-*
 
-# Pi development and runtime state
-pi/node_modules/
-pi/agent/
+# Agent runtime state (.pi/agent and .prime/agent ignore their own)
 auth.json
 oauth.json
 models.json

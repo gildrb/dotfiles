@@ -1,6 +1,19 @@
+## Layout
+
+Each file sits at its path below `~`: `.config/nvim` is `~/.config/nvim`. Home Manager links it from this checkout (`~/Repos/dotfiles`). Activation clones the checkout when it is missing.
+
+| Files | When a change applies |
+| --- | --- |
+| `.config/` (nvim, nushell, ghostty, herdr, hunk, yazi, bat, btop, htop, fastfetch, aerospace, zed themes), Anki add-on | At once. Open the app again. |
+| New file in `.config/{bat,btop,fastfetch,ghostty,htop,nushell/autoload,zed/themes}` or the Anki add-on | After `nix flake update dotfiles` and a switch. `nvim` and `yazi` link whole: new files apply at once. |
+| `.codex`, `.omp/agent`, `.pi/agent`, `.prime/agent`, `.eukhe`, `.optmem`, `.config/zed/settings.json`, `hermes`, `monitorcontrol`, `theme` | After `nix flake update dotfiles` and a switch. Nix merges or processes these files. |
+
+- btop and htop write their config on exit. Their changes show up in `git status`.
+- `:Lazy update` writes `.config/nvim/lazy-lock.json`.
+
 ## Anki gamepad
 
-Add-on `anki/gamepad`. Any controller macOS sees (8BitDo, Switch Pro, Xbox, DualSense). Acts only while the Anki main window is active. Buttons send Anki shortcuts per screen; edit `anki/gamepad/config.json`. Button names are the printed labels: `buttonA` = A.
+Add-on `Library/Application Support/Anki2/addons21/gamepad`. Any controller macOS sees (8BitDo, Switch Pro, Xbox, DualSense). Acts only while the Anki main window is active. Buttons send Anki shortcuts per screen; edit `config.json` in the add-on folder. Button names are the printed labels: `buttonA` = A.
 
 | Button | Decks / Overview | Question | Answer |
 | --- | --- | --- | --- |

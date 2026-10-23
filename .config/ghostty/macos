@@ -1,0 +1,11 @@
+macos-option-as-alt = false
+keybind = cmd+t=unbind
+keybind = cmd+n=unbind
+keybind = performable:cmd+v=paste_from_clipboard
+
+# Spawn the managed login bash directly instead of Ghostty's default
+# `login -flp ... /bin/bash --noprofile --norc -c exec -l ... --posix`
+# wrapper: that chain runs POSIX-mode bash, defeats shell detection
+# and integration, and intermittently leaves dead, empty surfaces.
+# /etc/profiles is stable across boots, unlike /run/current-system.
+command = /etc/profiles/per-user/gilrodrigues/bin/bash -l

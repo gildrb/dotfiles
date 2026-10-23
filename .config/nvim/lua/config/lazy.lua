@@ -1,10 +1,6 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-local source_lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json"
-local lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json"
-if not vim.uv.fs_stat(lockfile) and vim.uv.fs_stat(source_lockfile) then
-  vim.fn.mkdir(vim.fn.stdpath("state"), "p")
-  vim.fn.writefile(vim.fn.readfile(source_lockfile), lockfile)
-end
+-- ~/.config/nvim links to the dotfiles checkout: :Lazy update writes the lock there.
+local lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json"
 
 if not vim.uv.fs_stat(lazypath) then
   local result = vim.fn.system({
@@ -43,8 +39,6 @@ require("lazy").setup({
   change_detection = { notify = false },
   ui = { border = "rounded" },
   performance = {
-    -- Nix store files all have mtime 1, so vim.loader serves stale bytecode.
-    cache = { enabled = false },
     rtp = {
       disabled_plugins = {
         "gzip",

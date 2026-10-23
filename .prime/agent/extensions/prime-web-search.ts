@@ -13,7 +13,7 @@
  * DuckDuckGo search remains available when all package locations are absent.
  *
  * The package was selected after repeated native Codex, Exa MCP, DuckDuckGo,
- * and Bing comparison runs. prime/web-search.json chooses zero-key Exa first for its
+ * and Bing comparison runs. web-search.json chooses zero-key Exa first for its
  * latency and source quality, then native OpenAI/Codex and DuckDuckGo. Site-specific X queries use
  * keyless Parallel MCP with native OpenAI/Codex retry because Exa returned empty results. Public X/Twitter status
  * fetches use Twitter's own zero-key oEmbed endpoint before generic extraction.
