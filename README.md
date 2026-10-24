@@ -6,7 +6,7 @@ Each file sits at its path below `~`: `.config/nvim` is `~/.config/nvim`. Home M
 | --- | --- |
 | `.config/` (nvim, nushell, ghostty, herdr, hunk, yazi, bat, btop, htop, fastfetch, aerospace, zed themes), Anki add-on | At once. Open the app again. |
 | New file in `.config/{bat,btop,fastfetch,ghostty,htop,nushell/autoload,zed/themes}` or the Anki add-on | After `nix flake update dotfiles` and a switch. `nvim` and `yazi` link whole: new files apply at once. |
-| `.codex`, `.omp/agent`, `.pi/agent`, `.prime/agent`, `.eukhe`, `.optmem`, `.config/zed/settings.json`, `hermes`, `monitorcontrol`, `theme` | After `nix flake update dotfiles` and a switch. Nix merges or processes these files. |
+| `.codex`, `.omp/agent`, `.pi/agent`, `.prime/agent`, `.eukhe`, `.optmem`, `.config/zed/settings.json`, `monitorcontrol`, `theme` | After `nix flake update dotfiles` and a switch. Nix merges or processes these files. |
 
 - btop and htop write their config on exit. Their changes show up in `git status`.
 - `:Lazy update` writes `.config/nvim/lazy-lock.json`.
