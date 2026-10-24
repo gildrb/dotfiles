@@ -6,26 +6,26 @@ onboarding = false
 name = "catppuccin"
 
 [theme.custom]
-# Superlogical-like: warm off-white ink, warm gray chrome, amber only for focus.
+# Values from theme/amber.json; backgrounds transparent so the terminal shows through.
 panel_bg = "transparent"
 sidebar_bg = "transparent"
 active_row_bg = "transparent"
-selection_bg = "#2c2823"
+selection_bg = "#3a3024"
 surface0 = "transparent"
-surface1 = "#2c2823"
-surface_dim = "#3a3630"
-overlay0 = "#78746c"
-overlay1 = "#9c978d"
+surface1 = "#2c2a26"
+surface_dim = "#3d3a35"
+overlay0 = "#a19c92"
+overlay1 = "#bbb6ac"
 text = "#e8e4dc"
-subtext0 = "#b5b0a6"
+subtext0 = "#b0aba1"
 accent = "#eba862"
 mauve = "#d1b6fe"
 green = "#9cc593"
 yellow = "#ecc273"
-red = "#f0907f"
-blue = "#93b9d9"
+red = "#f39a8a"
+blue = "#9fc2df"
 teal = "#a3cbc1"
-peach = "#fe9369"
+peach = "#f7a07a"
 
 [terminal]
 new_cwd = "follow"

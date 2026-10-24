@@ -92,17 +92,19 @@ Leader: `Space`.
 
 ## Theme
 
-Amber: amber on black, orange line numbers, cyan on navy selection. Source: `theme/amber.json`. Every app theme in this repository uses its colors.
+Warm neutral: off-white text on warm near-black, warm gray chrome, amber only for focus. Source: `theme/amber.json`. Every app theme in this repository uses its colors.
 
-| Role | Color | APCA Lc on black |
+| Role | Color | APCA Lc on ink |
 | --- | --- | --- |
-| Text | `#ffc757` | 78 |
-| Headings, functions | `#ffe0a7` / `#ffdc96` | 90 / 88 |
-| Strings | `#fbda44` | 85 |
-| Keywords (bold), types | `#ffc091` / `#ffbf72` | 76 / 75 |
-| Punctuation, borders | `#ffa914` | 66 |
-| Comments, muted text, thinking | `#faa003` | 62 |
-| Line numbers | `#ff7b25` | 52 |
-| Selection | cyan `#60e3e2` on navy `#000066` | 76 |
-| Error / warning / success | `#ff9381` / `#fade01` / `#05d83d` | 60 / 87 / 66 |
-| Cursor (Ghostty) | green `#05d83d` | 66 |
+| Text | `#e8e4dc` | 90 |
+| Headings, functions | `#f4f1ea` | 98 |
+| Strings, warnings | `#ecc273` | 73 |
+| Types, builtins | `#d1b6fe` | 70 |
+| Keywords | `#d9b08c` | 63 |
+| Punctuation, borders | `#bbb6ac` | 63 |
+| Accent, focus, cursor | `#eba862` | 62 |
+| Constants, numbers | `#f7a07a` | 62 |
+| Comments, muted text, thinking | `#b0aba1` | 57 |
+| Line numbers | `#a19c92` | 49 |
+| Error / success / info | `#f39a8a` / `#9cc593` / `#9fc2df` | 60 / 65 / 67 |
+| Selection | `#e8e4dc` on `#3a3024` | 85 |
