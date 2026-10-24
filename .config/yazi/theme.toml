@@ -1,5 +1,5 @@
-# Amber; palette source: theme/amber.json in the dotfiles repository.
+# Death Note; palette source: theme/death-note.json in the dotfiles repository.
 # Yazi 26.5.6: keep behavior, keymaps, and layout at their upstream defaults.
 [flavor]
-dark = "amber"
-light = "amber"
+dark = "death-note"
+light = "death-note"

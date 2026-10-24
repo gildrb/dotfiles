@@ -177,7 +177,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.bo[buffer].modifiable = true
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, lines)
     vim.bo[buffer].modifiable = false
-    vim.bo[buffer].filetype = "amber-dashboard"
+    vim.bo[buffer].filetype = "dashboard"
     vim.wo.number = false
     vim.wo.relativenumber = false
     vim.wo.cursorline = false

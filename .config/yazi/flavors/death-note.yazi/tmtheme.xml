@@ -2,78 +2,78 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>name</key><string>Amber</string>
+    <key>name</key><string>Death Note</string>
     <key>settings</key>
     <array>
         <dict>
             <key>settings</key>
             <dict>
-                <key>background</key><string>#12110f</string>
-                <key>foreground</key><string>#e8e4dc</string>
-                <key>caret</key><string>#eba862</string>
-                <key>selection</key><string>#3a3024</string>
-                <key>lineHighlight</key><string>#1a1917</string>
+                <key>background</key><string>#0e0e11</string>
+                <key>foreground</key><string>#dddee1</string>
+                <key>caret</key><string>#ff95b4</string>
+                <key>selection</key><string>#512631</string>
+                <key>lineHighlight</key><string>#141518</string>
             </dict>
         </dict>
         <dict>
             <key>scope</key><string>comment</string>
-            <key>settings</key><dict><key>foreground</key><string>#b0aba1</string><key>fontStyle</key><string>italic</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#a2a3a7</string><key>fontStyle</key><string>italic</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>punctuation</string>
-            <key>settings</key><dict><key>foreground</key><string>#bbb6ac</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#c2c3c7</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>keyword, storage, punctuation.definition.keyword</string>
-            <key>settings</key><dict><key>foreground</key><string>#d9b08c</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#ff95b4</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>keyword.operator</string>
-            <key>settings</key><dict><key>foreground</key><string>#bbb6ac</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#ff95b4</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>string, punctuation.definition.string</string>
-            <key>settings</key><dict><key>foreground</key><string>#ecc273</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#76c788</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>entity.name.function, support.function</string>
-            <key>settings</key><dict><key>foreground</key><string>#f4f1ea</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#caa5f6</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>variable</string>
-            <key>settings</key><dict><key>foreground</key><string>#e8e4dc</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#dddee1</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>variable.other.property, variable.other.member, support.type.property-name, entity.name.tag, entity.other.attribute-name</string>
-            <key>settings</key><dict><key>foreground</key><string>#e8e4dc</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#7dbaf8</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>constant, support.constant, constant.language</string>
-            <key>settings</key><dict><key>foreground</key><string>#f7a07a</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#7dbaf8</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>entity.name.type, entity.name.class, entity.name.namespace, entity.name.module, support.type, support.class, storage.type, entity.name.constructor</string>
-            <key>settings</key><dict><key>foreground</key><string>#d1b6fe</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#6cc4be</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>constant.numeric</string>
-            <key>settings</key><dict><key>foreground</key><string>#f7a07a</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#e6a960</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>variable.parameter</string>
-            <key>settings</key><dict><key>foreground</key><string>#e8e4dc</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#e6a960</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>support.function.builtin, variable.language</string>
-            <key>settings</key><dict><key>foreground</key><string>#d1b6fe</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#6cc4be</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>invalid</string>
-            <key>settings</key><dict><key>foreground</key><string>#f39a8a</string><key>background</key><string>#1f1e1b</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#fe9a86</string><key>background</key><string>#19191d</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>markup.heading</string>
-            <key>settings</key><dict><key>foreground</key><string>#eba862</string><key>fontStyle</key><string>bold</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#edeef0</string><key>fontStyle</key><string>bold</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>markup.bold</string>
@@ -85,19 +85,19 @@
         </dict>
         <dict>
             <key>scope</key><string>markup.raw</string>
-            <key>settings</key><dict><key>foreground</key><string>#ecc273</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#76c788</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>markup.inserted</string>
-            <key>settings</key><dict><key>foreground</key><string>#9cc593</string><key>background</key><string>#16221a</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#76c788</string><key>background</key><string>#0f2013</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>markup.changed</string>
-            <key>settings</key><dict><key>foreground</key><string>#ecc273</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#e6a960</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>markup.deleted</string>
-            <key>settings</key><dict><key>foreground</key><string>#f39a8a</string><key>background</key><string>#2e1b19</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#fe9a86</string><key>background</key><string>#2a1515</string></dict>
         </dict>
     </array>
 </dict>

@@ -2,7 +2,7 @@
   "onboardingShown": false,
   "quietStartup": true,
   "rlmMaxDepth": 2,
-  "theme": "amber",
+  "theme": "death-note",
   "steeringMode": "one-at-a-time",
   "followUpMode": "one-at-a-time",
   "showHardwareCursor": true,

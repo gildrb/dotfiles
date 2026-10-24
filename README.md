@@ -92,19 +92,22 @@ Leader: `Space`.
 
 ## Theme
 
-Warm neutral: off-white text on warm near-black, warm gray chrome, amber only for focus. Source: `theme/amber.json`. Every app theme in this repository uses its colors.
+Death Note, quiet: soft off-white on blue-black, red as the main color, crimson borders. Every hue sits at the same APCA contrast, so no color shouts. Source: `theme/death-note.json`. Every app theme in this repository uses its colors.
 
 | Role | Color | APCA Lc on ink |
 | --- | --- | --- |
-| Text | `#e8e4dc` | 90 |
-| Headings, functions | `#f4f1ea` | 98 |
-| Strings, warnings | `#ecc273` | 73 |
-| Types, builtins | `#d1b6fe` | 70 |
-| Keywords | `#d9b08c` | 63 |
-| Punctuation, borders | `#bbb6ac` | 63 |
-| Accent, focus, cursor | `#eba862` | 62 |
-| Constants, numbers | `#f7a07a` | 62 |
-| Comments, muted text, thinking | `#b0aba1` | 57 |
-| Line numbers | `#a19c92` | 49 |
-| Error / success / info | `#f39a8a` / `#9cc593` / `#9fc2df` | 60 / 65 / 67 |
-| Selection | `#e8e4dc` on `#3a3024` | 85 |
+| Background | `#0e0e11` | |
+| Text | `#dddee1` | 86 |
+| Headings, current line number | `#edeef0` | 96 |
+| Punctuation | `#c2c3c7` | 70 |
+| Accent, focus, cursor, keywords, operators | `#ff95b4` | 62 |
+| Functions | `#caa5f6` | 62 |
+| Types, builtins, hints | `#6cc4be` | 62 |
+| Links, info, properties, constants | `#7dbaf8` | 62 |
+| Strings, success | `#76c788` | 62 |
+| Numbers, parameters, warnings | `#e6a960` | 62 |
+| Errors | `#fe9a86` | 62 |
+| Comments, muted text, thinking | `#a2a3a7` | 52 |
+| Line numbers | `#8b8c91` | 40 |
+| Borders | `#984e61` | 23 |
+| Selection | `#dddee1` on `#512631` | 80 |
