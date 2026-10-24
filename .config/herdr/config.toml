@@ -6,8 +6,8 @@ onboarding = false
 name = "catppuccin"
 
 [theme.custom]
-panel_bg = "#000000"
-sidebar_bg = "#000000"
+panel_bg = "transparent"
+sidebar_bg = "transparent"
 active_row_bg = "#0c0602"
 selection_bg = "#000066"
 surface0 = "#0c0602"
