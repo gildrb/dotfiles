@@ -37,6 +37,10 @@ return {
       wrap_around = true,
       layout = { prompt_position = "top" },
       grep = { trim_whitespace = true },
+      keymaps = {
+        move_up = { "<Up>", "<C-p>", "<C-k>" },
+        move_down = { "<Down>", "<C-n>", "<C-j>" },
+      },
     },
     keys = {
       { "<leader>ff", find_files, desc = "Find files" },
