@@ -9,7 +9,7 @@
   "enableSkillCommands": true,
 
   "providerMaxInFlight": {
-    "elpis-fast": 4
+    "elpis": 4
   },
 
   "warnings": {
@@ -51,7 +51,7 @@
 
   "gateway": {
     "signal": {
-      "model": "elpis-fast/qwen3.8-27b"
+      "model": "elpis/qwen3.8-27b"
     }
   },
 
