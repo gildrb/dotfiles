@@ -7,7 +7,7 @@ from aqt.deckbrowser import DeckBrowser, DeckBrowserContent
 WEEKS: Final = 53
 CELL: Final = 11
 GAP: Final = 3
-COLOR: Final = "#ff95b4"
+COLOR: Final = "#d4af5d"
 LEVELS: Final = (0.3, 0.55, 0.8, 1.0)
 
 # Anki day per review: local time shifted back by the "next day starts at" hour.

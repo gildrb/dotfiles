@@ -7,10 +7,10 @@ from aqt.reviewer import Reviewer
 
 SHOW_MS: Final = 900
 LABELS: Final[dict[int, tuple[str, str]]] = {
-    1: ("Again", "#fe9a86"),
-    2: ("Hard", "#e6a960"),
-    3: ("Good", "#76c788"),
-    4: ("Easy", "#7dbaf8"),
+    1: ("Again", "#f69c8e"),
+    2: ("Hard", "#eba474"),
+    3: ("Good", "#8ec184"),
+    4: ("Easy", "#8cb7e5"),
 }
 
 SCRIPT: Final = """(() => {
