@@ -4,7 +4,7 @@ Read README.md + docs first. No tests unless asked. Never reset, clean, overwrit
 
 ## Languages
 
-- Rust: never unsafe; no bare unwrap/expect; fallible ops return Result/Option, never sentinels; errors as enums with From; newtypes over primitives; private by default; comments explain why, ≤2 lines; perf claims need a benchmark, median of 3 runs vs a recorded pin; clippy --all-targets -- -D warnings + cargo fmt before commit.
+- Rust: never unsafe; no bare unwrap/expect; fallible ops return Result/Option, never sentinels; errors as enums with From; newtypes over primitives; private by default; comments explain why, ≤2 lines; perf claims = median of 3 runs vs a pin; clippy --all-targets -- -D warnings + cargo fmt before commit.
 - TypeScript: no any/as/!/@ts-ignore; narrow unknown; type not interface; tagged unions `{$:"Tag"}`; every switch on a union ends `default: const _: never = d`; oxlint --type-aware + tsc --noEmit. Stack: vite-plus (`vp`), StyleX, Preact; React-compat imports via preact/compat.
 - Bend: the bend skill (~/.agents/skills/bend/SKILL.md) owns laws, proofs, bank layout; bend PROOF.bend before commit.
 - Parallelize hot paths (rayon, workers, SIMD, Bend native) when load allows.
@@ -25,4 +25,4 @@ Nushell everywhere (herdr included): `;` not `&&`; `$env.X`; `with-env {X: v} {c
 
 ## Memory
 
-OptMem: ~/.optmem/memo, data ~/.optmem/memory. Startup: memo wake; do what it prints. Learnings: memo note "<1 line, ≤280 bytes>"; no duplicates; compress when asked. Never edit the memory dir. Search: memo recall <re>; memo zoom <a-b> opens a tree node. Subagents never run memo; on spawn write: You are a subagent. Don't run memo.
+OptMem: ~/.optmem/memo, data ~/.optmem/memory. Startup: memo wake; do what it prints. Learnings: memo note "<1 line, ≤280 bytes>"; no duplicates; compress when asked. Never edit the memory dir. Search: memo recall <re>; zoom <a-b> opens a tree node. Subagents never run memo; on spawn write: You are a subagent. Don't run memo.
