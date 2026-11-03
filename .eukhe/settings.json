@@ -1,6 +1,10 @@
 {
   "onboardingShown": true,
   "quietStartup": true,
+  "trustedProjects": [
+    "/home/gilrodrigues/Repos/dotfiles",
+    "/Users/gilrodrigues/Repos/dotfiles"
+  ],
   "rlmMaxDepth": 2,
   "theme": "forge",
   "steeringMode": "one-at-a-time",
