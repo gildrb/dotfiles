@@ -27,7 +27,10 @@ Harden every text: only what the reader needs to act, as dense as possible. Agen
 - Each fact once. Lists and tables, not paragraphs. A real example over an explanation
 - ASD-STE100: short sentences, active voice, present tense
 - Exact commands, paths, numbers, platforms. One command per line with a short `#` comment
-- README: definition; Install; Use; one section per feature; References table; Limitations; Attribution; License. Release, CI, development setup: `docs/`
+- README: minimal, low cognitive load, like [Helium](https://github.com/imputnet/helium). Ask of every line: "Does the reader need this?" No: cut it
+  - Order: name and one-line tagline; Install (one command first, then alternatives); Use (the first few commands, then "`--help` lists the rest"); one short section per differentiating idea (2-3 bullets); Components (one line each: what it is, what it ports, link); Limitations; Credits; License
+  - Out: settings, flags, internals, file paths users never touch, anything `--help` or in-app help shows. Release, CI, development setup: `AGENTS.md`
+  - Short headings, short bullets, tables only when comparing. A quotation only where it carries the meaning
 - Skills and agent instructions: rules, commands, examples; count the tokens
 - No `·` or other dots as separators
 
