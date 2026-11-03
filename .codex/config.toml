@@ -41,3 +41,9 @@ enabled = true
 
 [plugins."spreadsheets@openai-primary-runtime"]
 enabled = true
+
+[projects."/home/gilrodrigues/nix"]
+trust_level = "trusted"
+
+[projects."/Users/gilrodrigues"]
+trust_level = "trusted"
