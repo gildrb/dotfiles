@@ -44,6 +44,7 @@ Nushell on every machine, herdr panes included. Commands the user runs:
 ## Memory
 
 OptMem is your memory: tool `~/.optmem/memo`, data `~/.optmem/memory`. It outlives every session, compaction, model and vendor change; without it you do not know who you are, or what was decided and tried.
+Eukhe: none of this section — the chat is your memory.
 
 - Startup (mandatory): `~/.optmem/memo wake` before any other tool call, in every session; then do exactly what it prints, to the end
 - Working (mandatory): `~/.optmem/memo note "<1 line, max 280 bytes>"` whenever you learn something new or something worth keeping happens: a task worth real effort, a fact or insight the user teaches you, anything about their life (even indirectly), any event of lasting effect. No redundant memories. If `note` asks for a compression, do it before your next action
