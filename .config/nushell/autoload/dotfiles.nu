@@ -86,14 +86,14 @@ $env.config.color_config = {
 # File names in `ls` and other tools. The NixOS default (dircolors) uses ANSI
 # colors, which take the host terminal's palette; these are Forge truecolor.
 let theme_ls = {
-    text: "38;2;221;222;225"
-    exec: "38;2;118;199;136"
-    dir: "38;2;125;186;248"
-    link: "38;2;108;196;190"
-    muted: "38;2;162;163;167"
-    gutter: "38;2;139;140;145"
-    media: "38;2;202;165;246"
-    error: "38;2;254;154;134"
+    text: "38;2;224;214;198"
+    exec: "38;2;142;193;132"
+    dir: "38;2;140;183;229"
+    link: "38;2;121;193;178"
+    muted: "38;2;169;160;152"
+    gutter: "38;2;158;135;115"
+    media: "38;2;205;166;223"
+    error: "38;2;246;156;142"
 }
 let archives = [tar tgz zip 7z gz bz2 xz zst rar deb rpm jar iso dmg]
 let media = [png jpg jpeg gif webp svg avif heic mp4 mkv mov webm mp3 flac wav ogg m4a pdf]
