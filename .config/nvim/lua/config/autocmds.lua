@@ -40,11 +40,9 @@ local function autosave(buffer)
     end
     return
   end
-  vim.b[buffer].autosaving = true
   local ok, message = pcall(vim.api.nvim_buf_call, buffer, function()
     vim.cmd("silent update")
   end)
-  vim.b[buffer].autosaving = false
   if not ok then
     vim.notify("Autosave failed for " .. vim.fn.fnamemodify(path, ":~:.") .. ": " .. message, vim.log.levels.ERROR)
   end

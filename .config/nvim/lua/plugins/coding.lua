@@ -26,13 +26,9 @@ return {
     cmd = { "ConformInfo" },
     opts = {
       default_format_opts = { lsp_format = "fallback" },
-      -- Explicit saves format; autosave (config/autocmds.lua) writes the text as typed.
-      format_on_save = function(buffer)
-        if vim.b[buffer].autosaving == true then
-          return nil
-        end
-        return { timeout_ms = 1000, lsp_format = "fallback" }
-      end,
+      -- Never format on save (explicit or autosave): buffers keep the layout as typed.
+      -- Manual formatting: <leader>cf.
+      format_on_save = false,
       formatters_by_ft = languages.formatters_by_ft,
     },
     keys = {
