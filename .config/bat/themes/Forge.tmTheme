@@ -37,7 +37,7 @@
         </dict>
         <dict>
             <key>scope</key><string>entity.name.function, support.function</string>
-            <key>settings</key><dict><key>foreground</key><string>#cda6df</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#79c1b2</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>variable</string>
@@ -45,15 +45,15 @@
         </dict>
         <dict>
             <key>scope</key><string>variable.other.property, variable.other.member, support.type.property-name, entity.name.tag, entity.other.attribute-name</string>
-            <key>settings</key><dict><key>foreground</key><string>#8cb7e5</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#c6b4a0</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>constant, support.constant, constant.language</string>
-            <key>settings</key><dict><key>foreground</key><string>#8cb7e5</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#c6b4a0</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>entity.name.type, entity.name.class, entity.name.namespace, entity.name.module, support.type, support.class, storage.type, entity.name.constructor</string>
-            <key>settings</key><dict><key>foreground</key><string>#79c1b2</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#c6b4a0</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>constant.numeric</string>
@@ -65,7 +65,7 @@
         </dict>
         <dict>
             <key>scope</key><string>support.function.builtin, variable.language</string>
-            <key>settings</key><dict><key>foreground</key><string>#79c1b2</string></dict>
+            <key>settings</key><dict><key>foreground</key><string>#c6b4a0</string></dict>
         </dict>
         <dict>
             <key>scope</key><string>invalid</string>

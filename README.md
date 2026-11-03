@@ -102,7 +102,7 @@ Leader: `Space`.
 
 ## Theme
 
-Forge: the gildrb.com and eukhe.com palette. Umber ink fired by bronze, sand and ivory; each hue climbs with its light, from ember red toward gilt, and cool counterpoints (verdigris, slate, plum) stay at half the chroma and only where code needs them. Every hue sits at the same APCA contrast, so no color shouts. Source: `theme/forge.json`. Every app theme in this repository uses its colors, and none paints the background: it stays transparent so transparent terminals show through.
+Forge: the gildrb.com and eukhe.com palette. Umber ink fired by bronze, sand and ivory; each hue climbs with its light, from ember red toward gilt, and no blue, purple or pink: moss (strings) and verdigris (functions) stay only where code needs hue separation. Every hue sits at the same APCA contrast, so no color shouts. Source: `theme/forge.json`. Every app theme in this repository uses its colors, and none paints the background: it stays transparent so transparent terminals show through.
 
 | Role | Color | APCA Lc on ink |
 | --- | --- | --- |
@@ -111,9 +111,9 @@ Forge: the gildrb.com and eukhe.com palette. Umber ink fired by bronze, sand and
 | Headings, current line number | `#f5eee0` | 96 |
 | Punctuation | `#c6c1bb` | 70 |
 | Accent, focus, cursor, keywords, operators | `#d4af5d` | 61 |
-| Functions | `#cda6df` | 62 |
-| Types, builtins, hints | `#79c1b2` | 61 |
-| Links, info, properties, constants | `#8cb7e5` | 61 |
+| Functions | `#79c1b2` | 61 |
+| Types, builtins, hints, properties, info, directories | `#c6b4a0` | 63 |
+| ANSI magenta, macOS host tag | `#eca281` | 61 |
 | Strings, success | `#8ec184` | 62 |
 | Numbers, parameters, warnings | `#eba474` | 62 |
 | Errors | `#f69c8e` | 61 |

@@ -8,7 +8,7 @@ $env.config.show_banner = false
 # is the at-a-glance cue for which machine a shell is on: info blue on macOS,
 # accent gilt elsewhere. Truecolor, so the terminal's ANSI palette cannot change it.
 let host_tag = (sys host | get hostname)
-let host_color = if $nu.os-info.name == "macos" { "#8cb7e5" } else { "#d4af5d" }
+let host_color = if $nu.os-info.name == "macos" { "#eca281" } else { "#d4af5d" }
 $env.PROMPT_COMMAND = {||
     $"(ansi --escape {fg: $host_color})($host_tag)(ansi reset) (pwd | str replace $env.HOME '~')"
 }
@@ -41,15 +41,15 @@ $env.config.color_config = {
     shape_pipe: "#d4af5d"
     shape_redirection: "#d4af5d"
     shape_custom: "#e0d6c6"
-    shape_filepath: "#8cb7e5"
-    shape_directory: "#8cb7e5"
-    shape_globpattern: "#8cb7e5"
-    shape_glob_interpolation: "#8cb7e5"
-    shape_variable: "#8cb7e5"
+    shape_filepath: "#c6b4a0"
+    shape_directory: "#c6b4a0"
+    shape_globpattern: "#c6b4a0"
+    shape_glob_interpolation: "#c6b4a0"
+    shape_variable: "#c6b4a0"
     shape_vardecl: "#e0d6c6"
-    shape_internalcall: "#cda6df"
-    shape_external: "#cda6df"
-    shape_external_resolved: "#cda6df"
+    shape_internalcall: "#79c1b2"
+    shape_external: "#79c1b2"
+    shape_external_resolved: "#79c1b2"
     shape_externalarg: "#e0d6c6"
     shape_flag: "#eba474"
     shape_signature: "#79c1b2"
@@ -67,7 +67,7 @@ $env.config.color_config = {
     string: "#8ec184"
     glob: "#e0d6c6"
     cell-path: "#e0d6c6"
-    closure: "#cda6df"
+    closure: "#79c1b2"
     custom: "#e0d6c6"
     nothing: "#a9a098"
     empty: "#a9a098"
@@ -88,11 +88,11 @@ $env.config.color_config = {
 let theme_ls = {
     text: "38;2;224;214;198"
     exec: "38;2;142;193;132"
-    dir: "38;2;140;183;229"
+    dir: "38;2;198;180;160"
     link: "38;2;121;193;178"
     muted: "38;2;169;160;152"
     gutter: "38;2;158;135;115"
-    media: "38;2;205;166;223"
+    media: "38;2;236;162;129"
     error: "38;2;246;156;142"
 }
 let archives = [tar tgz zip 7z gz bz2 xz zst rar deb rpm jar iso dmg]
