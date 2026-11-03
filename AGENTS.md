@@ -1,87 +1,53 @@
-# Agent instructions
+# Agents
 
-Read `README.md` first, then relevant docs before editing. Never write tests unless explicitly asked. Never reset, clean, overwrite user changes unless explicitly asked. Inspect definitions, callers, types, invariants, and existing abstractions before changing code; never infer APIs or behavior from names. No type-system escape hatches (unchecked casts, suppressed type errors), swallowed errors, ambiguous truthiness, mutable defaults/shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion/fallbacks, or unvalidated boundary input. Keep strict checks on; use precise types and exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, and security boundaries. Check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, and injection where relevant. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results merely to pass. Report failures and unverified work.
+Read `README.md` first, then relevant docs before editing. No tests unless explicitly asked. Never reset, clean, or overwrite user changes unless explicitly asked. Before changing code, inspect definitions, callers, types, invariants, existing abstractions; never infer APIs or behavior from names. No type-system escape hatches (unchecked casts, suppressed type errors), swallowed errors, ambiguous truthiness, mutable defaults or shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion or fallbacks, unvalidated boundary input. Strict checks on; precise types; exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, security boundaries. Where relevant, check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, injection. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run the relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results to pass. Report failures and unverified work.
 
-Subagent exemptions apply only to OptMem; all other instructions remain binding.
+Subagents: exempt only from the OptMem rules; every other rule binds.
 
-When using Bend:
-- Run `bend guide` to learn it
-- Use `LAWS.bend` to keep important rules
-- Run `bend PROOF.bend` before committing
+## Bend
+
+- `bend guide` to learn it
+- Keep important rules in `LAWS.bend`
+- `bend PROOF.bend` before committing
 - Parallelize the code whenever possible
-- Layout as Victor Taelin's Bend Bank: no Bend file past 1,000 lines, except a `LAWS.bend`/`PROOF.bend` index of imports (any length). A file past it becomes a folder of the same name: laws -> `laws/<area>.bend` (area = the code module they call), proofs -> `proof/<law>.bend` (`proof/<area>/<law>.bend`), a `base.bend` -> `base/<topic>.bend`, code -> one module per responsibility. Each kind of item in one place; test drivers outside the code folder
+- Layout, Victor Taelin's Bend Bank: no Bend file past 1,000 lines, except a `LAWS.bend`/`PROOF.bend` import index of any length. A longer file becomes a folder of the same name: laws -> `laws/<area>.bend` (area = the code module they call), proofs -> `proof/<law>.bend` (`proof/<area>/<law>.bend`), a `base.bend` -> `base/<topic>.bend`, code -> one module per responsibility. Each item kind in one place; test drivers outside the code folder
 
-When using TypeScript:
-- No `any`, `as`, `!`, or `@ts-ignore`; narrow `unknown` at boundaries
-- Use `type`, not `interface`; model data as tagged unions (`{$: "Tag", ...}`)
+## TypeScript
+
+- No `any`, `as`, `!`, `@ts-ignore`; narrow `unknown` at boundaries
+- `type`, not `interface`; model data as tagged unions (`{$: "Tag", ...}`)
 - End every `switch` on a tag with `const _: never = x`
-- Run `oxlint --type-aware` and `tsc --noEmit` before committing
+- `oxlint --type-aware` and `tsc --noEmit` before committing
 
 ## Writing
 
-Harden every text: keep only what the reader needs to act, as dense as possible. Agents and people read dense text.
+Harden every text: only what the reader needs to act, as dense as possible. Agents and people read dense text.
 
-- Cut: framing labels, persuasion, flattery, anecdotes, history, restated rules. Provenance and licenses: `THIRD_PARTY_NOTICES.md` only
+- Cut framing labels, persuasion, flattery, anecdotes, history, restated rules. Provenance and licenses: `THIRD_PARTY_NOTICES.md` only
 - Each fact once. Lists and tables, not paragraphs. A real example over an explanation
 - ASD-STE100: short sentences, active voice, present tense
-- Exact commands, paths, numbers, platforms. One command per line, with a short `#` comment
-- README: minimal, low cognitive load, like [Helium](https://github.com/imputnet/helium). Ask of every line: "Does the reader need this?" No: cut it
-  - Order: name and one-line tagline; Install (one command first, then alternatives); Use (the few first commands, then "`--help` lists the rest"); one short section per idea that makes the project different (2-3 bullets); Components (one line each: what it is, what it ports, link); Limitations; Credits; License
-  - Out: settings, flags, internals, file paths users never touch, anything `--help` or in-app help shows. Release, CI, development setup: `AGENTS.md`
-  - Short headings, short bullets, no tables unless comparing. A quotation only where it carries the meaning
+- Exact commands, paths, numbers, platforms. One command per line with a short `#` comment
+- README: definition; Install; Use; one section per feature; References table; Limitations; Attribution; License. Release, CI, development setup: `docs/`
 - Skills and agent instructions: rules, commands, examples; count the tokens
 - No `·` or other dots as separators
 
-## Default output format
+## Output format
 
-Apply `~/.agents/skills/i-have-adhd/SKILL.md` by default. Lead with the next concrete action, number multi-step work, keep lists to five items or fewer, suppress tangents, make completed work visible, and end with one concrete next action when work remains.
+Apply `~/.agents/skills/i-have-adhd/SKILL.md` by default: lead with the next concrete action, number multi-step work, lists of five items or fewer, no tangents, completed work visible, one concrete next action when work remains.
 
-## Shell commands
+## Shell
 
 Nushell on every machine, herdr panes included. Commands the user runs:
-- Nushell syntax: `;` between commands (it stops at the first failing command, like `&&`), `$env.NAME`, `with-env { NAME: value } { cmd }`, `^cmd` for an external shadowed by a built-in. No `&&`, `export`, `$(...)`, `VAR=value cmd` or `2>/dev/null`
-- One line per code block, joined with `;` or pipes. Never wrap a command across lines: pasted line breaks turn into stray symbols. Several independent commands: separate code blocks
+- Nushell syntax: `;` between commands (stops at the first failure, like `&&`), `$env.NAME`, `with-env { NAME: value } { cmd }`, `^cmd` for an external shadowed by a built-in. Never `&&`, `export`, `$(...)`, `VAR=value cmd`, `2>/dev/null`
+- One line per code block, joined with `;` or pipes. Never wrap a command across lines: pasted line breaks become stray symbols. Independent commands: separate code blocks
 
 ## Memory
 
-Your memory is OptMem:
+OptMem is your memory: tool `~/.optmem/memo`, data `~/.optmem/memory`. It outlives every session, compaction, model and vendor change; without it you do not know who you are, or what was decided and tried.
 
-- The tool is `~/.optmem/memo`
-- Your memories are in `~/.optmem/memory`
-
-OptMem outlives every session, compaction, model and vendor change.
-Without it you do not know who you are, or what was decided and tried.
-
-### At startup: activating OptMem (mandatory)
-
-Run `~/.optmem/memo wake` before any other tool call, in every session, and
-then do exactly what it prints, to the end of its output.
-
-### While working: register memories (mandatory)
-
-Call `~/.optmem/memo note "<1 line, max 280 bytes>"` whenever you learn
-something new, or something worth keeping happens. That covers a task
-worth real effort, a fact or insight the user teaches you, anything you
-learn about their life (even indirectly), any event of lasting effect.
-
-Do not register redundant memories.
-
-If `~/.optmem/memo note` asks a compression: do it before your next action.
-
-Never edit or delete anything under `~/.optmem/memory`: the tool manages it.
-
-### When you need an old memory: search, or navigate
-
-`~/.optmem/memo recall <regex>` searches every memory, word for word.
-
-Your memories also form a binary tree: #0-1, #2-3 ... exist as one-line
-summaries, pairs of those as #0-3, and so on -- every `#a-b` line wake
-prints is one node of it. `~/.optmem/memo zoom <a-b>` opens a node into its
-two halves, down to the raw memories.
-
-### If you're a subagent: skip everything above
-
-Parallel sessions on this machine are all you, and may all write memories.
-A subagent is not: it must never run `memo`, because it cannot judge what
-is already known, and its notes would arrive duplicated and incorrectly.
-When you spawn one, write: `You are a subagent. Don't run memo.`
+- Startup (mandatory): `~/.optmem/memo wake` before any other tool call, in every session; then do exactly what it prints, to the end
+- Working (mandatory): `~/.optmem/memo note "<1 line, max 280 bytes>"` whenever you learn something new or something worth keeping happens: a task worth real effort, a fact or insight the user teaches you, anything about their life (even indirectly), any event of lasting effect. No redundant memories. If `note` asks for a compression, do it before your next action
+- Never edit or delete anything under `~/.optmem/memory`: the tool manages it
+- Old memory: `~/.optmem/memo recall <regex>` searches every memory, word for word
+- The tree: raw memories #0, #1, #2 ... merge pairwise into one-line summaries (#0-1, #2-3, then #0-3, and so on); every `#a-b` line `wake` prints is one node. `~/.optmem/memo zoom <a-b>` opens a node into its two halves, down to the raw memories
+- Subagents never run `memo`: they cannot judge what is known, and their notes arrive duplicated and wrong. Parallel sessions are all you and may write. On every spawn, write: `You are a subagent. Don't run memo.`
