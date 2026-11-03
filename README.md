@@ -102,22 +102,24 @@ Leader: `Space`.
 
 ## Theme
 
-Death Note, quiet: soft off-white on blue-black, red as the main color, crimson borders. Every hue sits at the same APCA contrast, so no color shouts. Source: `theme/death-note.json`. Every app theme in this repository uses its colors.
+Forge: the gildrb.com and eukhe.com palette. Umber ink fired by bronze, sand and ivory; each hue climbs with its light, from ember red toward gilt, and cool counterpoints (verdigris, slate, plum) stay at half the chroma and only where code needs them. Every hue sits at the same APCA contrast, so no color shouts. Source: `theme/forge.json`. Every app theme in this repository uses its colors, and none paints the background: it stays transparent so transparent terminals show through.
 
 | Role | Color | APCA Lc on ink |
 | --- | --- | --- |
-| Background | `#0e0e11` | |
-| Text | `#dddee1` | 86 |
-| Headings, current line number | `#edeef0` | 96 |
-| Punctuation | `#c2c3c7` | 70 |
-| Accent, focus, cursor, keywords, operators | `#ff95b4` | 62 |
-| Functions | `#caa5f6` | 62 |
-| Types, builtins, hints | `#6cc4be` | 62 |
-| Links, info, properties, constants | `#7dbaf8` | 62 |
-| Strings, success | `#76c788` | 62 |
-| Numbers, parameters, warnings | `#e6a960` | 62 |
-| Errors | `#fe9a86` | 62 |
-| Comments, muted text, thinking | `#a2a3a7` | 52 |
-| Line numbers | `#8b8c91` | 40 |
-| Borders | `#984e61` | 23 |
-| Selection | `#dddee1` on `#512631` | 80 |
+| Background | `#110b07` | |
+| Text | `#e0d6c6` | 82 |
+| Headings, current line number | `#f5eee0` | 96 |
+| Punctuation | `#c6c1bb` | 70 |
+| Accent, focus, cursor, keywords, operators | `#d4af5d` | 61 |
+| Functions | `#cda6df` | 62 |
+| Types, builtins, hints | `#79c1b2` | 61 |
+| Links, info, properties, constants | `#8cb7e5` | 61 |
+| Strings, success | `#8ec184` | 62 |
+| Numbers, parameters, warnings | `#eba474` | 62 |
+| Errors | `#f69c8e` | 61 |
+| Comments, muted text | `#a9a098` | 51 |
+| Line numbers | `#9e8773` | 40 |
+| Borders | `#7f5e47` | 23 |
+| Selection | `#e0d6c6` on `#2b241f` | 78 |
+
+Death Note (soft off-white on blue-black, red as the main color) stays under its own name in every app's theme list, inactive: `theme/death-note.json` and one theme file per app.

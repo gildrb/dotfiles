@@ -31,7 +31,7 @@ require("lazy").setup({
   lockfile = lockfile,
   spec = { { import = "plugins" } },
   defaults = { lazy = true, version = false },
-  install = { colorscheme = { "death-note" } },
+  install = { colorscheme = { "forge" } },
   checker = { enabled = false },
   -- Also limits build commands: fff compiles from source in about 5 minutes.
   git = { timeout = 900 },
@@ -52,4 +52,4 @@ require("lazy").setup({
   },
 })
 
-vim.cmd.colorscheme("death-note")
+vim.cmd.colorscheme("forge")

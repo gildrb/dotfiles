@@ -1,5 +1,6 @@
-# Death Note; palette source: theme/death-note.json in the dotfiles repository.
-# Yazi 26.5.6: keep behavior, keymaps, and layout at their upstream defaults.
+# Forge; palette source: theme/forge.json in the dotfiles repository.
+# Death Note stays available as a flavor; Yazi 26.5.6: keep behavior, keymaps, and
+# layout at their upstream defaults.
 [flavor]
-dark = "death-note"
-light = "death-note"
+dark = "forge"
+light = "forge"

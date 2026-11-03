@@ -1,0 +1,25 @@
+# Forge — canonical colors from theme/forge.json in the dotfiles repository.
+# The terminal keeps its own background colour; transparency comes from
+# background-opacity in the config.
+palette = 0=#110b07
+palette = 1=#f69c8e
+palette = 2=#8ec184
+palette = 3=#eba474
+palette = 4=#8cb7e5
+palette = 5=#cda6df
+palette = 6=#79c1b2
+palette = 7=#e0d6c6
+palette = 8=#a9a098
+palette = 9=#ffb7ab
+palette = 10=#abd3a2
+palette = 11=#f7bd96
+palette = 12=#a9cdf2
+palette = 13=#ddbeec
+palette = 14=#9cd4c8
+palette = 15=#f5eee0
+background = #110b07
+foreground = #e0d6c6
+cursor-color = #d4af5d
+cursor-text = #110b07
+selection-background = #2b241f
+selection-foreground = #e0d6c6

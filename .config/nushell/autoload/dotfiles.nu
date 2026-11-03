@@ -1,90 +1,90 @@
 # Nushell settings that apply at once: edit, then open a new shell.
 # Home Manager writes config.nu (environment, mise, zoxide); Nushell loads this
-# file after it. Colors: theme/death-note.json.
+# file after it. Colors: theme/forge.json.
 
 $env.config.show_banner = false
 
 # Host tag: every host runs identical themes and prompts, so a colored host tag
 # is the at-a-glance cue for which machine a shell is on: info blue on macOS,
-# accent red elsewhere. Truecolor, so the terminal's ANSI palette cannot change it.
+# accent gilt elsewhere. Truecolor, so the terminal's ANSI palette cannot change it.
 let host_tag = (sys host | get hostname)
-let host_color = if $nu.os-info.name == "macos" { "#7dbaf8" } else { "#ff95b4" }
+let host_color = if $nu.os-info.name == "macos" { "#8cb7e5" } else { "#d4af5d" }
 $env.PROMPT_COMMAND = {||
     $"(ansi --escape {fg: $host_color})($host_tag)(ansi reset) (pwd | str replace $env.HOME '~')"
 }
 $env.PROMPT_COMMAND_RIGHT = {||
-    $"(ansi --escape {fg: '#a2a3a7'})(date now | format date '%H:%M')(ansi reset)"
+    $"(ansi --escape {fg: '#a9a098'})(date now | format date '%H:%M')(ansi reset)"
 }
 
 $env.config.color_config = {
-    foreground: "#dddee1"
-    background: "#0e0e11"
-    cursor: "#ff95b4"
-    shape_string: "#76c788"
-    shape_string_interpolation: "#76c788"
-    shape_raw_string: "#76c788"
-    shape_record: "#c2c3c7"
-    shape_list: "#c2c3c7"
-    shape_table: "#c2c3c7"
-    shape_block: "#c2c3c7"
-    shape_closure: "#c2c3c7"
-    shape_bool: "#e6a960"
-    shape_nothing: "#e6a960"
-    shape_literal: "#e6a960"
-    shape_datetime: "#e6a960"
-    shape_match_pattern: "#e6a960"
-    shape_int: "#e6a960"
-    shape_float: "#e6a960"
-    shape_binary: "#e6a960"
-    shape_range: "#ff95b4"
-    shape_operator: "#ff95b4"
-    shape_pipe: "#ff95b4"
-    shape_redirection: "#ff95b4"
-    shape_custom: "#dddee1"
-    shape_filepath: "#7dbaf8"
-    shape_directory: "#7dbaf8"
-    shape_globpattern: "#7dbaf8"
-    shape_glob_interpolation: "#7dbaf8"
-    shape_variable: "#7dbaf8"
-    shape_vardecl: "#dddee1"
-    shape_internalcall: "#caa5f6"
-    shape_external: "#caa5f6"
-    shape_external_resolved: "#caa5f6"
-    shape_externalarg: "#dddee1"
-    shape_flag: "#e6a960"
-    shape_signature: "#6cc4be"
-    shape_keyword: "#ff95b4"
+    foreground: "#e0d6c6"
+    background: "#110b07"
+    cursor: "#d4af5d"
+    shape_string: "#8ec184"
+    shape_string_interpolation: "#8ec184"
+    shape_raw_string: "#8ec184"
+    shape_record: "#c6c1bb"
+    shape_list: "#c6c1bb"
+    shape_table: "#c6c1bb"
+    shape_block: "#c6c1bb"
+    shape_closure: "#c6c1bb"
+    shape_bool: "#eba474"
+    shape_nothing: "#eba474"
+    shape_literal: "#eba474"
+    shape_datetime: "#eba474"
+    shape_match_pattern: "#eba474"
+    shape_int: "#eba474"
+    shape_float: "#eba474"
+    shape_binary: "#eba474"
+    shape_range: "#d4af5d"
+    shape_operator: "#d4af5d"
+    shape_pipe: "#d4af5d"
+    shape_redirection: "#d4af5d"
+    shape_custom: "#e0d6c6"
+    shape_filepath: "#8cb7e5"
+    shape_directory: "#8cb7e5"
+    shape_globpattern: "#8cb7e5"
+    shape_glob_interpolation: "#8cb7e5"
+    shape_variable: "#8cb7e5"
+    shape_vardecl: "#e0d6c6"
+    shape_internalcall: "#cda6df"
+    shape_external: "#cda6df"
+    shape_external_resolved: "#cda6df"
+    shape_externalarg: "#e0d6c6"
+    shape_flag: "#eba474"
+    shape_signature: "#79c1b2"
+    shape_keyword: "#d4af5d"
     shape_matching_brackets: { attr: "u" }
-    shape_garbage: { fg: "#0e0e11", bg: "#fe9a86", attr: "b" }
-    bool: "#e6a960"
-    int: "#e6a960"
-    float: "#e6a960"
-    filesize: "#e6a960"
-    duration: "#e6a960"
-    binary: "#e6a960"
-    datetime: "#e6a960"
-    range: "#c2c3c7"
-    string: "#76c788"
-    glob: "#dddee1"
-    cell-path: "#dddee1"
-    closure: "#caa5f6"
-    custom: "#dddee1"
-    nothing: "#a2a3a7"
-    empty: "#a2a3a7"
-    hints: "#8b8c91"
-    separator: "#323237"
-    row_index: "#8b8c91"
-    header: { fg: "#6cc4be", attr: "b" }
-    search_result: { fg: "#dddee1", bg: "#512631" }
-    binary_null_char: "#8b8c91"
-    binary_printable: "#e6a960"
-    binary_whitespace: "#c2c3c7"
-    binary_ascii_other: "#6cc4be"
-    binary_non_ascii: "#e6a960"
+    shape_garbage: { fg: "#110b07", bg: "#f69c8e", attr: "b" }
+    bool: "#eba474"
+    int: "#eba474"
+    float: "#eba474"
+    filesize: "#eba474"
+    duration: "#eba474"
+    binary: "#eba474"
+    datetime: "#eba474"
+    range: "#c6c1bb"
+    string: "#8ec184"
+    glob: "#e0d6c6"
+    cell-path: "#e0d6c6"
+    closure: "#cda6df"
+    custom: "#e0d6c6"
+    nothing: "#a9a098"
+    empty: "#a9a098"
+    hints: "#9e8773"
+    separator: "#312d2a"
+    row_index: "#9e8773"
+    header: { fg: "#79c1b2", attr: "b" }
+    search_result: { fg: "#e0d6c6", bg: "#2b241f" }
+    binary_null_char: "#9e8773"
+    binary_printable: "#eba474"
+    binary_whitespace: "#c6c1bb"
+    binary_ascii_other: "#79c1b2"
+    binary_non_ascii: "#eba474"
 }
 
 # File names in `ls` and other tools. The NixOS default (dircolors) uses ANSI
-# colors, which take the host terminal's palette; these are Death Note truecolor.
+# colors, which take the host terminal's palette; these are Forge truecolor.
 let theme_ls = {
     text: "38;2;221;222;225"
     exec: "38;2;118;199;136"
