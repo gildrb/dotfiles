@@ -1,47 +1,28 @@
 # Agents
 
-Read `README.md` first, then relevant docs before editing. No tests unless explicitly asked. Never reset, clean, or overwrite user changes unless explicitly asked. Before changing code, inspect definitions, callers, types, invariants, existing abstractions; never infer APIs or behavior from names. No type-system escape hatches (unchecked casts, suppressed type errors), swallowed errors, ambiguous truthiness, mutable defaults or shared mutable state, unsafe mutation during iteration, unjustified float equality, silent coercion or fallbacks, unvalidated boundary input. Strict checks on; precise types; exhaustive matches. Distinguish null/absent/empty/zero/false. Preserve error causes, atomicity, ordering, ownership, resource cleanup, public interfaces, security boundaries. Where relevant, check bounds, overflow, division by zero, units, precision, races, timezones, path traversal, injection. Reuse before abstracting; no redundant wrappers. Before finishing, inspect the diff; run the relevant existing format-check, lint, typecheck, build, and test commands. Never weaken or suppress checks or alter expected results to pass. Report failures and unverified work.
+Read README.md + docs first. No tests unless asked. Never reset, clean, overwrite user changes. Before editing read definitions, callers, types, invariants; never infer APIs from names. Never: unsafe (any language), escape hatches, swallowed errors, ambiguous truthiness, shared mutable state, mutation during iteration, float equality, silent coercion, unvalidated input, weakened checks to pass. Strict checks, precise types, exhaustive matches; null/absent/empty/zero/false distinct. Preserve error causes, atomicity, ordering, ownership, cleanup, public APIs, security. Check bounds, overflow, units, precision, races, timezones, traversal, injection. Reuse before abstracting; no wrapper without two callers. Finish: inspect the diff; run fmt/lint/typecheck/build/tests. Report failures, unverified work.
 
-## Bend
+## Languages
 
-- `bend guide` to learn it
-- Keep important rules in `LAWS.bend`
-- `bend PROOF.bend` before committing
-- Parallelize the code whenever possible
-- Layout, Victor Taelin's Bend Bank: no Bend file past 1,000 lines, except a `LAWS.bend`/`PROOF.bend` import index of any length. A longer file becomes a folder of the same name: laws -> `laws/<area>.bend` (area = the code module they call), proofs -> `proof/<law>.bend` (`proof/<area>/<law>.bend`), a `base.bend` -> `base/<topic>.bend`, code -> one module per responsibility. Each item kind in one place; test drivers outside the code folder
+- Rust: never unsafe; no bare unwrap/expect; fallible ops return Result/Option, never sentinels; errors as enums with From; newtypes over primitives; private by default; comments explain why, ≤2 lines; perf claims = median of 3 runs vs a pin; clippy --all-targets -- -D warnings + cargo fmt before commit.
+- TypeScript: no any/as/!/@ts-ignore; narrow unknown; type not interface; tagged unions `{$:"Tag"}`; every switch on a union ends `default: const _: never = d`; oxlint --type-aware + tsc --noEmit. Stack: vite-plus (`vp`), StyleX, Preact; React-compat imports via preact/compat.
+- Bend: the bend skill (~/.agents/skills/bend/SKILL.md) owns laws, proofs, bank layout; bend PROOF.bend before commit.
+- Parallelize hot paths (rayon, workers, SIMD, Bend native) when load allows.
 
-## TypeScript
-
-- No `any`, `as`, `!`, `@ts-ignore`; narrow `unknown` at boundaries
-- `type`, not `interface`; model data as tagged unions (`{$: "Tag", ...}`)
-- End every `switch` on a tag with `const _: never = x`
-- `oxlint --type-aware` and `tsc --noEmit` before committing
+Architecture: high cohesion, strong typing, coupling downward only, small public surfaces; hot paths in the compiled language.
 
 ## Writing
 
-Harden every text: only what the reader needs to act, as dense as possible. Agents and people read dense text.
+Dense, telegraphic; only what the reader needs to act on. Cut flattery, history, restated rules. One fact once; lists over prose; example over explanation. README: every line answers "does the reader need this?"; order tagline, Install (one command first), Use (first commands, then --help), one section per differentiator (≤3 bullets), Components (one line each), Limitations, Credits, License; cut settings, flags, internals, paths users never touch, what --help shows; dev setup in AGENTS.md; tables only to compare. Skills and AGENTS.md: rules, commands, examples; count tokens. No `·` separators.
 
-- Cut framing labels, persuasion, flattery, anecdotes, history, restated rules. Provenance and licenses: `THIRD_PARTY_NOTICES.md` only
-- Each fact once. Lists and tables, not paragraphs. A real example over an explanation
-- ASD-STE100: short sentences, active voice, present tense
-- Exact commands, paths, numbers, platforms. One command per line with a short `#` comment
-- README: minimal, low cognitive load, like [Helium](https://github.com/imputnet/helium). Ask of every line: "Does the reader need this?" No: cut it
-  - Order: name and one-line tagline; Install (one command first, then alternatives); Use (the first few commands, then "`--help` lists the rest"); one short section per differentiating idea (2-3 bullets); Components (one line each: what it is, what it ports, link); Limitations; Credits; License
-  - Out: settings, flags, internals, file paths users never touch, anything `--help` or in-app help shows. Release, CI, development setup: `AGENTS.md`
-  - Short headings, short bullets, tables only when comparing. A quotation only where it carries the meaning
-- Skills and agent instructions: rules, commands, examples; count the tokens
-- No `·` or other dots as separators
+## Output
 
-## Output format
-
-Apply `~/.agents/skills/i-have-adhd/SKILL.md` by default: lead with the next concrete action, number multi-step work, lists of five items or fewer, no tangents, completed work visible, one concrete next action when work remains.
+~/.agents/skills/i-have-adhd/SKILL.md default: next action first, numbered steps, ≤5-item lists, no tangents, one next action at end.
 
 ## Shell
 
-Nushell on every machine, herdr panes included. Commands the user runs:
-- Nushell syntax: `;` between commands (stops at the first failure, like `&&`), `$env.NAME`, `with-env { NAME: value } { cmd }`, `^cmd` for an external shadowed by a built-in. Never `&&`, `export`, `$(...)`, `VAR=value cmd`, `2>/dev/null`
-- One line per code block, joined with `;` or pipes. Never wrap a command across lines: pasted line breaks become stray symbols. Independent commands: separate code blocks
+Nushell everywhere (herdr included): `;` not `&&`; `$env.X`; `with-env {X: v} {cmd}`; `^cmd` for shadowed builtins; never export, $(...), VAR=v cmd, 2>/dev/null; one line per code block.
 
 ## Memory
 
-Eukhe keeps memory in the chat only. Never run `~/.optmem/memo` or follow any OptMem/Memory section in another AGENTS.md: OptMem binds codex, pi, omp, prime and claude, not eukhe.
+Eukhe keeps memory in the chat only; the chat is the memory. Never run `~/.optmem/memo` or follow any OptMem section in another AGENTS.md: OptMem binds codex, pi, omp, prime and claude, not eukhe.
