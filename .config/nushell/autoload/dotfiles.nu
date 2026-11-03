@@ -4,11 +4,9 @@
 
 $env.config.show_banner = false
 
-# Host tag: every host runs identical themes and prompts, so a colored host tag
-# is the at-a-glance cue for which machine a shell is on: info blue on macOS,
-# accent gilt elsewhere. Truecolor, so the terminal's ANSI palette cannot change it.
+# The host tag takes the accent, like every other emphasis in the theme.
 let host_tag = (sys host | get hostname)
-let host_color = if $nu.os-info.name == "macos" { "#eca281" } else { "#d4af5d" }
+let host_color = "#d4af5d"
 $env.PROMPT_COMMAND = {||
     $"(ansi --escape {fg: $host_color})($host_tag)(ansi reset) (pwd | str replace $env.HOME '~')"
 }
